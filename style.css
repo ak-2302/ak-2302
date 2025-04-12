@@ -4,6 +4,13 @@
     font-style: normal;
 }
 
+#body {
+    background-image: url("./img/colorful-abstract-art-background.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+
+}
 
 #main {
     display: flex;
@@ -11,7 +18,6 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: mistyrose;
 }
 
 #main>#profile {
