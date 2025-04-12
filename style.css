@@ -8,6 +8,7 @@
     background-image: url("./img/colorful-abstract-art-background.jpg");
     background-attachment: fixed;
     background-size: cover;
+    height: 100svh;
     background-position: center;
 
 }
@@ -19,7 +20,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100svh;
 }
 
 #icon {
