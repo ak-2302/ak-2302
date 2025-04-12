@@ -12,6 +12,8 @@
 
 }
 
+
+
 #main {
     display: flex;
     flex-direction: column;
@@ -19,6 +21,16 @@
     justify-content: center;
     height: 100vh;
 }
+
+#icon {
+    display: block;
+    margin: 0 auto;
+    width: 20em;
+    height: auto;
+    border-radius: 20%;
+}
+
+
 
 #main>#profile {
     display: flex;
@@ -126,6 +138,27 @@
 }
 
 
+#license {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1em 0 1em 0;
+    padding: 1em 10% 1em 10%;
+    width: 80%;
+    text-align: center;
+    background-color: rgba(220, 220, 255, 0.5);
+}
+
+#license>.license-head {
+    font-size: large;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#license>.elements>.element {
+    font-size: normal;
+}
 
 
 #site-info {
