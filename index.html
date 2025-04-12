@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">
+        <div id="header_close">
+            <input type="button" id="header_close_button" value="表示">
+        </div>
+        <div id="header_open">
+            <input type="button" id="header_open_button" value="非表示">
+            <p>
+                token<input type="text" id="token">
+            </p>
+            <p>
+                type
+                <select id="type">
+                    <option value="server">server</option>
+                    <option value="private">private</option>
+                </select>
+            </p>
+            <div id="server_setting">
+                <p>
+                    server<select id="server"></select>
+                </p>
+                <p>
+                    channel<select id="channel"></select>
+                </p>
+            </div>
+            <div id="private_setting">
+                <p>
+                    user<select id="user">
+                        <option value="1">me</option>
+                        <option value="2">ev</option>
+                    </select>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="message_area">
+        <div class="message">
+            <img src="https://cdn.discordapp.com/attachments/1209128947896287273/1209129995490828350/HsSEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhKaxX9TPXFcYWdeKQAAAABJRU5ErkJggg.png?ex=65e5cd0f&is=65d3580f&hm=dee853664883004c0d7355b6b5d0ae50ec1dc40f466141f363e44a23884b752a&"
+                class="icon">
+            <div class="text">
+                <p class="name">meihanyuthiiiiiiii</p>
+                <p class="time">今日</p>
+                <div class="content">
+                    <pre class="message_text">
+テキスト
+                </pre>
+                    <code>print("Hello World!!")</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <input type="file" id="file" value="ファイル選択">
+        <button id="file_up">file</button>
+        <textarea id="input_area"></textarea>
+        <input type="submit" id="message_send">
+    </div>
+    <script src="test.js"></script>
+</body>
+
+</html>
