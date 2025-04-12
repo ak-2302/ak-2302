@@ -27,7 +27,7 @@
     justify-content: center;
     width: 80%;
     padding: 1em 10% 1em 10%;
-    background-color: lightblue;
+    background-color: rgba(220, 220, 255, 0.5);
 }
 
 #name {
@@ -37,7 +37,7 @@
 #name>.profile-head {
     font-size: large;
     font-family: "Pacifico", cursive;
-    font-weight: 700;
+    font-weight: 400;
     font-style: normal;
 }
 
@@ -68,32 +68,75 @@
 }
 
 #links {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1em 0 1em 0;
+    padding: 1em 10% 1em 10%;
+    width: 80%;
+    text-align: center;
+    background-color: rgba(220, 220, 255, 0.5);
+}
+
+
+#links>.links-head {
+    font-size: large;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#links>.elements {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+
+#links>.elements>.element>a>img {
+    width: 4em;
+    height: 4em;
+    margin: 0 1em 0 1em;
+}
+
+
+#portfolio {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1em 0 1em 0;
     padding: 1em 10% 1em 10%;
-    width: auto;
+    width: 80%;
     text-align: center;
+    background-color: rgba(220, 220, 255, 0.5);
 }
 
-#links>.element {
-    margin-left: 1em;
-    margin-right: 1em;
+#portfolio>.portfolio-head {
+    font-size: large;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
 }
 
-#links>.element>a>img {
-    width: 3em;
-    height: 3em;
+#portfolio>.elements {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
+
+
+
 
 #site-info {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin: 1em 0 1em 0;
     padding: 1em 10% 1em 10%;
-    width: auto;
+    width: 80%;
     text-align: center;
+    background-color: rgba(220, 220, 255, 0.5);
 }
 
 #site-info>.site-info-head {
