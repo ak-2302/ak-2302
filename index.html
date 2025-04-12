@@ -1,74 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ホームページを作る</title>
 
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    </style>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="header">
-        <div id="header_close">
-            <input type="button" id="header_close_button" value="表示">
-        </div>
-        <div id="header_open">
-            <input type="button" id="header_open_button" value="非表示">
-            <p>
-                token<input type="text" id="token">
-            </p>
-            <p>
-                type
-                <select id="type">
-                    <option value="server">server</option>
-                    <option value="private">private</option>
-                </select>
-            </p>
-            <div id="server_setting">
-                <p>
-                    server<select id="server"></select>
-                </p>
-                <p>
-                    channel<select id="channel"></select>
-                </p>
-            </div>
-            <div id="private_setting">
-                <p>
-                    user<select id="user">
-                        <option value="1">me</option>
-                        <option value="2">ev</option>
-                    </select>
-                </p>
-            </div>
-        </div>
     </div>
-    <div id="message_area">
-        <div class="message">
-            <img src="https://cdn.discordapp.com/attachments/1209128947896287273/1209129995490828350/HsSEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhKaxX9TPXFcYWdeKQAAAABJRU5ErkJggg.png?ex=65e5cd0f&is=65d3580f&hm=dee853664883004c0d7355b6b5d0ae50ec1dc40f466141f363e44a23884b752a&"
-                class="icon">
-            <div class="text">
-                <p class="name">meihanyuthiiiiiiii</p>
-                <p class="time">今日</p>
-                <div class="content">
-                    <pre class="message_text">
-テキスト
-                </pre>
-                    <code>print("Hello World!!")</code>
+    <div id="main">
+        <div id="profile">
+            <div id="name">
+                <div class="profile-head">NAME</div>
+                <div class="content">ak-2302</div>
+            </div>
+            <div id="history">
+                <div class="profile-head">
+                    History
                 </div>
+                <div class="element">
+                    <div class="time">
+                        <span class="month">April</span>
+                        <span class="year">2019</span>
+                    </div>
+                    <div class="content">栃木県立栃木高等学校入学</div>
+                </div>
+                <div class="element">
+                    <div class="time">
+                        <span class="month">March</span>
+                        <span class="year">2022</span>
+                    </div>
+                    <div class="content">栃木県立栃木高等学校卒業</div>
+                </div>
+                <div class="element">
+                    <div class="time">
+                        <span class="month">April</span>
+                        <span class="year">2022</span>
+                    </div>
+                    <div class="content">筑波大学情報学群情報科学類入学</div>
+                </div>
+            </div>
+        </div>
+        <div id="links">
+            <div class="element">
+                <a href="http://twitter.com/ak-2302">
+                    <img src="https://img.icons8.com/ios/50/twitterx--v1.png" alt="twitter" blank>
+                </a>
+            </div>
+            <div class="element">
+                <a href="https://github.com/ak-2302">
+                    <img src="https://img.icons8.com/ios/50/github.png" alt="github" blank>
+                </a>
+            </div>
+            <div class="element">
+                <a href="https://qiita.com/ak-2302">
+                    <img src="https://img.icons8.com/external-tal-revivo-color-tal-revivo/24/external-qiita-a-technical-information-sharing-service-for-programmers-logo-color-tal-revivo.png"
+                        alt="qiita" blank>
+                </a>
+            </div>
+        </div>
+        <div id="site-info">
+            <div class="element">
+                <a href="https://ak-2302.github.io/index.html">
+                    <img src="https://img.icons8.com/ios/50/000000/home.png" alt="home" blank>
+                </a>
+            </div>
+            <div class="element">
+                <a href="https://ak-2302.github.io/style.css">
+                    <img src="https://img.icons8.com/ios/50/000000/user-male-circle.png" alt="profile" blank>
+                </a>
+            </div>
+            <div class="element">
+                <a href="https://ak-2302.github.io/index.html#links">
+                    <img src="https://img.icons8.com/ios/50/000000/link.png" alt="links" blank>
+                </a>
             </div>
         </div>
     </div>
 
+
     <div id="footer">
-        <input type="file" id="file" value="ファイル選択">
-        <button id="file_up">file</button>
-        <textarea id="input_area"></textarea>
-        <input type="submit" id="message_send">
     </div>
-    <script src="test.js"></script>
+    <script src="style.js"></script>
 </body>
 
 </html>
