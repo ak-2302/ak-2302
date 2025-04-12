@@ -80,3 +80,59 @@
     width: 3em;
     height: 3em;
 }
+
+#site-info {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 1em 10% 1em 10%;
+    width: auto;
+    text-align: center;
+}
+
+#site-info>.site-info-head {
+    font-size: large;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#site-info>.elements {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#site-info>.elements>.element>a>img {
+    width: 3em;
+    height: 3em;
+}
+
+#site-info>.credits-head {
+    font-size: small;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#site-info>.credits {
+    align-items: center;
+}
+
+#site-info>.credits>.elements>.element {
+    font-size: small;
+    color: gray;
+}
+
+#site-info>.references-head {
+    font-size: small;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#site-info>.references {
+    align-items: center;
+}
