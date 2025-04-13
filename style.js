@@ -3,7 +3,7 @@ window.addEventListener("load", function () {
     setTimeout(function () {
         document.getElementById("loader").style.display = "none";
         document.getElementById("main").style.display = "flex";
-    }, 0); // 2秒（2000ミリ秒）待つ
+    }, 3000); // 2秒（2000ミリ秒）待つ
 });
 content_twitter = document.getElementById("content_twitter");
 content_github = document.getElementById("content_github");
