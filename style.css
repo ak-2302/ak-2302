@@ -170,6 +170,70 @@
 }
 
 
+
+#contact {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1em 0 1em 0;
+    padding: 1em 10% 1em 10%;
+    width: 80%;
+    text-align: center;
+    background-color: rgba(220, 220, 255, 0.5);
+}
+
+#contact>.contact-head {
+    font-size: large;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#contact_name,
+#contact_belong,
+#contact_email,
+#contact_message,
+#contact_submit {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1em 0 1em 0;
+    width: 100%;
+    text-align: center;
+    background-color: rgba(220, 220, 255, 0.5);
+    border: 0.2em solid whitesmoke;
+    border-radius: 10px;
+}
+
+#contact_name>p,
+#contact_belong>p,
+#contact_email>p,
+#contact_message>p {
+    margin: 0.5em 0 0.5em 0;
+}
+
+#contact_name>input,
+#contact_belong>input,
+#contact_email>input,
+#contact_submit>input {
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    width: 90%;
+    border: none;
+    background-color: whitesmoke;
+}
+
+#contact_message>textarea {
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    width: 90%;
+    border: none;
+    background-color: whitesmoke;
+    height: 10em;
+}
+
+
+
 #site-info {
     flex-direction: row;
     align-items: center;
