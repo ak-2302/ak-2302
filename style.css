@@ -5,6 +5,8 @@
 }
 
 #body {
+    display: flex;
+    flex-direction: column;
     background-image: url("./img/colorful-abstract-art-background.jpg");
     background-attachment: fixed;
     background-size: cover;
@@ -27,6 +29,74 @@ body::before {
     z-index: -1;
     /* 背景として背面に */
 }
+
+
+.progress {
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -20px 0 0 -50px;
+}
+
+.progress span {
+    transition: all 500ms ease;
+    background: #4A72DA;
+    box-shadow: 1px 2px 3px #999;
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    border-radius: 10px;
+    animation: wave 2s ease infinite;
+}
+
+.progress span:nth-child(1) {
+    animation-delay: 0;
+}
+
+.progress span:nth-child(2) {
+    animation-delay: 100ms;
+}
+
+.progress span:nth-child(3) {
+    animation-delay: 200ms;
+}
+
+.progress span:nth-child(4) {
+    animation-delay: 300ms;
+}
+
+.progress span:nth-child(5) {
+    animation-delay: 400ms;
+}
+
+.progress span:nth-child(6) {
+    animation-delay: 500ms;
+}
+
+.progress span:nth-child(7) {
+    animation-delay: 600ms;
+}
+
+.progress span:nth-child(8) {
+    animation-delay: 700ms;
+}
+
+@keyframes wave {
+
+    0%,
+    40%,
+    100% {
+        transform: translate(0, 0);
+        background-color: #4A72DA;
+    }
+
+    10% {
+        transform: translate(0, -15px);
+        background-color: red;
+    }
+}
+
 
 
 
@@ -148,20 +218,49 @@ body::before {
 #recent_activity>.tabs {
     display: flex;
     justify-content: space-between;
+    /* 均等配置 */
     flex-direction: row;
     align-items: center;
-    margin: 1em 0 1em 0;
-    padding: 1em 10% 1em 10%;
+    margin: 1em 0;
+    padding: 0;
     width: 100%;
     text-align: center;
     background-color: rgba(220, 220, 255, 0.5);
 }
 
 #recent_activity>.tabs>.tab {
-    padding: auto;
+    flex: 1;
+    /* 均等幅に */
+    padding: 1em 0;
+    /* 上下の余白だけ */
+    cursor: pointer;
+    /* クリックできるように */
+    border: 1px solid whitesmoke;
+    box-sizing: border-box;
+    /* paddingやborderを含めて幅を維持 */
+    transition: background-color 0.3s;
 }
 
+#recent_activity>.tabs>.tab:hover {
+    background-color: rgba(200, 200, 255, 0.3);
+    /* ホバーで色が変わると◎ */
+}
 
+#recent_activity>.contents {
+    background-color: rgba(220, 220, 255, 0.5);
+}
+
+#recent_activity>.contents>.content_github {
+    display: flex;
+    flex-direction: row;
+}
+
+#recent_activity>.contents>.content_github>img {
+    width: 46%;
+    margin-left: 2%;
+    margin-right: 2%;
+    height: auto;
+}
 
 
 #portfolio {
@@ -345,4 +444,27 @@ body::before {
 #site-info>.references>.elements>.element {
     font-size: small;
     color: gray;
+}
+
+#footer {
+    position: fixed;
+}
+
+#cat {
+    width: auto;
+    height: 10%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    transform: scaleX(-1);
+}
+
+#cat2 {
+    width: auto;
+    height: 10%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
 }

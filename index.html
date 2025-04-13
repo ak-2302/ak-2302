@@ -15,10 +15,22 @@
 </head>
 
 <body id="body">
-    <div id="icon">
-        <img src="https://avatars.githubusercontent.com/u/120778568?v=4" alt="icon">
+    <div id="loader">
+        <div class="progress container">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
     <div id="main">
+        <div id="icon">
+            <img src="https://avatars.githubusercontent.com/u/120778568?v=4" alt="icon">
+        </div>
         <div id="profile">
             <div id="name">
                 <div class="profile-head">Name</div>
@@ -73,19 +85,23 @@
             <div id="recent_activity">
                 <div class="recent_activity-head">Recent Activity</div>
                 <div class="tabs">
-                    <div class="tab">Twitter</div>
-                    <div class="tab">GitHub</div>
-                    <div class="tab">Qiita</div>
+                    <div class="tab" id="tab_twitter">Twitter</div>
+                    <div class="tab" id="tab_github">GitHub</div>
+                    <div class="tab" id="tab_qiita">Qiita</div>
                 </div>
                 <div class="contents">
-                    <div class="content_twitter">
+                    <div class="content_twitter" id="content_twitter">
                         <a class="twitter-timeline" href="https://twitter.com/ak_2302x?ref_src=twsrc%5Etfw">Tweets by
                             ak_2302x</a>
                         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                     </div>
-                    <div class="content_github">
+                    <div class="content_github" id="content_github">
+                        <img alt="Top Langs"
+                            src="https://github-readme-stats.vercel.app/api?username=ak-2302&theme=vue-dark&layout=compact" />
+                        <img alt="github stats"
+                            src="https://github-readme-stats.vercel.app/api/top-langs/?username=ak-2302&theme=vue-dark&layout=compact" />
                     </div>
-                    <div class="content_qiita">
+                    <div class="content_qiita" id="content_qiita">
                     </div>
                 </div>
             </div>
@@ -177,6 +193,9 @@
                         <a href="https://help.qiita.com/ja/articles/others-brand-guideline">メディアキット Qiitaヘルプ</a>
                     </div>
                     <div class="element">
+                        <a href="https://deshinon.com/2019/03/03/simple-oshare-loading-kopipe/">おしゃれとはこのことか…センス良すぎるローディングをコピペで実装
+                            【 HTML/CSS 】
+                        </a>
                     </div>
                 </div>
             </div>
@@ -184,6 +203,8 @@
 
 
         <div id="footer">
+            <img src="./img/cat.png" id="cat">
+            <img src="./img/cat2.png" id="cat2">
         </div>
         <script src="style.js"></script>
 </body>
