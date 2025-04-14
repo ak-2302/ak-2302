@@ -312,6 +312,26 @@ body::before {
 }
 
 
+#blog {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1em 0 1em 0;
+    padding: 1em 10% 1em 10%;
+    width: 80%;
+    text-align: center;
+    background-color: rgba(220, 220, 255, 0.5);
+}
+
+#blog>.blog-head {
+    font-size: large;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+
 
 #contact {
     flex-direction: row;
@@ -362,6 +382,7 @@ body::before {
     width: 90%;
     border: none;
     background-color: whitesmoke;
+    border-radius: 10px;
 }
 
 #contact_message>textarea {
@@ -371,6 +392,7 @@ body::before {
     border: none;
     background-color: whitesmoke;
     height: 10em;
+    border-radius: 10px;
 }
 
 
