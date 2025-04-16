@@ -18,3 +18,8 @@ Here are some ideas to get you started:
 
 ![Your GitHub stats](https://github-readme-stats.vercel.app/api?username=ak-2302&show_icons=true&theme=tokyonight) ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=ak-2302&layout=compact)
 
+
+# Page links
+HommePage : [https://にゃんこ.tech](https://にゃんこ.tech)
+
+筑波大学教室検索ツール : [https://にゃんこ.tech/tools/tsukuba_univ_search_class/](https://にゃんこ.tech/tools/tsukuba_univ_search_class/)
