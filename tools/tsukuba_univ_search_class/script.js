@@ -60,10 +60,6 @@ document.getElementById('search-button').addEventListener('click', function () {
     const searchText = document.getElementById('search-input').value;
     search(searchText);
 })
-document.getElementById("select-menu").addEventListener("change", function () {
-    const searchText = document.getElementById("select-menu").value;
-    search(searchText);
-});
 
 function search(searchText) {
     console.log(searchText, "検索");
