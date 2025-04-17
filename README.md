@@ -23,6 +23,7 @@ Here are some ideas to get you started:
 HomePage : [https://にゃんこ.tech](https://にゃんこ.tech)
 ## tools
 index : [https://にゃんこ.tech/tools/](https://にゃんこ.tech/tools/)
+* xlsxをcsvに変換 : [https://にゃんこ.tech/tools/xlsx_to_csv/](https://にゃんこ.tech/tools/xlsx_to_csv/)
 * 筑波大学教室検索ツール : [https://にゃんこ.tech/tools/tsukuba_univ_search_class/](https://にゃんこ.tech/tools/tsukuba_univ_search_class/)
 
 
