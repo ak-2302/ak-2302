@@ -53,7 +53,12 @@ document.getElementById('file').addEventListener('change', function (event) {
 
 
 
-
+document.getElementById("search-input").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        let event = new Event('click');
+        document.getElementById('search-button').dispatchEvent(event);
+    }
+})
 
 
 document.getElementById('search-button').addEventListener('click', function () {
