@@ -21,8 +21,9 @@ Here are some ideas to get you started:
 
 # Page links
 HomePage : [https://にゃんこ.tech](https://にゃんこ.tech)
-
-筑波大学教室検索ツール : [https://にゃんこ.tech/tools/tsukuba_univ_search_class/](https://にゃんこ.tech/tools/tsukuba_univ_search_class/)
+## tools
+index : [https://にゃんこ.tech/tools/](https://にゃんこ.tech/tools/)
+* 筑波大学教室検索ツール : [https://にゃんこ.tech/tools/tsukuba_univ_search_class/](https://にゃんこ.tech/tools/tsukuba_univ_search_class/)
 
 
 ## else
