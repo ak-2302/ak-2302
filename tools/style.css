@@ -47,6 +47,7 @@ h1 {
 /* ツールエリア（複数ツールの並び） */
 #tools {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
     gap: 1.5em;
@@ -58,6 +59,7 @@ h1 {
 /* ツールカードのスタイル */
 .tool-wraper {
     display: flex;
+    margin-bottom: 2em;
     flex-direction: column;
     align-items: center;
     width: 30rem;
