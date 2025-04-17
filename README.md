@@ -25,3 +25,5 @@ HomePage : [https://にゃんこ.tech](https://にゃんこ.tech)
 筑波大学教室検索ツール : [https://にゃんこ.tech/tools/tsukuba_univ_search_class/](https://にゃんこ.tech/tools/tsukuba_univ_search_class/)
 
 
+## else
+robot.txt : [https://にゃんこ.tech/robot.txt](https://にゃんこ.tech/robot.txt)
