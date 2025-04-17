@@ -26,4 +26,4 @@ HomePage : [https://にゃんこ.tech](https://にゃんこ.tech)
 
 
 ## else
-robot.txt : [https://にゃんこ.tech/robot.txt](https://にゃんこ.tech/robot.txt)
+robots.txt : [https://にゃんこ.tech/robots.txt](https://にゃんこ.tech/robots.txt)
