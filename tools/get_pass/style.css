@@ -1,165 +1,114 @@
-:root {
-    --bg-color: #0d1117;
-    --panel-bg: #161b22;
-    --border-color: #30363d;
-    --text-color: #c9d1d9;
-    --accent: #58a6ff;
-    --hover-bg: #21262d;
-    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-}
-
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-stack);
-    padding: 4rem 2rem;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#header,
-#main {
-    max-width: 800px;
-    width: 100%;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f9fafb;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
 #header {
+    background: linear-gradient(to right, #7f7fd5, #86a8e7, #91eae4);
+    padding: 1rem 2rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: var(--panel-bg);
-    border: 1px solid var(--border-color);
-    padding: 1.5rem 2rem;
-    border-radius: 12px;
-    margin-bottom: 2.5rem;
+    justify-content: space-between;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 #introduction-title {
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--accent);
+    font-family: 'Pacifico', cursive;
+    font-size: 1.5rem;
+    margin: 0;
 }
 
-#share-button .share-icon {
+#share-button {
+    display: flex;
+    gap: 1rem;
+}
+
+.share-icon {
     width: 24px;
     height: 24px;
-    margin-left: 16px;
     cursor: pointer;
-    opacity: 0.75;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease;
 }
 
-#share-button .share-icon:hover {
-    opacity: 1;
-    transform: scale(1.1);
+.share-icon:hover {
+    transform: scale(1.2);
 }
 
 #main {
-    background-color: var(--panel-bg);
-    border: 1px solid var(--border-color);
-    padding: 2.5rem;
-    border-radius: 12px;
-}
-
-#introduction {
-    margin-bottom: 2.5rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
 }
 
 .introduction-steps {
-    background-color: var(--hover-bg);
-    border-left: 4px solid var(--accent);
-    padding: 1.2rem 1.5rem;
+    background-color: #fff;
+    border-left: 6px solid #91eae4;
+    padding: 1rem;
     margin-bottom: 1.5rem;
-    border-radius: 8px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .introduction-step-header {
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    color: var(--accent);
-}
-
-#upload_env {
-    margin: 2rem 0;
-}
-
-.file-label {
-    display: inline-block;
-    padding: 0.7rem 1.5rem;
-    background-color: var(--accent);
-    color: #ffffff;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s ease;
-}
-
-.file-label:hover {
-    background-color: #4093f3;
-}
-
-.file-input {
-    display: none;
-}
-
-#input-meta {
     display: flex;
-    flex-direction: column;
-    margin: 2rem 0;
-    width: 100%;
     align-items: center;
+    margin-bottom: 0.5rem;
 }
 
-input[type="text"],
-input[type="password"],
-select {
-    background-color: var(--hover-bg);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 0.7rem 1rem;
-    width: 100%;
-    max-width: 400px;
-    margin: 0.7rem 0;
+.introduction-step-head {
+    font-weight: bold;
+    margin-right: 0.5rem;
+    color: #4a90e2;
+}
+
+.introduction-step-num {
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 50%;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.9rem;
+}
+
+.introduction-step-description a {
+    color: #4a90e2;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.introduction-step-description a:hover {
+    text-decoration: underline;
+}
+
+#test {
+    margin-top: 3rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+#test p {
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+#test input[type="password"] {
+    display: block;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
     font-size: 1rem;
-}
-
-#target-repo-info {
-    margin: 2rem 0;
-    padding: 1.2rem;
-    border: 1px solid var(--border-color);
-    background-color: var(--hover-bg);
-    border-radius: 8px;
     width: 100%;
-    max-width: 600px;
-    align-self: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border 0.2s ease;
 }
 
-#github-control {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-.github-control button {
-    padding: 0.7rem 1.5rem;
-    background-color: var(--accent);
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-#github-control button:hover {
-    background-color: #4093f3;
-}
-
-#load-github-info-text {
-    display: none;
+#test input[type="password"]:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 3px rgba(74, 144, 226, 0.5);
 }

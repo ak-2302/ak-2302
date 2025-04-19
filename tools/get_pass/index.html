@@ -38,7 +38,13 @@
                     <span class="introduction-step-head">📌 STEP</span>
                     <span class="introduction-step-num">1</span>
                 </div>
-                <p class="introduction-step-description"><a href=""></a></p>
+                <p class="introduction-step-description">
+                    <a href="https://github.com/ak-2302/ak-2302/releases/download/chrome/get_pass_ex.zip"
+                        download="get_pass_ex.zip">
+                        こちら
+                    </a>
+                    から拡張機能をダウンロード
+                </p>
             </div>
 
             <div class="introduction-steps">
@@ -46,7 +52,7 @@
                     <span class="introduction-step-head">📌 STEP</span>
                     <span class="introduction-step-num">2</span>
                 </div>
-                <p class="introduction-step-description">下のボタンからファイルをアップロード or 必要項目を記入</p>
+                <p class="introduction-step-description">ブラウザの拡張機能画面に開発者モードでアクセス</p>
             </div>
 
             <div class="introduction-steps">
@@ -54,7 +60,7 @@
                     <span class="introduction-step-head">📌 STEP</span>
                     <span class="introduction-step-num">3</span>
                 </div>
-                <p class="introduction-step-description">情報を取得ボタンを押す</p>
+                <p class="introduction-step-description">本拡張機能フォルダを読み込ませる</p>
             </div>
 
             <div class="introduction-steps">
@@ -62,35 +68,15 @@
                     <span class="introduction-step-head">📌 STEP</span>
                     <span class="introduction-step-num">4</span>
                 </div>
-                <p class="introduction-step-description">リポジトリをダウンロードする</p>
+                <p class="introduction-step-description">パスワードのあるサイトで拡張機能のポップアップから更新ボタンを押す</p>
             </div>
         </div>
-        <div id="upload_env">
-            <label for="file" class="file-label">
-                <span class="file-icon">📁</span> ファイルを選択
-            </label>
-            <input type="file" id="file" class="file-input">
-        </div>
-        <div class="input-meta">
-            <div>username : </div><input type="text" id="github-username">
-        </div>
-        <div class="input-meta">
-            <div>token : </div><input type="password" id="github-token">
-        </div>
-        <div class="github-control">
-            <button id="load-github-info">情報を取得<span id="load-github-info-text">......完了✅</span></button>
-        </div>
-        <select id="github-repo">
-            <option value="none" hidden>選択してください</option>
-        </select>
-        <div id="target-repo-info">
-            <div>repo-name : <span id="repo-name"></span></div>
-            <div>repo-url : <span id="repo-url"></span></div>
-            <div>repo-size : <span id="repo-size"></span></div>
-        </div>
-        <div class="github-control">
-            <button id="download-repo">リポジトリをダウンロード</button>
-            <p>github apiの使用数 : <span id="github-api-count">0</span></p>
+        <div id="test">
+            <p>テスト用</p>
+            <input type="password" id="pass1">
+            <input type="password" id="pass2">
+            <input type="password" id="pass3">
+            <input type="password" id="pass4">
         </div>
     </div>
 
