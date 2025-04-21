@@ -1,13 +1,6 @@
-const enableAnimation = {};
-document.querySelectorAll('.fuwa').forEach(fuwa => {
-    enableAnimation[fuwa.id] = true;
-});
-
 function animateFuwa() {
     const fuwaList = document.querySelectorAll('.fuwa');
     fuwaList.forEach(fuwa => {
-        // ドラッグ可能にする
-        enableDrag(fuwa);
         const fuwaArea = document.getElementById('fuwaArea');
         const fuwaAreaRect = fuwaArea.getBoundingClientRect();
         const fuwaAreaRectWidth = fuwaAreaRect.width;
@@ -69,6 +62,9 @@ function animateFuwa() {
 // スタート
 requestAnimationFrame(animateFuwa);
 
+
+document.querySelectorAll('.fuwa').forEach(enableDrag);
+// ドラッグ可能にする関数
 function enableDrag(element) {
     let isDragging = false;
 
