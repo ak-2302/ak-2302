@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWAmp</title>
+
+    <!-- リンク: マニフェスト -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- アイコン -->
+    <link rel="icon" href="favicon-16.png" sizes="16x16" />
+
+    <!-- PWA 用のテーマカラー -->
+    <meta name="theme-color" content="#000000" />
+
+    <!-- スタイル -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5em;
+        }
+
+        audio {
+            width: 80%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome to PWAmp</h1>
+    <audio controls>
+        <source src="sample.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(() => console.log('Service Worker registered'))
+                .catch(err => console.error('Service Worker registration failed:', err));
+        }
+    </script>
+</body>
+
+</html>

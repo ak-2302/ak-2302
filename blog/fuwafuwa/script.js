@@ -1,5 +1,5 @@
+const fuwaList = document.querySelectorAll('.fuwa');
 function animateFuwa() {
-    const fuwaList = document.querySelectorAll('.fuwa');
     fuwaList.forEach(fuwa => {
         const fuwaArea = document.getElementById('fuwaArea');
         const fuwaAreaRect = fuwaArea.getBoundingClientRect();
@@ -63,7 +63,7 @@ function animateFuwa() {
 requestAnimationFrame(animateFuwa);
 
 
-document.querySelectorAll('.fuwa').forEach(enableDrag);
+fuwaList.forEach(enableDrag);
 // ドラッグ可能にする関数
 function enableDrag(element) {
     let isDragging = false;
