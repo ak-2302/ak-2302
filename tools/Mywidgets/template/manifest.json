@@ -1,6 +1,6 @@
 {
-    "name": "PWAmp",
-    "description": "A music player app",
+    "name": "PWA",
+    "description": "hogehoge",
     "icons": [
         {
             "src": "img/icon-96.png",
@@ -21,8 +21,8 @@
     ],
     "widgets": [
         {
-            "name": "PWAmp mini player",
-            "description": "Widget to control the PWAmp music player",
+            "name": "name",
+            "description": "hogehoge",
             "tag": "pwamp",
             "template": "pwamp-template",
             "ms_ac_template": "widgets/mini-player-template.json",

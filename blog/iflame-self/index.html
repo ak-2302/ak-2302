@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>自己参照iframeサンプル</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        iframe {
+            margin-top: 20px;
+            border: 2px solid #aaa;
+            width: 80%;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>自己参照iframeテスト</h1>
+    <div id="content"></div>
+
+    <script>
+        const MAX_DEPTH = 3; // 最大階層
+
+        // 現在のdepthをURLから取得
+        const params = new URLSearchParams(window.location.search);
+        const depth = parseInt(params.get('depth') || '0', 10);
+
+        // 今のdepthを表示
+        document.getElementById('content').innerHTML = `<p>現在の階層: ${depth}</p>`;
+
+        // 最大階層未満なら自己参照iframeを表示
+        if (depth < MAX_DEPTH) {
+            const nextDepth = depth + 1;
+            const iframe = document.createElement('iframe');
+            iframe.src = `?depth=${nextDepth}`;
+            document.getElementById('content').appendChild(iframe);
+        } else {
+            document.getElementById('content').innerHTML += `<p>最大階層に到達しました！</p>`;
+        }
+    </script>
+</body>
+
+</html>
