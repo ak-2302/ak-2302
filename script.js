@@ -105,7 +105,6 @@ function setPosition(items, value) {
         item.style.top = "calc(50vh + " + y + "px" + ` - ${MENU_ITEM_RADIUS / 2}px` + ")";
     }
     menuItemOffset += 1;
-    console.log(menuItemOffset);
 }
 
 
@@ -124,6 +123,8 @@ menuItems.forEach((item) => {
         const iframe = item.querySelector("iframe");
         iframe.style.pointerEvents = "auto";
         iframe.scrolling = "yes";
+        iframe.style.transform = "scale(0.95)";
+        document.getElementById("menu-title").style.color = "#222";
     });
 });
 
@@ -135,11 +136,13 @@ document.addEventListener("click", (event) => {
             iframe.style.pointerEvents = "none";
             iframe.contentWindow.scrollTo(0, 0);
             iframe.scrolling = "no";
+            iframe.style.transform = "scale(0.75)";
             setPosition(menuItems, 0); // メニューアイテムの位置を再設定
             interval = setInterval(function () {
                 setPosition(menuItems, 0);
             }, 4000);
             activeItem = null;
+            document.getElementById("menu-title").style.color = "aliceblue";
         }
     }
 });
