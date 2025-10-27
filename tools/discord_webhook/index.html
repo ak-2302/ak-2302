@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Discord Webhook</h1>
+    <p>DiscordのWebhookを使って、メッセージを送信するためのツールです。</p>
+
+    <div id="table-wrapper">
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Header 1</th>
+                    <th>Header 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Data 1</td>
+                    <td>Data 2</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button onclick="captureTable()">画像として保存</button>
+    <div id="table-control">
+        <button type="button" onclick="addColumn()">add column</button>
+        <button type="button" onclick="addRow()">add row</button>
+        <button type="button" onclick="deleteColumn()">delete column</button>
+        <button type="button" onclick="deleteRow()">delete row</button>
+        <button type="button" onclick="clearTable()">clear table</button>
+    </div>
+    <div id="embed-wrapper">
+        <div id="embed">
+            <h2 id="embed-title">Embed</h2>
+            <p id="embed-description">Embed content goes here.</p>
+        </div>
+    </div>
+    <div id="discord-control">
+        <input type="checkbox" id="use-table" checked>
+        <input type="checkbox" id="use-embed" checked>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

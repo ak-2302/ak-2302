@@ -14,27 +14,24 @@
         <h1>Contact</h1>
         <p>ご連絡</p>
     </div>
-    <form action="https://submit-form.com/BYqueyFDn" method="post">
+    <form id="contactForm">
         <div id="contact_name">
             <p>ニックネーム</p>
-            <input name="name" id="contact_name_input" required="required" type="text">
+            <input name="name" id="contact_name_input" required="required" type="text" placeholder="名前">
         </div>
-        <div id="contact_belong">
-            <p>所属</p>
-            <input name="belong" id="contact_belong_input" required="required" type="text">
-        </div>
-        <div id="contact_email">
-            <p>メールアドレス</p>
-            <input name="email" id="contact_email_input" required="required" type="email">
+        <div id="contact_title">
+            <p>題名</p>
+            <input name="title" id="contact_title_input" required="required" type="text" placeholder="題名">
         </div>
         <div id="contact_message">
             <p>メッセージ</p>
-            <textarea name="message" id="contact_message_input" required="required"></textarea>
+            <textarea name="message" id="contact_message_input" required="required" placeholder="メッセージ"></textarea>
         </div>
         <div id="contact_submit">
-            <input type="submit" value="送信" id="contact_submit_input">
+            <button type="submit" id="contact_submit_input">送信</button>
         </div>
     </form>
+    <script src="postToWebApp.js"></script>
 </body>
 
 </html>

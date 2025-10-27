@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <button id="myButton">Click Me!</button>
+    <div id="fuwafuwaarea"></div>
+    <script type="module">
+        // Import the FuwaFuwa class from the module
+        import { FuwaFuwa } from 'http://127.0.0.1:3000/ak-2302/blog/fuwafuwa/my_framework/my_framework.js';
+        document.getElementById('myButton').addEventListener('click', function () {
+            alert('Button clicked!');
+        });
+        // Initialize the FuwaFuwa framework
+        const parentElement = document.getElementById('fuwafuwaarea');
+        const fuwaFuwaInstance = new FuwaFuwa(parentElement);
+        console.log(fuwaFuwaInstance);
+        fuwaFuwaInstance.paint_background();
+        // Activate debug mode
+        fuwaFuwaInstance.activate_debug();
+
+        const obj_1 = document.createElement('img');
+        obj_1.src = 'https://icooon-mono.com/i/icon_11343/icon_113431_64.png';
+        fuwaFuwaInstance.addElement(obj_1);
+        const obj_2 = document.createElement('img');
+        obj_2.src = 'https://icooon-mono.com/i/icon_11343/icon_113431_64.png';
+        fuwaFuwaInstance.addElement(obj_2);
+        const obj_3 = document.createElement('img');
+        obj_3.src = 'https://icooon-mono.com/i/icon_11343/icon_113431_64.png';
+        fuwaFuwaInstance.addElement(obj_3);
+        const obj_4 = document.createElement('img');
+        obj_4.src = 'https://icooon-mono.com/i/icon_11343/icon_113431_64.png';
+        fuwaFuwaInstance.addElement(obj_4);
+        fuwaFuwaInstance.startSimulation();
+    </script>
+</body>
+
+</html>
