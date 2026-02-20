@@ -5,8 +5,8 @@ collections:
 markdown_ext: "md"
 future: true
 defaults:
-  - scope:
-      path: "data"
+    - scope:
+      path: "_diary"
       type: "diary"
     values:
       layout: "diary"
