@@ -3,6 +3,7 @@ collections:
     output: true
     permalink: /blog/diary/data/:name/
 markdown_ext: "md"
+future: true
 defaults:
   - scope:
       path: "data"
