@@ -2,70 +2,13 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home — ak-2302</title>
-
-    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP&display=swap" />
-
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 
-<body id="body">
-    <header class="site-header">
-        <div class="header-inner">
-            <a class="site-title" href="./">ak-2302</a>
-            <nav class="site-nav" aria-label="site navigation">
-                <a href="./blog/diary/">日記</a>
-                <a href="https://github.com/ak-2302" target="_blank" rel="noopener">GitHub</a>
-            </nav>
-        </div>
-    </header>
+<body>
 
-    <main id="main" class="main-wrap">
-        <section id="introduction" class="card intro">
-            <h1>ようこそ</h1>
-        </section>
-
-        <section id="link" class="card links">
-            <a href="http://twitter.com/ak_2302x" target="_blank" rel="noopener" aria-label="Twitter">
-                <img src="https://img.icons8.com/ios/50/twitterx--v1.png" alt="twitter">
-            </a>
-            <a href="https://github.com/ak-2302" target="_blank" rel="noopener" aria-label="GitHub">
-                <img src="https://img.icons8.com/ios/50/github.png" alt="github">
-            </a>
-            <a href="https://qiita.com/ak-2302" target="_blank" rel="noopener" aria-label="Qiita">
-                <img src="https://img.icons8.com/ios/50/qiita.png" alt="qiita">
-            </a>
-            <a href="https://zenn.dev/ak2302" target="_blank" rel="noopener" aria-label="Zenn">
-                <img src="https://img.icons8.com/ios/50/home--v1.png" alt="zenn">
-            </a>
-        </section>
-
-
-        <section id="contact" class="card contact">
-            <h2>お問い合わせ</h2>
-            <form id="contactForm" novalidate>
-                <input type="text" name="name" id="name" placeholder="Your Name" />
-                <input type="email" name="email" id="email" placeholder="Your Email" />
-                <textarea name="message" id="message" placeholder="Your Message" rows="5"></textarea>
-                <div class="form-actions">
-                    <button id="sendBtn" type="submit">Send</button>
-                </div>
-            </form>
-        </section>
-
-        <footer class="site-foot">
-            © <span id="year"></span> ak-2302
-        </footer>
-    </main>
-
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
-    <script src="./script.js"></script>
 </body>
 
 </html>

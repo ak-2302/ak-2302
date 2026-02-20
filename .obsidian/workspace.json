@@ -163,6 +163,13 @@
   },
   "active": "8a2837caa82c3983",
   "lastOpenFiles": [
+    "img/image/zenn.svg",
+    "img/image/x.png",
+    "img/image/qiita.png",
+    "img/image/github.png",
+    "img/image",
+    "img/15_mei_12.jpg",
+    "ｉｍｇ",
     "blog/diary/_diary/test.md",
     "_diary/test.md",
     "_diary/2026-02-20.md",
@@ -178,8 +185,6 @@
     "blog/diary/data/test.md",
     "blog/diary/data/README.md",
     "blog/diary/_diary",
-    "blog/diary/viewer/index.html",
-    "blog/diary/viewer",
-    "blog/diary/_layouts/diary_list.html"
+    "blog/diary/viewer/index.html"
   ]
 }
