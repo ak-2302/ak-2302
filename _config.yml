@@ -2,12 +2,11 @@ collections:
   diary:
     output: true
     permalink: /blog/diary/data/:name/
-    directory: blog/diary/_diary
 markdown_ext: "md"
 future: true
 defaults:
   - scope:
-      path: "blog/diary/_diary"
+      path: "_diary"
       type: "diary"
     values:
       layout: "diary"
