@@ -2,6 +2,7 @@ collections:
   diary:
     output: true
     permalink: /blog/diary/data/:name/
+    directory: blog/diary/_diary
 markdown_ext: "md"
 future: true
 defaults:
