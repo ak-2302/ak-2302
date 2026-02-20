@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "blog/diary/data/2026-02-20.md",
+                "file": "blog/diary/data/test.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-02-20"
+              "title": "test"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "blog/diary/data/2026-02-20.md",
+                "file": "blog/diary/data/test.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "2026-02-20へのバックリンク"
+              "title": "testへのバックリンク"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "blog/diary/data/2026-02-20.md",
+                "file": "blog/diary/data/test.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "2026-02-20からのアウトゴーイングリンク"
+              "title": "testからのアウトゴーイングリンク"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "blog/diary/data/2026-02-20.md",
+                "file": "blog/diary/data/test.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "2026-02-20のアウトライン"
+              "title": "testのアウトライン"
             }
           }
         ]
@@ -168,7 +168,7 @@
       "command-palette:コマンドパレットを開く": false
     }
   },
-  "active": "1e0404aff6a1a98e",
+  "active": "0bdc1f266c611549",
   "lastOpenFiles": [
     "blog/diary/_layouts/diary_list.html",
     "blog/diary/_layouts/diary.html",
@@ -177,6 +177,6 @@
     "blog/diary/_config.yml",
     "blog/diary/script.js",
     "blog/diary/data/test.md",
-    "blog/diary/data/2026-02-20.md"
+    "blog/diary/data/test.md"
   ]
 }
