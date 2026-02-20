@@ -8,5 +8,5 @@ defaults:
   - scope:
       path: "blog/diary/_diary"
       type: "diary"
-values:
-  layout: "diary"
+    values:
+      layout: "diary"
