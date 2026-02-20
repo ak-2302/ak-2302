@@ -185,6 +185,9 @@
   },
   "active": "8a2837caa82c3983",
   "lastOpenFiles": [
+    "_layouts/diary_list.html",
+    "_layouts/diary.html",
+    "_layouts",
     "_config.yml",
     "blog/diary/_diary/2026-02-20.md",
     "obsidian_template/{date}_タイトル.md",
@@ -198,9 +201,6 @@
     "blog/diary/viewer",
     "blog/diary/_layouts/diary_list.html",
     "blog/diary/_layouts/diary.html",
-    "blog/diary/_layouts",
-    "blog/diary/index.html",
-    "blog/diary/_config.yml",
-    "blog/diary/script.js"
+    "blog/diary/_layouts"
   ]
 }
