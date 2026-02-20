@@ -1,5 +1,4 @@
 ---
 title: NewTitle
-date: 2026-02-20
+date:
 ---
-Hi!!
