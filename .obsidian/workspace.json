@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "obsidian_template/diary.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "diary"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "obsidian_template/diary.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "READMEへのバックリンク"
+              "title": "diaryへのバックリンク"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
+                "file": "obsidian_template/diary.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "READMEからのアウトゴーイングリンク"
+              "title": "diaryからのアウトゴーイングリンク"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md",
+                "file": "obsidian_template/diary.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "READMEのアウトライン"
+              "title": "diaryのアウトライン"
             }
           },
           {
@@ -182,6 +182,8 @@
   },
   "active": "1e0404aff6a1a98e",
   "lastOpenFiles": [
+    "diary",
+    "README.md",
     "ref/style/style.css",
     "ref/style/reset.css",
     "ref/style/link.css",
@@ -196,7 +198,6 @@
     "ref/script",
     "ref/image",
     "ref",
-    "__ref/style/link.css",
     "__ref/image/zenn.svg",
     "__ref/image/x.png",
     "__ref/image/qiita.png",

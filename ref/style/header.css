@@ -1,0 +1,35 @@
+#header {
+    padding: 0.4em 0;
+    background-color: rgba(60, 80, 120, 0.08);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: large;
+    position: fixed;
+    top: 0;
+}
+
+#headerLeft,
+#headerRight {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    padding: 0 2em;
+}
+
+#headerLeft>#headerName {
+    color: #4a5a6a;
+}
+
+#headerRight>div {
+    border-radius: 0.5em;
+    cursor: pointer;
+    color: #4a5a6a;
+    width: 3em;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(60, 80, 120, 0.08);
+
+}

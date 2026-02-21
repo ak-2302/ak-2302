@@ -6,12 +6,10 @@
     width: 100%;
     background: #fff;
     border-radius: 1.2em;
-    box-shadow: 0 4px 24px rgba(60, 80, 120, 0.08);
     padding: 2.5em 1.5em;
     font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
     font-size: 1.08em;
     color: #222;
-    border: 1px solid #f0f0f0;
     max-width: 420px;
     margin: 0 auto;
 }
