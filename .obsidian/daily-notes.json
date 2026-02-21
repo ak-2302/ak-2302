@@ -1,5 +1,5 @@
 {
   "format": "YYYY-MM-DD",
-  "folder": "blog/diary/_diary",
-  "template": "obsidian_template/{date}_タイトル"
+  "folder": "diary/data",
+  "template": ""
 }

@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "diary"
             }
+          },
+          {
+            "id": "0bf03e81b63e4c1d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "diary/data/無題のファイル.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "無題のファイル"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -94,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "obsidian_template/diary.md",
+                "file": "diary/data/無題のファイル.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "diaryへのバックリンク"
+              "title": "無題のファイルへのバックリンク"
             }
           },
           {
@@ -113,12 +128,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "obsidian_template/diary.md",
+                "file": "diary/data/無題のファイル.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "diaryからのアウトゴーイングリンク"
+              "title": "無題のファイルからのアウトゴーイングリンク"
             }
           },
           {
@@ -142,13 +157,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "obsidian_template/diary.md",
+                "file": "diary/data/無題のファイル.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "diaryのアウトライン"
+              "title": "無題のファイルのアウトライン"
             }
           },
           {
@@ -180,8 +195,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "1e0404aff6a1a98e",
+  "active": "0bf03e81b63e4c1d",
   "lastOpenFiles": [
+    "obsidian_template/diary.md",
+    "diary/data/無題のファイル.md",
+    "diary/data",
     "diary",
     "README.md",
     "ref/style/style.css",
@@ -196,13 +214,10 @@
     "ref/image/github.png",
     "ref/style",
     "ref/script",
-    "ref/image",
-    "ref",
     "__ref/image/zenn.svg",
     "__ref/image/x.png",
     "__ref/image/qiita.png",
     "__ref/image/github.png",
-    "obsidian_template/diary.md",
     "img/image/zenn.svg",
     "img/image/x.png",
     "blog/diary/_diary/test.md",
