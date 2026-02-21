@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "obsidian_template/diary.md",
+                "file": "_diary/無題のファイル.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "diary"
+              "title": "無題のファイル"
             }
           }
         ],
@@ -109,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "obsidian_template/diary.md",
+                "file": "_diary/無題のファイル.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "diaryへのバックリンク"
+              "title": "無題のファイルへのバックリンク"
             }
           },
           {
@@ -128,12 +128,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "obsidian_template/diary.md",
+                "file": "_diary/無題のファイル.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "diaryからのアウトゴーイングリンク"
+              "title": "無題のファイルからのアウトゴーイングリンク"
             }
           },
           {
@@ -157,13 +157,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "obsidian_template/diary.md",
+                "file": "_diary/無題のファイル.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "diaryのアウトライン"
+              "title": "無題のファイルのアウトライン"
             }
           },
           {
@@ -197,16 +197,16 @@
   },
   "active": "0bf03e81b63e4c1d",
   "lastOpenFiles": [
-    "diary/data/無題のファイル.md",
-    "_diary/無題のファイル.md",
     "_diary/2026-02-21.md",
+    "_diary/無題のファイル.md",
+    "obsidian_template/diary.md",
+    "diary/data/無題のファイル.md",
     "_diary",
     "_layouts/default.html",
     "_layouts",
     "diary/index.html",
     "diary/data/2026-02-21.md",
     "diary/テンプレート.md",
-    "obsidian_template/diary.md",
     "diary/data",
     "diary",
     "README.md",
