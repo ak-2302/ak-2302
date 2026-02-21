@@ -1,0 +1,13 @@
+---
+layout: default
+title: 日記一覧
+---
+
+<h1>日記一覧</h1>
+<ul>
+  {% for file in site.static_files %}
+    {% if file.path contains 'diary/data' and file.extname == '.md' %}
+      <li><a href="/{{ file.path }}">{{ file.name }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>

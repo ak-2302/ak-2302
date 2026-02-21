@@ -211,6 +211,9 @@
   },
   "active": "5ba91fe22646e4f2",
   "lastOpenFiles": [
+    "_layouts/default.html",
+    "_layouts",
+    "diary/index.html",
     "diary/data/2026-02-21.md",
     "diary/テンプレート.md",
     "diary/data/無題のファイル.md",
@@ -228,8 +231,6 @@
     "ref/image/x.png",
     "ref/image/qiita.png",
     "ref/image/github.png",
-    "ref/style",
-    "ref/script",
     "__ref/image/zenn.svg",
     "__ref/image/x.png",
     "__ref/image/qiita.png",

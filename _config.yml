@@ -1,0 +1,12 @@
+title: ak-2302
+description: GitHub Pagesで日記管理
+baseurl: ""
+url: "https://ak-2302.github.io"
+markdown: kramdown
+theme: minima
+collections:
+  diary:
+    output: true
+    permalink: /diary/data/:path
+include:
+  - diary/data
