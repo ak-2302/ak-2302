@@ -7,6 +7,4 @@ theme: minima
 collections:
   diary:
     output: true
-    permalink: /diary/data/:path
-include:
-  - diary/data
+    permalink: /diary/:name

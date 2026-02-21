@@ -4,9 +4,10 @@ title: root
 ---
 
 <ul>
-    {% for file in site.static_files %}
-    {% if file.path contains 'diary/data' and file.extname == '.md' %}
-    <li><a href="/{{ file.path }}">{{ file.name }}</a></li>
-    {% endif %}
+    {% for entry in site.diary %}
+    <li>
+        <a href="{{ entry.url }}">{{ entry.title | default: entry.basename }}</a>
+        {% if entry.date %} <span>({{ entry.date }})</span>{% endif %}
+    </li>
     {% endfor %}
 </ul>
