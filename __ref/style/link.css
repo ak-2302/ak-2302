@@ -16,8 +16,6 @@
 .linkSection>img {
     width: 5em;
     height: 5em;
-    object-fit: contain;
-    transition: transform 0.2s;
 }
 
 .linkSection>p {
