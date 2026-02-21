@@ -197,6 +197,7 @@
   },
   "active": "0bf03e81b63e4c1d",
   "lastOpenFiles": [
+    "ref/script/contact.js",
     "_layouts/style.css",
     "obsidian_template/diary.md",
     "_diary/無題のファイル.md",
@@ -214,7 +215,6 @@
     "ref/style/style.css",
     "ref/style/reset.css",
     "ref/style/link.css",
-    "ref/style/header.css",
     "ref/image/zenn.svg",
     "ref/image/x.png",
     "ref/image/qiita.png",
