@@ -19,7 +19,7 @@ function postContact(name, email, text) {
     }
     if (!valid) return;
 
-    fetch("https://docs.google.com/forms/d/e/フォームID/formResponse", {
+    fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSeN11KNZxj4w-VaxPIvZRN9hoj7tIpegyyFmN3EOmNS5CCzfw/formResponse", {
         method: "POST",
         mode: "no-cors",
         headers: {
