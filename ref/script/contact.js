@@ -17,7 +17,7 @@ function postContact(name, email, text) {
         valid = false;
         alert("Please enter a message.");
     }
-    if (!valid) return false;
+    if (!valid) return;
 
     fetch("https://docs.google.com/forms/d/e/フォームID/formResponse", {
         method: "POST",
@@ -35,5 +35,5 @@ function postContact(name, email, text) {
     contactName.value = "";
     contactEmail.value = "";
     contactText.value = "";
-    return true;
+    return;
 }
