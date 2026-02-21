@@ -166,7 +166,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,8 +180,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "dc5528a47e9d8e19",
+  "active": "1e0404aff6a1a98e",
   "lastOpenFiles": [
+    "__ref/style/link.css",
+    "__ref/image/zenn.svg",
+    "__ref/image/x.png",
+    "__ref/image/qiita.png",
+    "__ref/image/github.png",
+    "__ref/image",
     "__ref/style/contact.css",
     "__ref/style/header.css",
     "__ref/style/style.css",
@@ -191,8 +198,6 @@
     "obsidian_template/diary.md",
     "__ref/reset.css",
     "__ref/style.css",
-    "__ref/script.js",
-    "__ref",
     "img/image/zenn.svg",
     "img/image/x.png",
     "img/image/qiita.png",

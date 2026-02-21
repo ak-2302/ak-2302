@@ -1,0 +1,31 @@
+#link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    width: 100%;
+}
+
+.linkSection {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+}
+
+.linkSection>img {
+    width: 5em;
+    height: 5em;
+    object-fit: contain;
+    transition: transform 0.2s;
+}
+
+.linkSection>p {
+    width: 10em;
+    font-size: 2em;
+    color: #4a5a6a;
+    font-weight: 500;
+    margin-bottom: 0.2em;
+    align-content: center;
+    text-align: center;
+}
