@@ -26,9 +26,9 @@ function postContact(name, email, text) {
             "Content-Type": "application/x-www-form-urlencoded"
         },
         body: new URLSearchParams({
-            "entry.123456789": name,
-            "entry.987654321": email,
-            "entry.111111111": text
+            "entry.33486175": name,
+            "entry.345460095": email,
+            "entry.1974290344": text
         })
     });
     alert("Your message has been sent. Thank you!");
