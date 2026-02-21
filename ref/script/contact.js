@@ -37,3 +37,7 @@ function postContact(name, email, text) {
     contactText.value = "";
     return;
 }
+
+contactSubmit.addEventListener("click", () => {
+    postContact(contactName.value, contactEmail.value, contactText.value);
+});
