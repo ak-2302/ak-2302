@@ -4,11 +4,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./__ref/style/reset.css">
+    <link rel="stylesheet" href="./__ref/style/header.css">
+    <link rel="stylesheet" href="./__ref/style/style.css">
+    <link rel="stylesheet" href="./__ref/style/contact.css">
+
+    <title>ak-2302</title>
 </head>
 
 <body>
+    <div id="header">
+        <div id="headerLeft">
+            <span id="headerName">Hi!</span>
+        </div>
+        <div id="headerRight">
+            <a id="headerDiary" href="#diary">Diary</a>
+            <a id="headerGitHub" href="https://github.com/ak-2302" target="_blank">GitHub</a>
+        </div>
+    </div>
+    <div id="main">
+        <div class="container">
+            <div id="link"></div>
+        </div>
+        <div class="container">
+            <div id="diary"></div>
+        </div>
+        <div class="container">
+            <div id="tool"></div>
+        </div>
+        <div class="container">
+            <div id="contact">
+                <div class="contactSection">
+                    <div class="contactText">Name</div>
+                    <input type="text" id="contactName" placeholder="Name">
+                </div>
+                <div class="contactSection">
+                    <div class="contactText">Email</div>
+                    <input type="email" id="contactEmail" placeholder="Email">
+                </div>
+                <div class="contactSection">
+                    <div class="contactText">Message</div>
+                    <textarea id="contactMessage" placeholder="Message"></textarea>
+                </div>
+                <div class="contactSection">
+                    <button id="contactSend">Send</button>
+                </div>
+            </div>
+        </div>
 
+
+
+    </div>
+    <div id="footer"></div>
+
+    <script src="./__ref/script/script.js"></script>
+    <script src="./__ref/script/contact.js"></script>
 </body>
 
 </html>
