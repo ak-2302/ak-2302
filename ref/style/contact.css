@@ -4,14 +4,10 @@
     align-items: center;
     gap: 2em;
     width: 100%;
-    background: #fff;
     border-radius: 1.2em;
     padding: 2.5em 1.5em;
     font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
-    font-size: 1.08em;
     color: #222;
-    max-width: 420px;
-    margin: 0 auto;
 }
 
 .contactSection {
