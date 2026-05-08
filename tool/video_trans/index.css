@@ -51,6 +51,7 @@ body::before {
     padding: 32px 0 48px;
     position: relative;
     z-index: 1;
+    overflow-x: hidden;
 }
 
 .hero-panel,
@@ -59,6 +60,7 @@ body::before {
     border: 1px solid var(--border);
     box-shadow: var(--shadow);
     backdrop-filter: blur(18px);
+    max-width: 100%;
 }
 
 .hero-panel {
@@ -169,6 +171,7 @@ body::before {
     display: grid;
     grid-template-columns: 1fr;
     gap: 24px;
+    max-width: 100%;
 }
 
 .workspace>.card {
@@ -217,6 +220,7 @@ body::before {
     border-radius: 18px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(3, 8, 16, 0.3);
+    max-width: 100%;
 }
 
 table {
