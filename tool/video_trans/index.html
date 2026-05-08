@@ -22,7 +22,6 @@
             <div class="hero-actions">
                 <label class="primary-button" for="video-input">動画を追加</label>
                 <input id="video-input" type="file" accept="video/*" multiple hidden>
-                <button id="clear-all" class="secondary-button" type="button">全件クリア</button>
             </div>
 
             <div class="stats-grid" aria-label="アップロード状況">
@@ -109,6 +108,8 @@
         </section>
     </main>
 
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="./index.js"></script>
 </body>
 
