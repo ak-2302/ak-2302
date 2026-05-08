@@ -274,7 +274,6 @@ async function loadFfmpeg() {
     const { createFFmpeg, fetchFile } = window.FFmpeg;
     ffmpegInstance = createFFmpeg({
         log: false,
-        corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',
     });
     ffmpegFetchFile = fetchFile;
     ffmpegLoadPromise = ffmpegInstance.load();
@@ -387,6 +386,14 @@ elements.input.addEventListener('change', (event) => {
 
 elements.exportButton.addEventListener('click', () => {
     void runOutput();
+});
+
+elements.previewVideo.addEventListener('click', () => {
+    if (elements.previewVideo.paused) {
+        void elements.previewVideo.play();
+    } else {
+        elements.previewVideo.pause();
+    }
 });
 
 renderAll();
