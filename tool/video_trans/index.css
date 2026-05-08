@@ -143,7 +143,7 @@ body::before {
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(120px, 1fr));
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
     gap: 12px;
 }
 
@@ -169,18 +169,14 @@ body::before {
     display: grid;
     grid-template-columns: 1.1fr 1.4fr;
     grid-template-areas:
-        "input list"
-        "preview output";
+        "list preview"
+        "list output";
     gap: 24px;
 }
 
 .card {
     border-radius: var(--radius-xl);
     padding: 24px;
-}
-
-.input-card {
-    grid-area: input;
 }
 
 .list-card {
@@ -215,39 +211,6 @@ body::before {
     padding-top: 4px;
 }
 
-.control-grid {
-    display: grid;
-    gap: 14px;
-}
-
-.control-grid label {
-    display: grid;
-    gap: 8px;
-}
-
-.control-grid span {
-    color: var(--muted);
-    font-size: 0.9rem;
-}
-
-select {
-    width: 100%;
-    min-height: 48px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text);
-    padding: 0 14px;
-    font: inherit;
-}
-
-.action-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 18px;
-}
-
 .table-wrap {
     overflow: auto;
     border-radius: 18px;
@@ -258,7 +221,7 @@ select {
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 760px;
+    min-width: 520px;
 }
 
 th,
@@ -288,32 +251,6 @@ tbody tr:hover {
 
 tbody tr.is-selected {
     background: rgba(88, 196, 255, 0.12);
-}
-
-tbody tr.is-duplicate {
-    background: rgba(255, 126, 126, 0.08);
-}
-
-.status-chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 86px;
-    padding: 6px 10px;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.status-chip.is-duplicate {
-    background: rgba(255, 126, 126, 0.18);
-    color: #ffd5d5;
-}
-
-.status-chip.is-keep {
-    background: rgba(88, 196, 255, 0.16);
-    color: #d9f2ff;
 }
 
 .empty-state {
@@ -358,31 +295,6 @@ tbody tr.is-duplicate {
     line-height: 1.7;
 }
 
-.preview-meta {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin: 16px 0 0;
-}
-
-.preview-meta div {
-    padding: 14px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.preview-meta dt {
-    color: var(--muted);
-    font-size: 0.82rem;
-    margin-bottom: 6px;
-}
-
-.preview-meta dd {
-    margin: 0;
-    font-weight: 700;
-}
-
 .output-panel {
     display: flex;
     justify-content: space-between;
@@ -400,32 +312,40 @@ tbody tr.is-duplicate {
     line-height: 1.7;
 }
 
-.output-list {
-    list-style: none;
-    padding: 0;
-    margin: 18px 0 0;
+.progress-block {
+    margin-top: 18px;
     display: grid;
-    gap: 10px;
+    gap: 14px;
 }
 
-.output-list li {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    align-items: center;
-    padding: 14px 16px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.04);
+.progress-bar-shell {
+    width: 100%;
+    height: 16px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.output-list .output-name {
-    font-weight: 700;
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    transition: width 0.22s ease;
 }
 
-.output-list .output-meta {
+.progress-bar-upload {
+    background: linear-gradient(90deg, #58c4ff, #8fe3ff);
+}
+
+.progress-bar-output {
+    background: linear-gradient(90deg, #ffd36c, #ff9f5f);
+}
+
+#output-status-text {
+    margin: 6px 0 0;
     color: var(--muted);
-    font-size: 0.9rem;
+    line-height: 1.7;
 }
 
 @media (max-width: 1120px) {
@@ -440,7 +360,6 @@ tbody tr.is-duplicate {
     .workspace {
         grid-template-columns: 1fr;
         grid-template-areas:
-            "input"
             "list"
             "preview"
             "output";
@@ -459,13 +378,11 @@ tbody tr.is-duplicate {
         border-radius: 22px;
     }
 
-    .stats-grid,
-    .preview-meta {
+    .stats-grid {
         grid-template-columns: 1fr;
     }
 
-    .output-panel,
-    .action-row {
+    .output-panel {
         flex-direction: column;
         align-items: stretch;
     }

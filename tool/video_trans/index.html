@@ -13,9 +13,9 @@
         <section class="hero-panel">
             <div class="hero-copy">
                 <p class="eyebrow">Video Organizer</p>
-                <h1>複数動画を取り込み、重複整理から出力準備までを一画面で。</h1>
+                <h1>動画をまとめてアップロードし、一覧とプレビュー、出力までを一画面で。</h1>
                 <p class="hero-description">
-                    動画ファイルをまとめてアップロードし、一覧から重複候補の削除、同名ファイルのリネーム、拡張子の統一を確認できます。
+                    複数の動画ファイルをアップロードして、進捗、一覧、プレビュー、出力処理の状態を確認できます。
                 </p>
             </div>
 
@@ -31,62 +31,13 @@
                     <strong id="stat-count">0</strong>
                 </article>
                 <article>
-                    <span class="stat-label">重複候補</span>
-                    <strong id="stat-duplicates">0</strong>
-                </article>
-                <article>
-                    <span class="stat-label">出力予定</span>
-                    <strong id="stat-output">0</strong>
+                    <span class="stat-label">アップロード進捗</span>
+                    <strong id="upload-progress-label">0%</strong>
                 </article>
             </div>
         </section>
 
         <section class="workspace">
-            <section class="card input-card">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-kicker">入力</p>
-                        <h2>取り込み設定</h2>
-                    </div>
-                    <span class="section-note">複数選択に対応</span>
-                </div>
-
-                <div class="control-grid">
-                    <label>
-                        <span>拡張子統一</span>
-                        <select id="extension-mode">
-                            <option value="keep">元の拡張子を維持</option>
-                            <option value="mp4">すべて .mp4 に統一</option>
-                            <option value="mov">すべて .mov に統一</option>
-                            <option value="mkv">すべて .mkv に統一</option>
-                        </select>
-                    </label>
-
-                    <label>
-                        <span>リネーム規則</span>
-                        <select id="rename-mode">
-                            <option value="none">変更しない</option>
-                            <option value="sequence">連番で統一</option>
-                            <option value="timestamp">取り込み日時で統一</option>
-                        </select>
-                    </label>
-
-                    <label>
-                        <span>重複判定</span>
-                        <select id="duplicate-mode">
-                            <option value="name-size">名前 + サイズ</option>
-                            <option value="name-size-lastModified">名前 + サイズ + 更新日時</option>
-                        </select>
-                    </label>
-                </div>
-
-                <div class="action-row">
-                    <button id="remove-duplicates" type="button" class="danger-button">重複候補を削除</button>
-                    <button id="apply-renaming" type="button" class="secondary-button">リネームを反映</button>
-                    <button id="normalize-extension" type="button" class="secondary-button">拡張子を統一</button>
-                </div>
-            </section>
-
             <section class="card list-card">
                 <div class="section-heading">
                     <div>
@@ -100,12 +51,9 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>状態</th>
                                 <th>ファイル名</th>
                                 <th>サイズ</th>
                                 <th>長さ</th>
-                                <th>拡張子</th>
-                                <th>処理後</th>
                             </tr>
                         </thead>
                         <tbody id="video-list">
@@ -130,41 +78,33 @@
                         <p>一覧からファイルを選択するとここにプレビューが表示されます。</p>
                     </div>
                 </div>
-
-                <dl class="preview-meta">
-                    <div>
-                        <dt>状態</dt>
-                        <dd id="preview-status">待機中</dd>
-                    </div>
-                    <div>
-                        <dt>出力名</dt>
-                        <dd id="preview-output-name">-</dd>
-                    </div>
-                    <div>
-                        <dt>出力形式</dt>
-                        <dd id="preview-format">-</dd>
-                    </div>
-                </dl>
             </section>
 
             <section class="card output-card">
                 <div class="section-heading">
                     <div>
                         <p class="section-kicker">出力</p>
-                        <h2>処理結果</h2>
+                        <h2>処理を実行</h2>
                     </div>
-                    <span class="section-note">ダウンロード用の下書き</span>
+                    <span class="section-note">進捗を表示</span>
                 </div>
 
                 <div class="output-panel">
                     <div>
-                        <h3>出力予定ファイル</h3>
-                        <p>処理後のファイル名と拡張子を確認できます。</p>
+                        <h3>出力進捗</h3>
+                        <p id="output-status-text">まだ出力していません。</p>
                     </div>
-                    <button id="export-manifest" class="primary-button" type="button">出力一覧を保存</button>
+                    <button id="export-button" class="primary-button" type="button">出力</button>
                 </div>
 
-                <ul id="output-list" class="output-list"></ul>
+                <div class="progress-block">
+                    <div class="progress-bar-shell" aria-label="アップロード進捗">
+                        <div id="upload-progress-bar" class="progress-bar progress-bar-upload"></div>
+                    </div>
+                    <div class="progress-bar-shell" aria-label="出力処理の進捗">
+                        <div id="output-progress-bar" class="progress-bar progress-bar-output"></div>
+                    </div>
+                </div>
             </section>
         </section>
     </main>

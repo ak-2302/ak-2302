@@ -2,30 +2,26 @@ const state = {
     files: [],
     selectedId: null,
     objectUrl: null,
+    uploadProgress: 0,
+    outputProgress: 0,
+    uploadBusy: false,
+    outputBusy: false,
 };
 
 const elements = {
     input: document.getElementById('video-input'),
     clearAll: document.getElementById('clear-all'),
-    extensionMode: document.getElementById('extension-mode'),
-    renameMode: document.getElementById('rename-mode'),
-    duplicateMode: document.getElementById('duplicate-mode'),
-    removeDuplicates: document.getElementById('remove-duplicates'),
-    applyRenaming: document.getElementById('apply-renaming'),
-    normalizeExtension: document.getElementById('normalize-extension'),
-    exportManifest: document.getElementById('export-manifest'),
+    exportButton: document.getElementById('export-button'),
     videoList: document.getElementById('video-list'),
-    outputList: document.getElementById('output-list'),
     emptyState: document.getElementById('empty-state'),
     previewVideo: document.getElementById('preview-video'),
     previewPlaceholder: document.getElementById('preview-placeholder'),
     selectedName: document.getElementById('selected-name'),
-    previewStatus: document.getElementById('preview-status'),
-    previewOutputName: document.getElementById('preview-output-name'),
-    previewFormat: document.getElementById('preview-format'),
     statCount: document.getElementById('stat-count'),
-    statDuplicates: document.getElementById('stat-duplicates'),
-    statOutput: document.getElementById('stat-output'),
+    uploadProgressLabel: document.getElementById('upload-progress-label'),
+    uploadProgressBar: document.getElementById('upload-progress-bar'),
+    outputProgressBar: document.getElementById('output-progress-bar'),
+    outputStatusText: document.getElementById('output-status-text'),
 };
 
 function formatBytes(bytes) {
@@ -60,138 +56,58 @@ function formatDuration(duration) {
         .join(':');
 }
 
-function stripExtension(fileName) {
-    const lastDotIndex = fileName.lastIndexOf('.');
-    if (lastDotIndex <= 0) {
-        return fileName;
-    }
-
-    return fileName.slice(0, lastDotIndex);
-}
-
-function getExtension(fileName) {
-    const lastDotIndex = fileName.lastIndexOf('.');
-    if (lastDotIndex <= 0) {
-        return '';
-    }
-
-    return fileName.slice(lastDotIndex + 1).toLowerCase();
-}
-
 function makeId(file) {
     return `${file.name}-${file.size}-${file.lastModified}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
-function addFiles(fileList) {
-    const nextFiles = Array.from(fileList)
-        .filter((file) => file.type.startsWith('video/'))
-        .map((file, index) => ({
+async function addFiles(fileList) {
+    const acceptedFiles = Array.from(fileList)
+        .filter((file) => file.type.startsWith('video/'));
+
+    if (acceptedFiles.length === 0) {
+        return;
+    }
+
+    state.uploadBusy = true;
+    state.uploadProgress = 0;
+    renderAll();
+
+    const nextFiles = [];
+
+    for (const file of acceptedFiles) {
+        nextFiles.push({
             id: makeId(file),
             file,
-            originalName: file.name,
-            outputName: file.name,
-            outputExtension: getExtension(file.name) || inferExtension(file.type),
+            name: file.name,
             duration: null,
             durationReady: false,
             durationLoading: false,
-            duplicate: false,
-            duplicateKey: '',
             selected: false,
-            order: state.files.length + index + 1,
-        }));
+            order: state.files.length + nextFiles.length + 1,
+        });
+
+        state.uploadProgress = Math.round((nextFiles.length / acceptedFiles.length) * 100);
+        renderAll();
+
+        await new Promise((resolve) => window.setTimeout(resolve, 60));
+    }
 
     state.files.push(...nextFiles);
+    state.uploadBusy = false;
+    state.uploadProgress = 100;
 
     if (!state.selectedId && state.files.length > 0) {
         selectFile(state.files[0].id);
     }
 
-    refreshDerivedState();
+    refreshOrder();
     renderAll();
 }
 
-function inferExtension(type) {
-    if (!type) {
-        return 'mp4';
-    }
-
-    if (type.includes('mp4')) {
-        return 'mp4';
-    }
-
-    if (type.includes('quicktime')) {
-        return 'mov';
-    }
-
-    if (type.includes('matroska')) {
-        return 'mkv';
-    }
-
-    return 'mp4';
-}
-
-function duplicateKeyFor(entry) {
-    if (elements.duplicateMode.value === 'name-size-lastModified') {
-        return `${entry.originalName}::${entry.file.size}::${entry.file.lastModified}`;
-    }
-
-    return `${entry.originalName}::${entry.file.size}`;
-}
-
-function refreshDerivedState() {
-    const seen = new Map();
-
-    state.files.forEach((entry) => {
-        entry.duplicateKey = duplicateKeyFor(entry);
-        entry.duplicate = false;
+function refreshOrder() {
+    state.files.forEach((entry, index) => {
+        entry.order = index + 1;
     });
-
-    state.files.forEach((entry) => {
-        const existing = seen.get(entry.duplicateKey);
-        if (!existing) {
-            seen.set(entry.duplicateKey, entry);
-            return;
-        }
-
-        entry.duplicate = true;
-    });
-
-    state.files.forEach((entry) => {
-        entry.outputName = buildOutputName(entry);
-        entry.outputExtension = buildOutputExtension(entry);
-    });
-}
-
-function buildOutputExtension(entry) {
-    const mode = elements.extensionMode.value;
-    if (mode === 'keep') {
-        return getExtension(entry.outputName) || inferExtension(entry.file.type);
-    }
-
-    return mode;
-}
-
-function buildOutputName(entry) {
-    const renameMode = elements.renameMode.value;
-    const baseName = stripExtension(entry.originalName);
-    const extension = elements.extensionMode.value === 'keep'
-        ? getExtension(entry.originalName) || inferExtension(entry.file.type)
-        : elements.extensionMode.value;
-
-    if (renameMode === 'sequence') {
-        return `video_${String(entry.order).padStart(3, '0')}.${extension}`;
-    }
-
-    if (renameMode === 'timestamp') {
-        const stamp = new Date(entry.file.lastModified || Date.now())
-            .toISOString()
-            .replace(/[:.]/g, '-')
-            .replace('T', '_')
-            .replace('Z', '');
-        return `${baseName}_${stamp}.${extension}`;
-    }
-
-    return `${baseName}.${extension}`;
 }
 
 function selectFile(id) {
@@ -203,46 +119,6 @@ function selectFile(id) {
     renderAll();
 }
 
-function removeDuplicates() {
-    const kept = new Set();
-    state.files = state.files.filter((entry) => {
-        if (kept.has(entry.duplicateKey)) {
-            return false;
-        }
-
-        kept.add(entry.duplicateKey);
-        return true;
-    });
-
-    if (!state.files.find((entry) => entry.id === state.selectedId)) {
-        state.selectedId = state.files[0]?.id ?? null;
-    }
-
-    refreshOrder();
-    refreshDerivedState();
-    renderAll();
-    renderPreview();
-}
-
-function refreshOrder() {
-    state.files.forEach((entry, index) => {
-        entry.order = index + 1;
-    });
-}
-
-function applyRenaming() {
-    refreshOrder();
-    refreshDerivedState();
-    renderAll();
-    renderPreview();
-}
-
-function normalizeExtension() {
-    refreshDerivedState();
-    renderAll();
-    renderPreview();
-}
-
 function clearAll() {
     state.files = [];
     state.selectedId = null;
@@ -250,6 +126,11 @@ function clearAll() {
         URL.revokeObjectURL(state.objectUrl);
         state.objectUrl = null;
     }
+
+    state.uploadProgress = 0;
+    state.outputProgress = 0;
+    state.uploadBusy = false;
+    state.outputBusy = false;
 
     elements.previewVideo.removeAttribute('src');
     elements.previewVideo.load();
@@ -293,15 +174,19 @@ function ensureDuration(entry) {
 
 function renderAll() {
     refreshOrder();
-    refreshDerivedState();
 
     elements.statCount.textContent = String(state.files.length);
-    elements.statDuplicates.textContent = String(state.files.filter((entry) => entry.duplicate).length);
-    elements.statOutput.textContent = String(state.files.length);
     elements.emptyState.hidden = state.files.length > 0;
+    elements.uploadProgressLabel.textContent = `${state.uploadProgress}%`;
+    elements.uploadProgressBar.style.width = `${state.uploadProgress}%`;
+    elements.outputProgressBar.style.width = `${state.outputProgress}%`;
+    elements.outputStatusText.textContent = state.outputBusy
+        ? `出力中... ${state.outputProgress}%`
+        : state.outputProgress > 0
+            ? `出力完了: ${state.outputProgress}%`
+            : 'まだ出力していません。';
 
     renderList();
-    renderOutput();
 }
 
 function renderList() {
@@ -312,17 +197,12 @@ function renderList() {
 
         const row = document.createElement('tr');
         row.dataset.id = entry.id;
-        row.className = [entry.selected ? 'is-selected' : '', entry.duplicate ? 'is-duplicate' : '']
-            .filter(Boolean)
-            .join(' ');
+        row.className = entry.selected ? 'is-selected' : '';
 
         row.innerHTML = `
-			<td><span class="status-chip ${entry.duplicate ? 'is-duplicate' : 'is-keep'}">${entry.duplicate ? '重複候補' : '保持'}</span></td>
-			<td>${entry.originalName}</td>
+			<td>${entry.name}</td>
 			<td>${formatBytes(entry.file.size)}</td>
 			<td>${formatDuration(entry.duration)}</td>
-			<td>${getExtension(entry.originalName) || inferExtension(entry.file.type)}</td>
-			<td>${entry.outputName}</td>
 		`;
 
         row.addEventListener('click', () => selectFile(entry.id));
@@ -340,9 +220,6 @@ function renderPreview() {
         }
 
         elements.selectedName.textContent = '未選択';
-        elements.previewStatus.textContent = '待機中';
-        elements.previewOutputName.textContent = '-';
-        elements.previewFormat.textContent = '-';
         elements.previewPlaceholder.hidden = false;
         elements.previewVideo.hidden = true;
         elements.previewVideo.removeAttribute('src');
@@ -358,44 +235,29 @@ function renderPreview() {
     elements.previewVideo.src = state.objectUrl;
     elements.previewVideo.hidden = false;
     elements.previewPlaceholder.hidden = true;
-    elements.selectedName.textContent = current.originalName;
-    elements.previewStatus.textContent = current.duplicate ? '重複候補' : '保持';
-    elements.previewOutputName.textContent = current.outputName;
-    elements.previewFormat.textContent = buildOutputExtension(current).toUpperCase();
+    elements.selectedName.textContent = current.name;
 }
 
-function renderOutput() {
-    elements.outputList.innerHTML = '';
+async function simulateOutput() {
+    if (state.files.length === 0 || state.outputBusy) {
+        return;
+    }
 
-    state.files.forEach((entry) => {
-        const item = document.createElement('li');
-        item.innerHTML = `
-			<div>
-				<div class="output-name">${entry.outputName}</div>
-				<div class="output-meta">元: ${entry.originalName} / ${formatBytes(entry.file.size)}</div>
-			</div>
-			<div class="output-meta">${entry.duplicate ? '重複候補' : '出力対象'}</div>
-		`;
-        elements.outputList.appendChild(item);
-    });
-}
+    state.outputBusy = true;
+    state.outputProgress = 0;
+    renderAll();
 
-function exportManifest() {
-    const manifest = state.files.map((entry) => ({
-        originalName: entry.originalName,
-        outputName: entry.outputName,
-        size: entry.file.size,
-        type: entry.file.type,
-        duplicate: entry.duplicate,
-        duration: entry.duration,
-    }));
+    const totalSteps = Math.max(state.files.length, 4);
 
-    const blob = new Blob([JSON.stringify(manifest, null, 2)], { type: 'application/json' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'video-output-manifest.json';
-    link.click();
-    URL.revokeObjectURL(link.href);
+    for (let step = 1; step <= totalSteps; step += 1) {
+        state.outputProgress = Math.round((step / totalSteps) * 100);
+        renderAll();
+        await new Promise((resolve) => window.setTimeout(resolve, 90));
+    }
+
+    state.outputBusy = false;
+    state.outputProgress = 100;
+    renderAll();
 }
 
 elements.input.addEventListener('change', (event) => {
@@ -404,19 +266,7 @@ elements.input.addEventListener('change', (event) => {
 });
 
 elements.clearAll.addEventListener('click', clearAll);
-elements.removeDuplicates.addEventListener('click', removeDuplicates);
-elements.applyRenaming.addEventListener('click', applyRenaming);
-elements.normalizeExtension.addEventListener('click', normalizeExtension);
-elements.exportManifest.addEventListener('click', exportManifest);
+elements.exportButton.addEventListener('click', simulateOutput);
 
-[elements.extensionMode, elements.renameMode, elements.duplicateMode].forEach((element) => {
-    element.addEventListener('change', () => {
-        refreshDerivedState();
-        renderAll();
-        renderPreview();
-    });
-});
-
-refreshDerivedState();
 renderAll();
 renderPreview();
