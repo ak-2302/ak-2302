@@ -1,29 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Video Organizer</title>
     <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
-    <button>import</button>
-    <div class="video_list_container">
-        <table>
-            <thead>
-                <tr>
-                    <th>name</th>
-                    <th>size</th>
-                    <th>length</th>
-                    <th>format</th>
-                </tr>
-            </thead>
-            <tbody id="video_list">
-            </tbody>
-        </table>
-    </div>
+    <main class="app-shell">
+        <section class="hero-panel">
+            <div class="hero-copy">
+                <p class="eyebrow">Video Organizer</p>
+                <h1>複数動画を取り込み、重複整理から出力準備までを一画面で。</h1>
+                <p class="hero-description">
+                    動画ファイルをまとめてアップロードし、一覧から重複候補の削除、同名ファイルのリネーム、拡張子の統一を確認できます。
+                </p>
+            </div>
+
+            <div class="hero-actions">
+                <label class="primary-button" for="video-input">動画を追加</label>
+                <input id="video-input" type="file" accept="video/*" multiple hidden>
+                <button id="clear-all" class="secondary-button" type="button">全件クリア</button>
+            </div>
+
+            <div class="stats-grid" aria-label="アップロード状況">
+                <article>
+                    <span class="stat-label">ファイル数</span>
+                    <strong id="stat-count">0</strong>
+                </article>
+                <article>
+                    <span class="stat-label">重複候補</span>
+                    <strong id="stat-duplicates">0</strong>
+                </article>
+                <article>
+                    <span class="stat-label">出力予定</span>
+                    <strong id="stat-output">0</strong>
+                </article>
+            </div>
+        </section>
+
+        <section class="workspace">
+            <section class="card input-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">入力</p>
+                        <h2>取り込み設定</h2>
+                    </div>
+                    <span class="section-note">複数選択に対応</span>
+                </div>
+
+                <div class="control-grid">
+                    <label>
+                        <span>拡張子統一</span>
+                        <select id="extension-mode">
+                            <option value="keep">元の拡張子を維持</option>
+                            <option value="mp4">すべて .mp4 に統一</option>
+                            <option value="mov">すべて .mov に統一</option>
+                            <option value="mkv">すべて .mkv に統一</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        <span>リネーム規則</span>
+                        <select id="rename-mode">
+                            <option value="none">変更しない</option>
+                            <option value="sequence">連番で統一</option>
+                            <option value="timestamp">取り込み日時で統一</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        <span>重複判定</span>
+                        <select id="duplicate-mode">
+                            <option value="name-size">名前 + サイズ</option>
+                            <option value="name-size-lastModified">名前 + サイズ + 更新日時</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="action-row">
+                    <button id="remove-duplicates" type="button" class="danger-button">重複候補を削除</button>
+                    <button id="apply-renaming" type="button" class="secondary-button">リネームを反映</button>
+                    <button id="normalize-extension" type="button" class="secondary-button">拡張子を統一</button>
+                </div>
+            </section>
+
+            <section class="card list-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">ファイル一覧</p>
+                        <h2>アップロードされた動画</h2>
+                    </div>
+                    <span class="section-note">クリックでプレビュー</span>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>状態</th>
+                                <th>ファイル名</th>
+                                <th>サイズ</th>
+                                <th>長さ</th>
+                                <th>拡張子</th>
+                                <th>処理後</th>
+                            </tr>
+                        </thead>
+                        <tbody id="video-list">
+                        </tbody>
+                    </table>
+                </div>
+                <p id="empty-state" class="empty-state">まだ動画がありません。上部のボタンから複数ファイルを追加してください。</p>
+            </section>
+
+            <section class="card preview-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">プレビュー</p>
+                        <h2>選択中の動画</h2>
+                    </div>
+                    <span id="selected-name" class="section-note">未選択</span>
+                </div>
+
+                <div class="preview-frame">
+                    <video id="preview-video" controls playsinline muted></video>
+                    <div id="preview-placeholder" class="preview-placeholder">
+                        <p>一覧からファイルを選択するとここにプレビューが表示されます。</p>
+                    </div>
+                </div>
+
+                <dl class="preview-meta">
+                    <div>
+                        <dt>状態</dt>
+                        <dd id="preview-status">待機中</dd>
+                    </div>
+                    <div>
+                        <dt>出力名</dt>
+                        <dd id="preview-output-name">-</dd>
+                    </div>
+                    <div>
+                        <dt>出力形式</dt>
+                        <dd id="preview-format">-</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="card output-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">出力</p>
+                        <h2>処理結果</h2>
+                    </div>
+                    <span class="section-note">ダウンロード用の下書き</span>
+                </div>
+
+                <div class="output-panel">
+                    <div>
+                        <h3>出力予定ファイル</h3>
+                        <p>処理後のファイル名と拡張子を確認できます。</p>
+                    </div>
+                    <button id="export-manifest" class="primary-button" type="button">出力一覧を保存</button>
+                </div>
+
+                <ul id="output-list" class="output-list"></ul>
+            </section>
+        </section>
+    </main>
+
     <script src="./index.js"></script>
 </body>
 
