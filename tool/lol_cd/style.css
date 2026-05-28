@@ -186,10 +186,11 @@ body {
     font-size: 1.1em;
     padding: 8px 12px;
     border-radius: 8px;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6));
+    background: #000000;
+    /* solid background, no transparency */
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.75);
-    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.8);
-    color: #fff;
+    color: #ffffff;
+    /* high-contrast white numbers */
     font-weight: 800;
 }
 
@@ -274,14 +275,16 @@ body {
 }
 
 #time-display {
-    background: rgba(0, 0, 0, 0.7);
+    background: #000000;
+    /* solid background, no transparency */
     padding: 6px 14px;
     border-radius: 8px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
     font-size: 3rem;
     /* larger timer */
     font-weight: 900;
-    color: #ffdca3;
+    color: #ffffff;
+    /* white for maximum contrast */
     letter-spacing: 0.8px;
 }
 

@@ -161,13 +161,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 slot.dataset.spellId = chosenKey;
             }
 
+            // helper: try to determine item key from image src or alt
+            function findItemKey(imgEl) {
+                const alt = (imgEl.alt || '').toLowerCase();
+                if (alt && itemCooldownMap[alt]) return alt;
+                const src = imgEl.src || imgEl.getAttribute('src') || '';
+                // check against known item paths
+                for (const k of Object.keys(itemPathMap)) {
+                    const path = itemPathMap[k];
+                    if (!path) continue;
+                    // compare by filename portion
+                    const name = path.split('/').pop();
+                    if (src.includes(name)) return k;
+                }
+                // fallback: try to extract after 'item_' prefix in filename
+                try {
+                    const m = src.match(/item_([^./?#]+)[.]/i);
+                    if (m && m[1]) {
+                        // normalize (remove encoded chars and punctuation)
+                        const cleaned = decodeURIComponent(m[1]).replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+                        // try to match cleaned against item keys similarly cleaned
+                        for (const k of Object.keys(itemPathMap)) {
+                            const ck = k.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+                            if (ck.includes(cleaned) || cleaned.includes(ck)) return k;
+                        }
+                    }
+                } catch (e) {
+                    // ignore
+                }
+                return ''; // unknown
+            }
+
             // apply cooldown UI to items as well
             players.forEach((player) => {
                 const itemImgs = Array.from(player.querySelectorAll('.item img'));
                 itemImgs.forEach(imgEl => {
-                    const keyGuess = (imgEl.alt || '').toLowerCase();
-                    const src = itemPathMap[keyGuess] || imgEl.src;
-                    imgEl.src = src;
+                    // determine key from alt or src
+                    const keyGuess = findItemKey(imgEl) || '';
+                    const mappedSrc = (keyGuess && itemPathMap[keyGuess]) ? itemPathMap[keyGuess] : imgEl.src;
+                    if (mappedSrc && imgEl.src !== mappedSrc) imgEl.src = mappedSrc;
 
                     // wrap in item-slot
                     const slot = document.createElement('div');
@@ -185,13 +217,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     slot.appendChild(overlay);
 
                     // store item id on slot if possible
-                    slot.dataset.itemId = keyGuess;
+                    if (keyGuess) slot.dataset.itemId = keyGuess;
 
                     slot.addEventListener('click', (ev) => {
                         ev.stopPropagation();
                         if (isSettingMode) return; // no selection UI for items
-                        const key = slot.dataset.itemId || (imgEl.alt || '').toLowerCase();
-                        let cd = itemCooldownMap[key] || 120;
+                        const key = slot.dataset.itemId || findItemKey(imgEl) || '';
+                        let cd = (key && itemCooldownMap[key]) ? itemCooldownMap[key] : 120;
                         if (cooldownIntervals.has(slot)) {
                             reduceCooldown(slot, 5);
                             return;
@@ -295,8 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (info.remaining < 0) info.remaining = 0;
                     const pct = info.remaining / info.total;
                     const deg = Math.max(0, pct) * 360;
-                    // use very dark second color to avoid white artifacts in dark theme
-                    overlay.style.background = `conic-gradient(rgba(0,0,0,0.8) ${deg}deg, rgba(0,0,0,0.06) ${deg}deg)`;
+                    // use solid dark colors (no transparency)
+                    overlay.style.background = `conic-gradient(#000000 ${deg}deg, #0b0b0b ${deg}deg)`;
                     info.textEl.textContent = Math.ceil(info.remaining) + 's';
                     if (info.remaining <= 0) {
                         clearInterval(info.intervalId);
@@ -324,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // update visual immediately
                     const pct = info.remaining / info.total;
                     const deg = Math.max(0, pct) * 360;
-                    info.overlay.style.background = `conic-gradient(rgba(0,0,0,0.8) ${deg}deg, rgba(0,0,0,0.06) ${deg}deg)`;
+                    info.overlay.style.background = `conic-gradient(#000000 ${deg}deg, #0b0b0b ${deg}deg)`;
                     info.textEl.textContent = Math.ceil(info.remaining) + 's';
                 }
             }
