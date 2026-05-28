@@ -1,0 +1,297 @@
+div {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, #000000 0%, #071018 60%);
+    color: #e6eef8;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#header>h1 {
+    margin: 0;
+    padding: 0;
+}
+
+#header>button {
+    margin: 0;
+    padding: 3% 5%;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #e6eef8;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+#match-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+#time-display {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #e6eef8;
+}
+
+#start-timer {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(255, 255, 255, 0.04);
+    color: #e6eef8;
+    cursor: pointer;
+}
+
+#main {
+    margin: 0;
+    padding: 0;
+    top: 10%;
+    left: 0;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+}
+
+.player {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 90%;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+    margin: 2% 2% 0 2%;
+    padding: 3%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.006), rgba(255, 255, 255, 0.003));
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+
+.player>div {
+    padding: 1%;
+}
+
+.player>.roll {
+    margin: 0;
+    padding: 0;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player>.roll>img {
+    width: 100%;
+}
+
+
+.player>.cosmic_insight {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player>.cosmic_insight>img {
+    width: 100%;
+}
+
+/* make cosmic insight clearly visible when off/on */
+.player>.cosmic_insight>img {
+    transition: filter 160ms ease;
+}
+
+.player>.spell {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.player>.spell>img {
+    width: 50%;
+}
+
+.player>.item {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.player>.item>img {
+    width: 50%;
+}
+
+/* spell slot & cooldown overlay */
+.spell-slot {
+    position: relative;
+    width: 50%;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+.spell-slot img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+}
+
+.cooldown-overlay {
+    position: absolute;
+    inset: 4px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+}
+
+.cooldown-text {
+    position: relative;
+    z-index: 2;
+    font-size: 1.1em;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6));
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.75);
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-weight: 800;
+}
+
+.spell-slot img[style] {
+    /* ensure brightness toggles via inline style apply */
+}
+
+.item-slot {
+    position: relative;
+    width: 50%;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.item-slot img {
+    width: 100%;
+    display: block;
+    border-radius: 6px;
+}
+
+/* setting mode visuals */
+.setting-mode .spell-slot {
+    outline: 2px dashed rgba(255, 255, 255, 0.03);
+}
+
+/* modal for spell selection */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal {
+    background: linear-gradient(180deg, #0f222b, #071018);
+    padding: 12px;
+    border-radius: 10px;
+    max-width: 720px;
+    width: 90%;
+    max-height: 70vh;
+    overflow: auto;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+}
+
+.modal-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.modal-item {
+    width: 120px;
+    padding: 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.01);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.modal-item img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
+
+.modal-item span {
+    color: #e6eef8;
+    font-size: 0.9em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* header controls contrast */
+#header {
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(10px);
+}
+
+#time-display {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 6px 14px;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+    font-size: 3rem;
+    /* larger timer */
+    font-weight: 900;
+    color: #ffdca3;
+    letter-spacing: 0.8px;
+}
+
+#start-timer,
+#header>button {
+    transition: background 160ms ease, transform 120ms ease;
+}
+
+#start-timer:hover,
+#header>button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
