@@ -86,9 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const defaultSpells = {
                 top: ['teleport', 'flash'],
                 jungle: ['smite', 'flash'],
-                middle: ['flash', 'ignite'],
-                bottom: ['heal', 'flash'],
-                support: ['exhaust', 'ignite']
+                middle: ['teleport', 'flash'],
+                bottom: ['barrier', 'flash'],
+                support: ['heal', 'flash']
             };
 
             const players = Array.from(document.querySelectorAll('.player'));
