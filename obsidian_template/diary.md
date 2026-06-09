@@ -1,4 +1,0 @@
----
-title: NewTitle
-date:
----

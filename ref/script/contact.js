@@ -1,43 +1,41 @@
-const contactName = document.getElementById('contactName');
-const contactEmail = document.getElementById('contactEmail');
-const contactText = document.getElementById('contactText');
-const contactSubmit = document.getElementById('contactSubmit');
+const CONTACT_ENDPOINT = "https://contact-worker.koyoarai93.workers.dev";
+const contactForm = document.getElementById("contactForm");
+const formStatus = document.getElementById("formStatus");
 
-function postContact(name, email, text) {
-    let valid = true;
-    if (name.length < 1) {
-        valid = false;
-        alert("Please enter a valid name.");
-    }
-    if (!email.includes("@")) {
-        valid = false;
-        alert("Please enter a valid email address.");
-    }
-    if (text.length < 1) {
-        valid = false;
-        alert("Please enter a message.");
-    }
-    if (!valid) return;
+contactForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-    fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSeN11KNZxj4w-VaxPIvZRN9hoj7tIpegyyFmN3EOmNS5CCzfw/formResponse", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: new URLSearchParams({
-            "entry.33486175": name,
-            "entry.345460095": email,
-            "entry.1974290344": text
-        })
-    });
-    alert("Your message has been sent. Thank you!");
-    contactName.value = "";
-    contactEmail.value = "";
-    contactText.value = "";
-    return;
-}
+    const submitButton = document.getElementById("contactSend");
+    const formData = new FormData(contactForm);
+    const payload = {
+        name: formData.get("name")?.trim(),
+        email: formData.get("email")?.trim(),
+        message: formData.get("message")?.trim()
+    };
 
-contactSubmit.addEventListener("click", () => {
-    postContact(contactName.value, contactEmail.value, contactText.value);
+    if (!payload.name || !payload.email || !payload.message) {
+        formStatus.textContent = "すべての項目を入力してください。";
+        return;
+    }
+
+    submitButton.disabled = true;
+    formStatus.textContent = "送信中...";
+
+    try {
+        const response = await fetch(CONTACT_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error);
+
+        contactForm.reset();
+        formStatus.textContent = "送信しました。";
+    } catch {
+        formStatus.textContent = "送信できませんでした。時間をおいて再度お試しください。";
+    } finally {
+        submitButton.disabled = false;
+    }
 });
