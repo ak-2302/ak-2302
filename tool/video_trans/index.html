@@ -1,116 +1,166 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Organizer</title>
+    <meta name="description" content="複数の動画をブラウザ内でMP4へ一括変換するツール">
+    <title>Video Batch Converter</title>
     <link rel="stylesheet" href="./index.css">
 </head>
-
 <body>
     <main class="app-shell">
-        <section class="hero-panel">
-            <div class="hero-copy">
-                <p class="eyebrow">Video Organizer</p>
-                <h1>動画をまとめてアップロードし、一覧とプレビュー、出力までを一画面で。</h1>
-                <p class="hero-description">
-                    複数の動画ファイルをアップロードして、進捗、一覧、プレビュー、出力処理の状態を確認できます。
-                </p>
+        <header class="hero">
+            <div>
+                <p class="eyebrow">LOCAL VIDEO TOOL</p>
+                <h1>動画を、まとめて<br><span>MP4へ。</span></h1>
+                <p class="hero-copy">アップロード、重複整理、リネーム、変換、ダウンロードまでブラウザ内で完結します。</p>
             </div>
-
-            <div class="hero-actions">
-                <label class="primary-button" for="video-input">動画を追加</label>
-                <input id="video-input" type="file" accept="video/*" multiple hidden>
+            <div class="privacy-note">
+                <span class="privacy-dot" aria-hidden="true"></span>
+                ファイルは外部へ送信されません
             </div>
+        </header>
 
-            <div class="stats-grid" aria-label="アップロード状況">
-                <article>
-                    <span class="stat-label">ファイル数</span>
-                    <strong id="stat-count">0</strong>
-                </article>
-                <article>
-                    <span class="stat-label">アップロード進捗</span>
-                    <strong id="upload-progress-label">0%</strong>
-                </article>
+        <section class="upload-card" id="drop-zone">
+            <div class="upload-icon" aria-hidden="true">＋</div>
+            <div>
+                <h2>動画を追加</h2>
+                <p>ここへドラッグ＆ドロップ、またはボタンから選択</p>
+            </div>
+            <div class="upload-actions">
+                <label class="button button-primary" for="file-input">ファイルを選択</label>
+                <label class="button button-secondary" for="folder-input">フォルダを選択</label>
+                <input id="file-input" type="file" accept="video/*,.mkv,.avi,.mov,.webm,.m4v,.wmv,.flv" multiple hidden>
+                <input id="folder-input" type="file" webkitdirectory directory multiple hidden>
             </div>
         </section>
 
-        <section class="workspace">
-            <section class="card list-card">
-                <div class="section-heading">
+        <section class="stats" aria-label="ファイル統計">
+            <article><span>動画</span><strong id="stat-count">0</strong><small>ファイル</small></article>
+            <article><span>合計サイズ</span><strong id="stat-size">0 B</strong></article>
+            <article><span>重複候補</span><strong id="stat-duplicates">0</strong><small>ファイル</small></article>
+            <article><span>変換予定</span><strong id="stat-output">0</strong><small>ファイル</small></article>
+        </section>
+
+        <div class="workspace">
+            <section class="panel file-panel">
+                <div class="panel-heading">
                     <div>
-                        <p class="section-kicker">ファイル一覧</p>
-                        <h2>アップロードされた動画</h2>
+                        <p class="section-label">FILES</p>
+                        <h2>アップロード一覧</h2>
                     </div>
-                    <span class="section-note">クリックでプレビュー</span>
+                    <button id="clear-button" class="text-button" type="button">すべて削除</button>
                 </div>
 
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>ファイル名</th>
                                 <th>サイズ</th>
                                 <th>長さ</th>
+                                <th>状態</th>
+                                <th><span class="visually-hidden">操作</span></th>
                             </tr>
                         </thead>
-                        <tbody id="video-list">
-                        </tbody>
+                        <tbody id="video-list"></tbody>
                     </table>
-                </div>
-                <p id="empty-state" class="empty-state">まだ動画がありません。上部のボタンから複数ファイルを追加してください。</p>
-            </section>
-
-            <section class="card preview-card">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-kicker">プレビュー</p>
-                        <h2>選択中の動画</h2>
-                    </div>
-                    <span id="selected-name" class="section-note">未選択</span>
-                </div>
-
-                <div class="preview-frame">
-                    <video id="preview-video" controls playsinline muted></video>
-                    <div id="preview-placeholder" class="preview-placeholder">
-                        <p>一覧からファイルを選択するとここにプレビューが表示されます。</p>
+                    <div id="empty-state" class="empty-state">
+                        <strong>動画がまだありません</strong>
+                        <span>上のエリアから動画を追加してください。</span>
                     </div>
                 </div>
             </section>
 
-            <section class="card output-card">
-                <div class="section-heading">
+            <aside class="panel settings-panel">
+                <div class="panel-heading">
                     <div>
-                        <p class="section-kicker">出力</p>
-                        <h2>処理を実行</h2>
+                        <p class="section-label">SETTINGS</p>
+                        <h2>出力設定</h2>
                     </div>
-                    <span class="section-note">進捗を表示</span>
                 </div>
 
-                <div class="output-panel">
-                    <div>
-                        <h3>出力進捗</h3>
-                        <p id="output-status-text">まだ出力していません。</p>
-                    </div>
-                    <button id="export-button" class="primary-button" type="button">出力</button>
+                <label class="switch-row">
+                    <span><strong>重複を削除</strong><small>内容が同じファイルを1件にまとめる</small></span>
+                    <input id="dedupe-toggle" type="checkbox" checked>
+                    <i aria-hidden="true"></i>
+                </label>
+
+                <fieldset>
+                    <legend>リネームルール</legend>
+                    <label class="radio-row">
+                        <input type="radio" name="rename-rule" value="sequence" checked>
+                        <span>連番に変更 <small id="rename-preview">0001.mp4, 0002.mp4 ...</small></span>
+                    </label>
+                    <label class="radio-row">
+                        <input type="radio" name="rename-rule" value="original">
+                        <span>元のファイル名を使用 <small>拡張子のみ .mp4 に変更</small></span>
+                    </label>
+                </fieldset>
+
+                <div id="sequence-options" class="option-grid">
+                    <label>ゼロ埋め桁数
+                        <select id="padding-select">
+                            <option value="2">2桁</option>
+                            <option value="3">3桁</option>
+                            <option value="4" selected>4桁</option>
+                            <option value="5">5桁</option>
+                            <option value="6">6桁</option>
+                        </select>
+                    </label>
+                    <label>開始番号
+                        <select id="start-select">
+                            <option value="0">0から</option>
+                            <option value="1" selected>1から</option>
+                        </select>
+                    </label>
                 </div>
 
-                <div class="progress-block">
-                    <div class="progress-bar-shell" aria-label="アップロード進捗">
-                        <div id="upload-progress-bar" class="progress-bar progress-bar-upload"></div>
+                <label class="switch-row">
+                    <span><strong>ZIPにまとめる</strong><small>変換結果を1つのファイルで保存</small></span>
+                    <input id="zip-toggle" type="checkbox" checked>
+                    <i aria-hidden="true"></i>
+                </label>
+
+                <label id="zip-name-field" class="field">ZIPファイル名
+                    <div class="suffix-input">
+                        <input id="zip-name-input" type="text" value="converted-videos" maxlength="80">
+                        <span>.zip</span>
                     </div>
-                    <div class="progress-bar-shell" aria-label="出力処理の進捗">
-                        <div id="output-progress-bar" class="progress-bar progress-bar-output"></div>
-                    </div>
+                </label>
+            </aside>
+        </div>
+
+        <section class="panel conversion-panel">
+            <div class="conversion-copy">
+                <p class="section-label">CONVERT</p>
+                <h2 id="status-title">変換の準備ができています</h2>
+                <p id="status-text">動画を追加すると変換を開始できます。</p>
+            </div>
+            <div class="progress-area">
+                <div class="progress-meta"><span id="progress-file">待機中</span><strong id="progress-label">0%</strong></div>
+                <div class="progress-track"><div id="progress-bar"></div></div>
+            </div>
+            <button id="convert-button" class="button button-accent" type="button" disabled>MP4へ変換</button>
+        </section>
+
+        <section id="result-panel" class="panel result-panel" hidden>
+            <div class="panel-heading">
+                <div>
+                    <p class="section-label">RESULT</p>
+                    <h2>変換結果</h2>
                 </div>
-            </section>
+                <button id="download-all-button" class="button button-primary" type="button">ダウンロード</button>
+            </div>
+            <div id="result-list" class="result-list"></div>
         </section>
     </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.8/dist/ffmpeg.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="./index.js"></script>
 </body>
-
 </html>

@@ -1,400 +1,489 @@
+const VIDEO_EXTENSIONS = new Set(['mp4', 'mov', 'mkv', 'avi', 'webm', 'm4v', 'wmv', 'flv', 'mpeg', 'mpg']);
+
 const state = {
     files: [],
-    selectedId: null,
-    previewObjectUrl: null,
-    uploadProgress: 0,
-    outputProgress: 0,
-    uploadBusy: false,
-    outputBusy: false,
-    outputMessage: 'まだ出力していません。',
+    busy: false,
+    results: [],
+    archive: null,
+    toastTimer: null,
 };
 
 const elements = {
-    input: document.getElementById('video-input'),
-    videoList: document.getElementById('video-list'),
-    emptyState: document.getElementById('empty-state'),
-    previewVideo: document.getElementById('preview-video'),
-    previewPlaceholder: document.getElementById('preview-placeholder'),
-    selectedName: document.getElementById('selected-name'),
-    statCount: document.getElementById('stat-count'),
-    uploadProgressLabel: document.getElementById('upload-progress-label'),
-    uploadProgressBar: document.getElementById('upload-progress-bar'),
-    outputProgressBar: document.getElementById('output-progress-bar'),
-    outputStatusText: document.getElementById('output-status-text'),
-    exportButton: document.getElementById('export-button'),
+    fileInput: document.getElementById('file-input'),
+    folderInput: document.getElementById('folder-input'),
+    dropZone: document.getElementById('drop-zone'),
+    list: document.getElementById('video-list'),
+    empty: document.getElementById('empty-state'),
+    clearButton: document.getElementById('clear-button'),
+    count: document.getElementById('stat-count'),
+    size: document.getElementById('stat-size'),
+    duplicates: document.getElementById('stat-duplicates'),
+    outputCount: document.getElementById('stat-output'),
+    dedupe: document.getElementById('dedupe-toggle'),
+    padding: document.getElementById('padding-select'),
+    start: document.getElementById('start-select'),
+    renamePreview: document.getElementById('rename-preview'),
+    sequenceOptions: document.getElementById('sequence-options'),
+    zip: document.getElementById('zip-toggle'),
+    zipNameField: document.getElementById('zip-name-field'),
+    zipName: document.getElementById('zip-name-input'),
+    convertButton: document.getElementById('convert-button'),
+    statusTitle: document.getElementById('status-title'),
+    statusText: document.getElementById('status-text'),
+    progressFile: document.getElementById('progress-file'),
+    progressLabel: document.getElementById('progress-label'),
+    progressBar: document.getElementById('progress-bar'),
+    resultPanel: document.getElementById('result-panel'),
+    resultList: document.getElementById('result-list'),
+    downloadAllButton: document.getElementById('download-all-button'),
+    toast: document.getElementById('toast'),
 };
 
-let ffmpegInstance = null;
-let ffmpegFetchFile = null;
+let ffmpeg = null;
+let fetchFile = null;
 let ffmpegLoadPromise = null;
 
 function formatBytes(bytes) {
-    if (!Number.isFinite(bytes)) {
-        return '-';
-    }
-
-    const units = ['B', 'KB', 'MB', 'GB'];
-    let size = bytes;
-    let unitIndex = 0;
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-        size /= 1024;
-        unitIndex += 1;
-    }
-
-    return `${size.toFixed(size >= 10 || unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
+    if (!bytes) return '0 B';
+    const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+    const value = bytes / (1024 ** index);
+    return `${value.toFixed(value >= 10 || index === 0 ? 0 : 1)} ${units[index]}`;
 }
 
-function formatDuration(duration) {
-    if (!Number.isFinite(duration) || duration <= 0) {
-        return '未取得';
-    }
-
-    const totalSeconds = Math.round(duration);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    return [hours, minutes, seconds]
-        .map((value, index) => (index === 0 ? value : String(value).padStart(2, '0')))
-        .join(':');
+function formatDuration(seconds) {
+    if (!Number.isFinite(seconds)) return '取得中';
+    const rounded = Math.round(seconds);
+    const hours = Math.floor(rounded / 3600);
+    const minutes = Math.floor((rounded % 3600) / 60);
+    const rest = rounded % 60;
+    return hours
+        ? `${hours}:${String(minutes).padStart(2, '0')}:${String(rest).padStart(2, '0')}`
+        : `${minutes}:${String(rest).padStart(2, '0')}`;
 }
 
-function inferExtension(file) {
-    const extension = file.name.includes('.') ? file.name.split('.').pop().toLowerCase() : '';
-    if (extension) {
-        return extension;
-    }
-
-    if (file.type.includes('quicktime')) {
-        return 'mov';
-    }
-
-    if (file.type.includes('x-matroska') || file.type.includes('matroska')) {
-        return 'mkv';
-    }
-
-    if (file.type.includes('x-msvideo') || file.type.includes('avi')) {
-        return 'avi';
-    }
-
-    return 'mp4';
+function isVideo(file) {
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    return file.type.startsWith('video/') || VIDEO_EXTENSIONS.has(extension);
 }
 
-function makeId(file) {
-    return `${file.name}-${file.size}-${file.lastModified}-${Math.random().toString(36).slice(2, 10)}`;
+function makeId() {
+    return crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
 }
 
-function sleep(ms) {
-    return new Promise((resolve) => window.setTimeout(resolve, ms));
+function getExtension(name) {
+    const extension = name.includes('.') ? name.split('.').pop().toLowerCase() : '';
+    return VIDEO_EXTENSIONS.has(extension) ? extension : 'mp4';
 }
 
-function refreshOrder() {
-    state.files.forEach((entry, index) => {
-        entry.order = index + 1;
-    });
+function getBaseName(name) {
+    return name.replace(/\.[^.]+$/, '') || 'video';
 }
 
-function dedupeBySize(files) {
-    const seenSizes = new Set();
-    const kept = [];
-    let removedCount = 0;
+function sanitizeFileName(name) {
+    return name.replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_').trim() || 'video';
+}
 
-    for (const entry of files) {
-        if (seenSizes.has(entry.file.size)) {
-            removedCount += 1;
-            continue;
-        }
+function uniqueName(candidate, usedNames) {
+    let name = candidate;
+    let suffix = 2;
+    const extensionIndex = candidate.lastIndexOf('.');
+    const base = extensionIndex > -1 ? candidate.slice(0, extensionIndex) : candidate;
+    const extension = extensionIndex > -1 ? candidate.slice(extensionIndex) : '';
+    while (usedNames.has(name.toLowerCase())) {
+        name = `${base}_${suffix}${extension}`;
+        suffix += 1;
+    }
+    usedNames.add(name.toLowerCase());
+    return name;
+}
 
-        seenSizes.add(entry.file.size);
-        kept.push(entry);
+async function calculateHash(file) {
+    const data = await file.arrayBuffer();
+    if (crypto.subtle) {
+        const digest = await crypto.subtle.digest('SHA-256', data);
+        return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
     }
 
-    return { kept, removedCount };
+    // file:// など SubtleCrypto が使えない環境でも、ファイル名に依存せず内容を比較する。
+    let hash = 2166136261;
+    for (const byte of new Uint8Array(data)) {
+        hash ^= byte;
+        hash = Math.imul(hash, 16777619);
+    }
+    return `${file.size}-${(hash >>> 0).toString(16).padStart(8, '0')}`;
+}
+
+function readDuration(entry) {
+    const video = document.createElement('video');
+    const url = URL.createObjectURL(entry.file);
+    video.preload = 'metadata';
+    video.onloadedmetadata = () => {
+        entry.duration = Number.isFinite(video.duration) ? video.duration : null;
+        URL.revokeObjectURL(url);
+        render();
+    };
+    video.onerror = () => {
+        entry.duration = null;
+        URL.revokeObjectURL(url);
+        render();
+    };
+    video.src = url;
 }
 
 async function addFiles(fileList) {
-    const acceptedFiles = Array.from(fileList).filter((file) => file.type.startsWith('video/'));
-    if (acceptedFiles.length === 0) {
+    if (state.busy) return;
+    const files = Array.from(fileList).filter(isVideo);
+    if (!files.length) {
+        showToast('対応する動画ファイルが見つかりませんでした。');
         return;
     }
 
-    state.uploadBusy = true;
-    state.uploadProgress = 0;
-    renderAll();
+    const entries = files.map((file) => ({
+        id: makeId(),
+        file,
+        duration: undefined,
+        hash: null,
+        hashing: true,
+    }));
+    state.files.push(...entries);
+    clearResults();
+    entries.forEach(readDuration);
+    render();
 
-    const nextFiles = [];
-    for (const file of acceptedFiles) {
-        nextFiles.push({
-            id: makeId(file),
-            file,
-            name: file.name,
-            duration: null,
-            durationReady: false,
-            durationLoading: false,
-            selected: false,
-            order: state.files.length + nextFiles.length + 1,
-        });
-
-        state.uploadProgress = Math.round((nextFiles.length / acceptedFiles.length) * 100);
-        renderAll();
-        await sleep(70);
-    }
-
-    state.files.push(...nextFiles);
-    state.uploadBusy = false;
-    state.uploadProgress = 100;
-
-    if (!state.selectedId && state.files.length > 0) {
-        selectFile(state.files[0].id);
-    }
-
-    refreshOrder();
-    renderAll();
-}
-
-function selectFile(id) {
-    state.selectedId = id;
-    state.files.forEach((entry) => {
-        entry.selected = entry.id === id;
-    });
-
-    renderPreview();
-    renderAll();
-}
-
-function ensureDuration(entry) {
-    if (entry.durationReady || entry.durationLoading) {
-        return;
-    }
-
-    entry.durationLoading = true;
-
-    const video = document.createElement('video');
-    video.preload = 'metadata';
-    const objectUrl = URL.createObjectURL(entry.file);
-
-    video.addEventListener('loadedmetadata', () => {
-        entry.duration = video.duration;
-        entry.durationReady = true;
-        entry.durationLoading = false;
-        URL.revokeObjectURL(objectUrl);
-        renderAll();
-        if (entry.id === state.selectedId) {
-            renderPreview();
+    await Promise.all(entries.map(async (entry) => {
+        try {
+            entry.hash = await calculateHash(entry.file);
+        } catch {
+            entry.hash = `${entry.file.size}-${entry.file.lastModified}`;
         }
-    }, { once: true });
+        entry.hashing = false;
+        render();
+    }));
 
-    video.addEventListener('error', () => {
-        entry.duration = null;
-        entry.durationReady = true;
-        entry.durationLoading = false;
-        URL.revokeObjectURL(objectUrl);
-        renderAll();
-    }, { once: true });
-
-    video.src = objectUrl;
+    showToast(`${entries.length}件の動画を追加しました。`);
 }
 
-function renderAll() {
-    refreshOrder();
+function duplicateIds() {
+    const seen = new Set();
+    const duplicates = new Set();
+    state.files.forEach((entry) => {
+        if (!entry.hash) return;
+        if (seen.has(entry.hash)) duplicates.add(entry.id);
+        else seen.add(entry.hash);
+    });
+    return duplicates;
+}
 
-    elements.statCount.textContent = String(state.files.length);
-    elements.emptyState.hidden = state.files.length > 0;
-    elements.uploadProgressLabel.textContent = `${state.uploadProgress}%`;
-    elements.uploadProgressBar.style.width = `${state.uploadProgress}%`;
-    elements.outputProgressBar.style.width = `${state.outputProgress}%`;
-    elements.outputStatusText.textContent = state.outputBusy
-        ? state.outputMessage
-        : state.outputProgress > 0
-            ? `出力完了: ${state.outputMessage}`
-            : state.outputMessage;
+function sourceFiles() {
+    if (!elements.dedupe.checked) return [...state.files];
+    const seen = new Set();
+    return state.files.filter((entry) => {
+        if (!entry.hash || !seen.has(entry.hash)) {
+            if (entry.hash) seen.add(entry.hash);
+            return true;
+        }
+        return false;
+    });
+}
 
-    renderList();
+function selectedRenameRule() {
+    return document.querySelector('input[name="rename-rule"]:checked').value;
+}
+
+function makeOutputNames(entries) {
+    const used = new Set();
+    const padding = Number(elements.padding.value);
+    const start = Number(elements.start.value);
+    return entries.map((entry, index) => {
+        const candidate = selectedRenameRule() === 'sequence'
+            ? `${String(index + start).padStart(padding, '0')}.mp4`
+            : `${sanitizeFileName(getBaseName(entry.file.name))}.mp4`;
+        return uniqueName(candidate, used);
+    });
+}
+
+function updateRenamePreview() {
+    const padding = Number(elements.padding.value);
+    const start = Number(elements.start.value);
+    const first = String(start).padStart(padding, '0');
+    const second = String(start + 1).padStart(padding, '0');
+    elements.renamePreview.textContent = `${first}.mp4, ${second}.mp4 ...`;
+}
+
+function createCell(text, className = '') {
+    const cell = document.createElement('td');
+    cell.textContent = text;
+    if (className) cell.className = className;
+    return cell;
 }
 
 function renderList() {
-    elements.videoList.innerHTML = '';
-
-    state.files.forEach((entry) => {
-        ensureDuration(entry);
-
+    elements.list.replaceChildren();
+    const duplicates = duplicateIds();
+    state.files.forEach((entry, index) => {
         const row = document.createElement('tr');
-        row.dataset.id = entry.id;
-        row.className = entry.selected ? 'is-selected' : '';
-
-        row.innerHTML = `
-            <td>${entry.name}</td>
-            <td>${formatBytes(entry.file.size)}</td>
-            <td>${formatDuration(entry.duration)}</td>
-        `;
-
-        row.addEventListener('click', () => selectFile(entry.id));
-        elements.videoList.appendChild(row);
+        row.append(
+            createCell(String(index + 1)),
+            createCell(entry.file.name, 'file-name'),
+            createCell(formatBytes(entry.file.size)),
+            createCell(entry.duration === null ? '未取得' : formatDuration(entry.duration)),
+            createCell(
+                entry.hashing ? '確認中' : duplicates.has(entry.id) ? '重複' : '準備完了',
+                duplicates.has(entry.id) ? 'duplicate-badge' : 'status-badge'
+            )
+        );
+        const actionCell = document.createElement('td');
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'remove-button';
+        remove.setAttribute('aria-label', `${entry.file.name}を削除`);
+        remove.textContent = '×';
+        remove.addEventListener('click', () => removeFile(entry.id));
+        actionCell.append(remove);
+        row.append(actionCell);
+        elements.list.append(row);
     });
 }
 
-function renderPreview() {
-    const current = state.files.find((entry) => entry.id === state.selectedId);
+function render() {
+    const duplicateCount = duplicateIds().size;
+    const outputCount = elements.dedupe.checked ? state.files.length - duplicateCount : state.files.length;
+    elements.count.textContent = String(state.files.length);
+    elements.size.textContent = formatBytes(state.files.reduce((sum, entry) => sum + entry.file.size, 0));
+    elements.duplicates.textContent = String(duplicateCount);
+    elements.outputCount.textContent = String(outputCount);
+    elements.empty.hidden = state.files.length > 0;
+    elements.clearButton.disabled = state.busy || state.files.length === 0;
+    elements.convertButton.disabled = state.busy || state.files.length === 0 || state.files.some((entry) => entry.hashing);
+    elements.convertButton.textContent = state.busy ? '変換中...' : 'MP4へ変換';
+    elements.sequenceOptions.hidden = selectedRenameRule() !== 'sequence';
+    elements.zipNameField.hidden = !elements.zip.checked;
+    elements.downloadAllButton.textContent = state.archive ? 'ZIPをダウンロード' : 'すべてダウンロード';
+    updateRenamePreview();
+    renderList();
+}
 
-    if (!current) {
-        if (state.previewObjectUrl) {
-            URL.revokeObjectURL(state.previewObjectUrl);
-            state.previewObjectUrl = null;
-        }
+function removeFile(id) {
+    if (state.busy) return;
+    state.files = state.files.filter((entry) => entry.id !== id);
+    clearResults();
+    render();
+}
 
-        elements.selectedName.textContent = '未選択';
-        elements.previewPlaceholder.hidden = false;
-        elements.previewVideo.hidden = true;
-        elements.previewVideo.removeAttribute('src');
-        elements.previewVideo.load();
-        return;
-    }
+function clearFiles() {
+    if (state.busy) return;
+    state.files = [];
+    clearResults();
+    setProgress(0, '待機中');
+    elements.statusTitle.textContent = '変換の準備ができています';
+    elements.statusText.textContent = '動画を追加すると変換を開始できます。';
+    render();
+}
 
-    if (state.previewObjectUrl) {
-        URL.revokeObjectURL(state.previewObjectUrl);
-    }
+function clearResults() {
+    state.results.forEach((result) => URL.revokeObjectURL(result.url));
+    if (state.archive?.url) URL.revokeObjectURL(state.archive.url);
+    state.results = [];
+    state.archive = null;
+    elements.resultPanel.hidden = true;
+    elements.resultList.replaceChildren();
+}
 
-    state.previewObjectUrl = URL.createObjectURL(current.file);
-    elements.previewVideo.src = state.previewObjectUrl;
-    elements.previewVideo.hidden = false;
-    elements.previewPlaceholder.hidden = true;
-    elements.selectedName.textContent = current.name;
+function setProgress(percent, text) {
+    elements.progressBar.style.width = `${percent}%`;
+    elements.progressLabel.textContent = `${percent}%`;
+    elements.progressFile.textContent = text;
+}
+
+function showToast(message) {
+    window.clearTimeout(state.toastTimer);
+    elements.toast.textContent = message;
+    elements.toast.classList.add('is-visible');
+    state.toastTimer = window.setTimeout(() => elements.toast.classList.remove('is-visible'), 2600);
 }
 
 async function loadFfmpeg() {
     if (ffmpegLoadPromise) {
-        return ffmpegLoadPromise;
+        await ffmpegLoadPromise;
+        return ffmpeg;
     }
-
-    if (!window.FFmpeg) {
-        throw new Error('FFmpeg ライブラリを読み込めませんでした。');
-    }
-
-    const { createFFmpeg, fetchFile } = window.FFmpeg;
-    ffmpegInstance = createFFmpeg({
-        log: false,
-    });
-    ffmpegFetchFile = fetchFile;
-    ffmpegLoadPromise = ffmpegInstance.load();
+    if (!window.FFmpeg) throw new Error('FFmpegライブラリを読み込めませんでした。');
+    const api = window.FFmpeg;
+    ffmpeg = api.createFFmpeg({ log: false });
+    fetchFile = api.fetchFile;
+    ffmpegLoadPromise = ffmpeg.load();
     await ffmpegLoadPromise;
-    return ffmpegInstance;
+    return ffmpeg;
 }
 
-function downloadBlob(blob, fileName) {
+function downloadBlob(blob, name) {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = fileName;
-    document.body.appendChild(anchor);
+    anchor.download = name;
+    document.body.append(anchor);
     anchor.click();
     anchor.remove();
-    URL.revokeObjectURL(url);
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-async function runOutput() {
-    if (state.files.length === 0 || state.outputBusy) {
-        return;
-    }
+function triggerResultDownload(result) {
+    const anchor = document.createElement('a');
+    anchor.href = result.url;
+    anchor.download = result.name;
+    document.body.append(anchor);
+    anchor.click();
+    anchor.remove();
+}
 
-    state.outputBusy = true;
-    state.outputProgress = 0;
-    state.outputMessage = '重複削除を実行しています。';
-    renderAll();
+function renderResults() {
+    elements.resultList.replaceChildren();
+    state.results.forEach((result) => {
+        const item = document.createElement('div');
+        item.className = 'result-item';
+        const name = document.createElement('span');
+        name.textContent = result.name;
+        const size = document.createElement('small');
+        size.textContent = formatBytes(result.blob.size);
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = '保存';
+        button.addEventListener('click', () => triggerResultDownload(result));
+        item.append(name, size, button);
+        elements.resultList.append(item);
+    });
+    elements.resultPanel.hidden = false;
+}
 
-    const { kept, removedCount } = dedupeBySize(state.files);
-    const sourceFiles = kept;
+async function buildArchive() {
+    if (!window.JSZip) throw new Error('ZIPライブラリを読み込めませんでした。');
+    const zip = new window.JSZip();
+    state.results.forEach((result) => zip.file(result.name, result.blob));
+    const blob = await zip.generateAsync({ type: 'blob' }, (metadata) => {
+        elements.statusText.textContent = `ZIPを作成中: ${Math.round(metadata.percent)}%`;
+    });
+    const baseName = sanitizeFileName(elements.zipName.value.replace(/\.zip$/i, '')) || 'converted-videos';
+    state.archive = { blob, name: `${baseName}.zip`, url: URL.createObjectURL(blob) };
+}
 
-    if (sourceFiles.length === 0) {
-        state.outputBusy = false;
-        state.outputProgress = 0;
-        state.outputMessage = '出力できる動画がありません。';
-        renderAll();
-        return;
-    }
+async function convertVideos() {
+    if (state.busy || !state.files.length) return;
+    state.busy = true;
+    clearResults();
+    render();
+    elements.statusTitle.textContent = '変換しています';
+    elements.statusText.textContent = '初回は変換エンジンの読み込みに時間がかかります。';
+    setProgress(0, 'エンジンを準備中');
 
-    state.outputMessage = removedCount > 0
-        ? `重複を ${removedCount} 件削除しました。変換を開始しています。`
-        : '重複なし。変換を開始しています。';
-    renderAll();
-
-    let ffmpeg;
     try {
-        ffmpeg = await loadFfmpeg();
-    } catch (error) {
-        state.outputBusy = false;
-        state.outputMessage = error.message || 'FFmpeg の初期化に失敗しました。';
-        renderAll();
-        return;
-    }
+        const engine = await loadFfmpeg();
+        const entries = sourceFiles();
+        const names = makeOutputNames(entries);
+        let failureCount = 0;
 
-    const zip = new JSZip();
-    const totalFiles = sourceFiles.length;
+        for (let index = 0; index < entries.length; index += 1) {
+            const entry = entries[index];
+            const inputName = `input_${index}_${Date.now()}.${getExtension(entry.file.name)}`;
+            const outputFsName = `output_${index}_${Date.now()}.mp4`;
+            const percentBefore = Math.round((index / entries.length) * 90);
+            setProgress(percentBefore, `${index + 1}/${entries.length} ${entry.file.name}`);
+            elements.statusText.textContent = `${entry.file.name} を ${names[index]} に変換中`;
 
-    for (let index = 0; index < sourceFiles.length; index += 1) {
-        const entry = sourceFiles[index];
-        const inputExt = inferExtension(entry.file);
-        const inputName = `input_${index + 1}.${inputExt}`;
-        const outputName = `${String(index + 1).padStart(5, '0')}.mp4`;
-
-        state.outputMessage = `変換中: ${entry.name} -> ${outputName}`;
-        renderAll();
-
-        try {
-            ffmpeg.FS('writeFile', inputName, await ffmpegFetchFile(entry.file));
-            await ffmpeg.run(
-                '-i', inputName,
-                '-c:v', 'libx264',
-                '-preset', 'veryfast',
-                '-crf', '28',
-                '-pix_fmt', 'yuv420p',
-                '-movflags', '+faststart',
-                '-c:a', 'aac',
-                '-b:a', '128k',
-                outputName
-            );
-
-            const outputData = ffmpeg.FS('readFile', outputName);
-            zip.file(outputName, outputData);
-            ffmpeg.FS('unlink', inputName);
-            ffmpeg.FS('unlink', outputName);
-        } catch (error) {
-            state.outputMessage = `変換に失敗したファイルがあります: ${entry.name}`;
-            renderAll();
+            try {
+                engine.FS('writeFile', inputName, await fetchFile(entry.file));
+                await engine.run(
+                    '-i', inputName,
+                    '-c:v', 'libx264',
+                    '-preset', 'veryfast',
+                    '-crf', '26',
+                    '-pix_fmt', 'yuv420p',
+                    '-movflags', '+faststart',
+                    '-c:a', 'aac',
+                    '-b:a', '128k',
+                    outputFsName
+                );
+                const data = engine.FS('readFile', outputFsName);
+                const blob = new Blob([data.buffer], { type: 'video/mp4' });
+                state.results.push({ name: names[index], blob, url: URL.createObjectURL(blob) });
+            } catch (error) {
+                console.error(error);
+                failureCount += 1;
+            } finally {
+                for (const fsName of [inputName, outputFsName]) {
+                    try { engine.FS('unlink', fsName); } catch { /* File may not exist after a failed conversion. */ }
+                }
+            }
+            setProgress(Math.round(((index + 1) / entries.length) * 90), `${index + 1}/${entries.length} 完了`);
         }
 
-        state.outputProgress = Math.round(((index + 1) / totalFiles) * 100);
-        renderAll();
+        if (!state.results.length) throw new Error('すべての動画の変換に失敗しました。');
+        if (elements.zip.checked) {
+            setProgress(95, 'ZIPを作成中');
+            await buildArchive();
+        }
+
+        setProgress(100, '完了');
+        elements.statusTitle.textContent = '変換が完了しました';
+        elements.statusText.textContent = failureCount
+            ? `${state.results.length}件完了、${failureCount}件失敗しました。`
+            : `${state.results.length}件の動画を変換しました。`;
+        renderResults();
+        if (state.archive) triggerResultDownload(state.archive);
+        showToast('変換が完了しました。');
+    } catch (error) {
+        console.error(error);
+        elements.statusTitle.textContent = '変換できませんでした';
+        elements.statusText.textContent = error.message || '変換中にエラーが発生しました。';
+        setProgress(0, 'エラー');
+        showToast(elements.statusText.textContent);
+    } finally {
+        state.busy = false;
+        render();
     }
-
-    state.outputMessage = 'ZIP を生成しています。';
-    renderAll();
-
-    const zipBlob = await zip.generateAsync({ type: 'blob' });
-    downloadBlob(zipBlob, 'video-output.zip');
-
-    state.outputBusy = false;
-    state.outputProgress = 100;
-    state.outputMessage = 'ZIP をダウンロードしました。';
-    renderAll();
 }
 
-elements.input.addEventListener('change', (event) => {
-    void addFiles(event.target.files || []);
-    event.target.value = '';
-});
-
-elements.exportButton.addEventListener('click', () => {
-    void runOutput();
-});
-
-elements.previewVideo.addEventListener('click', () => {
-    if (elements.previewVideo.paused) {
-        void elements.previewVideo.play();
-    } else {
-        elements.previewVideo.pause();
+function downloadAll() {
+    if (state.archive) {
+        triggerResultDownload(state.archive);
+        return;
     }
+    state.results.forEach((result, index) => {
+        window.setTimeout(() => triggerResultDownload(result), index * 180);
+    });
+}
+
+[elements.fileInput, elements.folderInput].forEach((input) => {
+    input.addEventListener('change', (event) => {
+        void addFiles(event.target.files);
+        event.target.value = '';
+    });
 });
 
-renderAll();
-renderPreview();
+['dragenter', 'dragover'].forEach((eventName) => {
+    elements.dropZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        elements.dropZone.classList.add('is-dragging');
+    });
+});
+
+['dragleave', 'drop'].forEach((eventName) => {
+    elements.dropZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        elements.dropZone.classList.remove('is-dragging');
+    });
+});
+
+elements.dropZone.addEventListener('drop', (event) => void addFiles(event.dataTransfer.files));
+elements.clearButton.addEventListener('click', clearFiles);
+elements.convertButton.addEventListener('click', () => void convertVideos());
+elements.downloadAllButton.addEventListener('click', downloadAll);
+elements.dedupe.addEventListener('change', () => { clearResults(); render(); });
+elements.zip.addEventListener('change', () => { clearResults(); render(); });
+elements.padding.addEventListener('change', () => { clearResults(); render(); });
+elements.start.addEventListener('change', () => { clearResults(); render(); });
+document.querySelectorAll('input[name="rename-rule"]').forEach((radio) => {
+    radio.addEventListener('change', () => { clearResults(); render(); });
+});
+
+render();
