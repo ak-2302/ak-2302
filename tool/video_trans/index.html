@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,13 @@
     <title>Video Batch Converter</title>
     <link rel="stylesheet" href="./index.css">
 </head>
+
 <body>
     <main class="app-shell">
         <header class="hero">
             <div>
                 <p class="eyebrow">LOCAL VIDEO TOOL</p>
-                <h1>動画を、まとめて<br><span>MP4へ。</span></h1>
-                <p class="hero-copy">アップロード、重複整理、リネーム、変換、ダウンロードまでブラウザ内で完結します。</p>
+                <h1>mp4変換</h1>
             </div>
             <div class="privacy-note">
                 <span class="privacy-dot" aria-hidden="true"></span>
@@ -139,8 +140,11 @@
                 <p id="status-text">動画を追加すると変換を開始できます。</p>
             </div>
             <div class="progress-area">
-                <div class="progress-meta"><span id="progress-file">待機中</span><strong id="progress-label">0%</strong></div>
-                <div class="progress-track"><div id="progress-bar"></div></div>
+                <div class="progress-meta"><span id="progress-file">待機中</span><strong id="progress-label">0%</strong>
+                </div>
+                <div class="progress-track">
+                    <div id="progress-bar"></div>
+                </div>
             </div>
             <button id="convert-button" class="button button-accent" type="button" disabled>MP4へ変換</button>
         </section>
@@ -163,4 +167,5 @@
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="./index.js"></script>
 </body>
+
 </html>
