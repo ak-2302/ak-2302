@@ -163,6 +163,7 @@
         sphere.rotation.set(index * 0.45, index * 0.72, -0.12);
         sphere.userData.label = item.label;
         sphere.renderOrder = 0;
+        sphere._physijs.disableDeactivation = true;
         sphere.setDamping(0.16, 0.25);
         scene.add(sphere);
         spheres.push(sphere);

@@ -318,10 +318,18 @@ public_functions.setFixedTimeStep = function( description ) {
 };
 
 public_functions.setGravity = function( description ) {
+	var object_id;
+
 	_vec3_1.setX(description.x);
 	_vec3_1.setY(description.y);
 	_vec3_1.setZ(description.z);
 	world.setGravity(_vec3_1);
+
+	for ( object_id in _objects ) {
+		if ( _objects.hasOwnProperty( object_id ) ) {
+			_objects[ object_id ].activate( true );
+		}
+	}
 };
 
 public_functions.addObject = function( description ) {
@@ -395,6 +403,10 @@ if ( description.children ) {
 	}
 
 	world.addRigidBody( body );
+	if ( description.mass > 0 && description.disableDeactivation ) {
+		body.setSleepingThresholds( 0, 0 );
+		body.setActivationState( 4 );
+	}
 
 	body.id = description.id;
 	_objects[ body.id ] = body;
