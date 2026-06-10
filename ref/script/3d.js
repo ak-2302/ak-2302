@@ -147,7 +147,7 @@
         const baseMaterial = new THREE.MeshPhongMaterial({
             color: 0xffffff,
             transparent: true,
-            opacity: 0.78,
+            opacity: 0.92,
             shininess: 90,
             specular: 0xffffff,
             depthWrite: false
