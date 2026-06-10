@@ -3,101 +3,136 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ak-2302のホームページ">
-    <meta name="theme-color" content="#111210">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="ak-2302のポートフォリオ。物理演算で動く球から各コンテンツを閲覧できます。">
+    <meta name="theme-color" content="#090909">
     <link rel="stylesheet" href="./ref/style/reset.css">
     <link rel="stylesheet" href="./ref/style/style.css">
-    <title>ak-2302</title>
+    <link rel="stylesheet" href="./ref/style/3d.css">
+    <title>ak-2302 / Portfolio</title>
 </head>
 
 <body>
-    <header class="site-header">
-        <a class="site-name" href="#top">ak-2302</a>
-        <nav aria-label="メインナビゲーション">
-            <a href="#accounts">Accounts</a>
-            <a href="#tools">Tools</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
-
-    <main>
-        <section class="hero" id="top">
-            <div class="hero-grid" aria-hidden="true"></div>
-            <p class="hero-label">Personal website</p>
-            <h1>ak-2302</h1>
-            <p class="hero-location">Japan / <span id="currentTime">--:--</span></p>
-            <a class="scroll-link" href="#accounts">Scroll <span>↓</span></a>
-        </section>
-
-        <section class="section" id="accounts">
-            <div class="section-title reveal">
-                <p>01</p>
-                <h2>Accounts</h2>
-            </div>
-            <div class="link-list reveal">
-                <a href="https://github.com/ak-2302" target="_blank" rel="noreferrer">
-                    <span>GitHub</span><small>github.com/ak-2302</small><b>↗</b>
-                </a>
-                <a href="https://qiita.com/ak_2302" target="_blank" rel="noreferrer">
-                    <span>Qiita</span><small>qiita.com/ak_2302</small><b>↗</b>
-                </a>
-                <a href="https://zenn.dev/ak_2302" target="_blank" rel="noreferrer">
-                    <span>Zenn</span><small>zenn.dev/ak_2302</small><b>↗</b>
-                </a>
-                <a href="https://x.com/ak_2302" target="_blank" rel="noreferrer">
-                    <span>X</span><small>x.com/ak_2302</small><b>↗</b>
-                </a>
-            </div>
-        </section>
-
-        <section class="section tools-section" id="tools">
-            <div class="section-title reveal">
-                <p>02</p>
-                <h2>Tools</h2>
-            </div>
-            <a class="tools-link reveal" href="./tool/">
-                <div>
-                    <span>Tool collection</span>
-                    <small>作成したWebツールの一覧</small>
-                </div>
-                <b>View all tools <span>↗</span></b>
+    <main class="site-shell">
+        <header class="site-header">
+            <a class="site-logo" href="./" aria-label="ak-2302 ホーム">
+                <span class="site-logo__mark"></span>
+                <span>ak-2302</span>
             </a>
+            <p class="site-header__status"><span></span> Interactive portfolio</p>
+        </header>
+
+        <section class="hero" aria-labelledby="pageTitle">
+            <div class="hero__copy">
+                <p class="eyebrow">Personal website / 2026</p>
+                <p class="hero__description">
+                    4つの球が、それぞれの入り口です。<br>
+                    触れて、転がして、選んでください。
+                </p>
+            </div>
+
+            <div class="stage-wrap">
+                <div id="physicsStage" class="physics-stage" aria-label="物理演算で動くメニュー">
+                    <div class="stage-loader" id="stageLoader">
+                        <span></span>
+                        <p>INITIALIZING PHYSICS</p>
+                    </div>
+                    <noscript>このコンテンツの表示にはJavaScriptが必要です。</noscript>
+                </div>
+                <div class="stage-hint" aria-hidden="true">
+                    <p><span class="hint-icon hint-icon--drag"></span> Drag to orbit</p>
+                    <p><span class="hint-icon hint-icon--zoom"></span> Pinch to zoom</p>
+                </div>
+            </div>
+
+            <p class="hero__index" aria-hidden="true">01 — 04</p>
+            <p class="hero__scroll" aria-hidden="true">SELECT A SPHERE <span>↗</span></p>
         </section>
 
-        <section class="section contact-section" id="contact">
-            <div class="section-title reveal">
-                <p>03</p>
-                <h2>Contact</h2>
-            </div>
-            <form class="contact-form reveal" id="contactForm">
-                <label>
-                    <span>Name</span>
-                    <input type="text" id="contactName" name="name" autocomplete="name" maxlength="80" required>
-                </label>
-                <label>
-                    <span>Email</span>
-                    <input type="email" id="contactEmail" name="email" autocomplete="email" maxlength="254" required>
-                </label>
-                <label class="message-field">
-                    <span>Message</span>
-                    <textarea id="contactMessage" name="message" rows="6" maxlength="1800" required></textarea>
-                </label>
-                <div class="form-footer">
-                    <p class="form-status" id="formStatus" aria-live="polite"></p>
-                    <button id="contactSend" type="submit">Send message <span>↗</span></button>
-                </div>
-            </form>
-        </section>
+        <footer class="site-footer">
+            <p>© <span id="currentYear"></span> ak-2302</p>
+            <p>THREE.JS × PHYSIJS</p>
+            <time id="currentTime">JST --:--</time>
+        </footer>
     </main>
 
-    <footer>
-        <p>© <span id="currentYear"></span> ak-2302</p>
-        <a href="#top">Back to top ↑</a>
-    </footer>
+    <div class="modal" id="contentModal" aria-hidden="true">
+        <button class="modal__backdrop" type="button" data-modal-close tabindex="-1" aria-label="閉じる"></button>
+        <section class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal__header">
+                <p id="modalNumber">01 / 04</p>
+                <button class="modal__close" type="button" data-modal-close aria-label="閉じる">
+                    <span></span><span></span>
+                </button>
+            </div>
+            <div class="modal__body" id="modalContent"></div>
+        </section>
+    </div>
 
+    <template id="profileContent">
+        <p class="modal__label">About</p>
+        <h2 data-modal-title>PROFILE</h2>
+        <p class="modal__lead">Webの技術と、つくることを楽しんでいます。</p>
+        <div class="profile-grid">
+            <dl>
+                <dt>Name</dt>
+                <dd>ak-2302</dd>
+            </dl>
+            <dl>
+                <dt>Location</dt>
+                <dd>Japan</dd>
+            </dl>
+            <dl>
+                <dt>Focus</dt>
+                <dd>Web Development</dd>
+            </dl>
+        </div>
+    </template>
+
+    <template id="toolContent">
+        <p class="modal__label">Works</p>
+        <h2 data-modal-title>TOOL</h2>
+        <p class="modal__lead">ブラウザで手軽に使える、小さな道具をつくっています。</p>
+        <a class="feature-link" href="./tool/">
+            <span><small>Collection</small>Web tools</span>
+            <b>VIEW ALL <i>↗</i></b>
+        </a>
+    </template>
+
+    <template id="linkContent">
+        <p class="modal__label">Social</p>
+        <h2 data-modal-title>LINK</h2>
+        <nav class="social-links" aria-label="ソーシャルリンク">
+            <a href="https://github.com/ak-2302" target="_blank"
+                rel="noreferrer"><span>GitHub</span><small>github.com/ak-2302</small><b>↗</b></a>
+            <a href="https://qiita.com/ak_2302" target="_blank"
+                rel="noreferrer"><span>Qiita</span><small>qiita.com/ak_2302</small><b>↗</b></a>
+            <a href="https://zenn.dev/ak_2302" target="_blank"
+                rel="noreferrer"><span>Zenn</span><small>zenn.dev/ak_2302</small><b>↗</b></a>
+            <a href="https://x.com/ak_2302" target="_blank"
+                rel="noreferrer"><span>X</span><small>x.com/ak_2302</small><b>↗</b></a>
+        </nav>
+    </template>
+
+    <template id="contactContent">
+        <p class="modal__label">Message</p>
+        <h2 data-modal-title>CONTACT</h2>
+        <form class="contact-form" id="contactForm">
+            <label><span>Name</span><input type="text" name="name" autocomplete="name" maxlength="80" required></label>
+            <label><span>Email</span><input type="email" name="email" autocomplete="email" maxlength="254"
+                    required></label>
+            <label><span>Message</span><textarea name="message" rows="4" maxlength="1800" required></textarea></label>
+            <div class="contact-form__footer">
+                <p id="formStatus" aria-live="polite"></p>
+                <button id="contactSend" type="submit">SEND MESSAGE <span>↗</span></button>
+            </div>
+        </form>
+    </template>
+
+    <script src="./ref/script/vendor/three.min.js"></script>
+    <script src="./ref/script/vendor/physi.js"></script>
+    <script src="./ref/script/3d.js"></script>
     <script src="./ref/script/script.js"></script>
-    <script src="./ref/script/contact.js"></script>
 </body>
 
 </html>

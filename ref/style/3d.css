@@ -1,0 +1,166 @@
+.stage-wrap {
+    height: min(78vh, 760px);
+    max-height: calc(100% - 30px);
+    max-width: 900px;
+    position: absolute;
+    right: clamp(-80px, 1vw, 16px);
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(65vw, 900px);
+    z-index: 1;
+}
+
+.physics-stage {
+    cursor: grab;
+    height: 100%;
+    position: relative;
+    touch-action: none;
+    width: 100%;
+}
+
+.physics-stage.is-dragging {
+    cursor: grabbing;
+}
+
+.physics-stage canvas {
+    display: block;
+    height: 100%;
+    outline: none;
+    width: 100%;
+}
+
+.stage-loader {
+    align-items: center;
+    color: #747470;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--mono);
+    font-size: 7px;
+    gap: 13px;
+    inset: 0;
+    justify-content: center;
+    letter-spacing: .14em;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity .4s ease;
+}
+
+.stage-loader span {
+    border: 1px solid #343432;
+    border-radius: 50%;
+    height: 26px;
+    position: relative;
+    width: 26px;
+}
+
+.stage-loader span::after {
+    animation: loader-spin .9s linear infinite;
+    border: 1px solid transparent;
+    border-radius: inherit;
+    border-top-color: var(--accent);
+    content: "";
+    inset: -1px;
+    position: absolute;
+}
+
+.stage-loader.is-hidden {
+    opacity: 0;
+}
+
+.stage-loader.is-error span {
+    animation: none;
+    border-color: #777;
+    border-radius: 0;
+}
+
+.stage-loader.is-error span::after {
+    display: none;
+}
+
+.stage-hint {
+    bottom: 18px;
+    display: flex;
+    font-family: var(--mono);
+    font-size: 7px;
+    gap: 22px;
+    letter-spacing: .08em;
+    position: absolute;
+    right: 18%;
+    text-transform: uppercase;
+}
+
+.stage-hint p {
+    align-items: center;
+    color: #676763;
+    display: flex;
+    gap: 7px;
+}
+
+.hint-icon {
+    border: 1px solid #555552;
+    display: block;
+    height: 12px;
+    position: relative;
+    width: 12px;
+}
+
+.hint-icon--drag {
+    border-radius: 50%;
+}
+
+.hint-icon--drag::after {
+    background: var(--accent);
+    border-radius: 50%;
+    content: "";
+    height: 2px;
+    inset: 4px;
+    position: absolute;
+    width: 2px;
+}
+
+.hint-icon--zoom::before,
+.hint-icon--zoom::after {
+    background: #777;
+    content: "";
+    left: 2px;
+    position: absolute;
+    top: 5px;
+    width: 6px;
+    height: 1px;
+}
+
+.hint-icon--zoom::after {
+    transform: rotate(90deg);
+}
+
+@keyframes loader-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 760px) {
+    .stage-wrap {
+        bottom: -8%;
+        height: 72%;
+        max-height: none;
+        right: 0;
+        top: auto;
+        transform: none;
+        width: 100%;
+    }
+
+    .stage-hint {
+        bottom: 12px;
+        right: 8%;
+    }
+}
+
+@media (max-width: 420px) {
+    .stage-wrap {
+        bottom: -3%;
+        height: 68%;
+    }
+
+    .stage-hint p:last-child {
+        display: none;
+    }
+}

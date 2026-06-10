@@ -2,16 +2,21 @@
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
+html, body, div, span, h1, h2, p, a, small, b, i, dl, dt, dd,
+form, label, input, textarea, button, header, main, section, footer, nav {
+    border: 0;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
 }
 
-body, h1, h2, h3, p, dl, dd {
-    margin: 0;
+html {
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
-    min-width: 320px;
+    line-height: 1;
 }
 
 a {
@@ -20,10 +25,10 @@ a {
 }
 
 button, input, textarea {
+    color: inherit;
     font: inherit;
 }
 
-img, svg {
-    display: block;
-    max-width: 100%;
+button {
+    background: none;
 }
