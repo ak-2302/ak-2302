@@ -139,11 +139,11 @@
 
 @media (max-width: 760px) {
     .stage-wrap {
-        bottom: -8%;
-        height: 72%;
+        bottom: auto;
+        height: calc(100% - 140px);
         max-height: none;
         right: 0;
-        top: auto;
+        top: 140px;
         transform: none;
         width: 100%;
     }
@@ -156,8 +156,9 @@
 
 @media (max-width: 420px) {
     .stage-wrap {
-        bottom: -3%;
-        height: 68%;
+        bottom: auto;
+        height: calc(100% - 132px);
+        top: 132px;
     }
 
     .stage-hint p:last-child {

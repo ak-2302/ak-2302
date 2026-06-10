@@ -486,7 +486,10 @@ body {
     }
 
     .hero__description {
-        display: none;
+        display: block;
+        font-size: 10px;
+        line-height: 1.8;
+        margin-top: 18px;
     }
 
     .site-footer p:nth-child(2) {

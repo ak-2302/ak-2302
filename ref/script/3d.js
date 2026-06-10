@@ -24,6 +24,9 @@
     const sphereLabels = [];
     const cameraDirection = new THREE.Vector3();
     const localCameraPosition = new THREE.Vector3();
+    const worldGravity = new THREE.Vector3(0, -5.5, 0);
+    const localGravity = new THREE.Vector3();
+    const inverseBoxRotation = new THREE.Quaternion();
     const activePointers = new Map();
     const orbit = { theta: 0.58, phi: 1.18, radius: 17 };
     const boxRotation = { x: 0, y: 0 };
@@ -39,21 +42,21 @@
     renderer.domElement.setAttribute("role", "img");
     container.appendChild(renderer.domElement);
 
-    scene.setGravity(new THREE.Vector3(0, -5.5, 0));
+    scene.setGravity(worldGravity);
     scene.add(new THREE.AmbientLight(0xffffff, 0.62));
 
     const keyLight = new THREE.DirectionalLight(0xffffff, 1.05);
     keyLight.position.set(-5, 9, 8);
     scene.add(keyLight);
 
-    const rimLight = new THREE.PointLight(0xdfff00, 1.5, 22);
+    const rimLight = new THREE.PointLight(0xffffff, 0.9, 22);
     rimLight.position.set(6, -1, 4);
     scene.add(rimLight);
 
     const boxSize = { x: 7.36, y: 7.36, z: 7.36 };
     const wallThickness = 0.2;
     const wallMaterial = Physijs.createMaterial(
-        new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 }),
+        new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }),
         0.72,
         0.82
     );
@@ -99,40 +102,15 @@
             depthWrite: false
         })
     );
+    enclosure.renderOrder = -2;
     scene.add(enclosure);
 
     const edges = new THREE.LineSegments(
         new THREE.EdgesGeometry(enclosure.geometry),
         new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.2 })
     );
+    edges.renderOrder = -1;
     scene.add(edges);
-
-    function createSphereTexture(inverse) {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        const size = 512;
-        canvas.width = size;
-        canvas.height = size;
-
-        context.fillStyle = inverse ? "#dfff00" : "#e9e9e4";
-        context.fillRect(0, 0, size, size);
-        context.strokeStyle = inverse ? "rgba(0,0,0,.12)" : "rgba(0,0,0,.07)";
-        context.lineWidth = 2;
-        for (let line = 64; line < size; line += 64) {
-            context.beginPath();
-            context.moveTo(line, 0);
-            context.lineTo(line, size);
-            context.stroke();
-            context.beginPath();
-            context.moveTo(0, line);
-            context.lineTo(size, line);
-            context.stroke();
-        }
-
-        const texture = new THREE.CanvasTexture(canvas);
-        texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-        return texture;
-    }
 
     function createSphereLabel(label, radius) {
         const canvas = document.createElement("canvas");
@@ -159,17 +137,20 @@
     }
 
     const sphereData = [
-        { label: "PROFILE", position: [-2, 2.24, 0.64], radius: 1.25, inverse: true },
-        { label: "TOOL", position: [1.92, 1.68, -1.12], radius: 1.15, inverse: false },
-        { label: "LINK", position: [-0.96, -0.96, -1.04], radius: 1.1, inverse: false },
-        { label: "CONTACT", position: [1.84, -1.2, 0.96], radius: 1.3, inverse: false }
+        { label: "PROFILE", position: [-2, 2.24, 0.64], radius: 1.25 },
+        { label: "TOOL", position: [1.92, 1.68, -1.12], radius: 1.15 },
+        { label: "LINK", position: [-0.96, -0.96, -1.04], radius: 1.1 },
+        { label: "CONTACT", position: [1.84, -1.2, 0.96], radius: 1.3 }
     ];
 
     sphereData.forEach((item, index) => {
         const baseMaterial = new THREE.MeshPhongMaterial({
-            map: createSphereTexture(item.inverse),
-            shininess: 34,
-            specular: 0x777777
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.78,
+            shininess: 90,
+            specular: 0xffffff,
+            depthWrite: false
         });
         const material = Physijs.createMaterial(baseMaterial, 0.6, 0.88);
         const sphere = new Physijs.SphereMesh(
@@ -181,6 +162,7 @@
         sphere.position.set(item.position[0], item.position[1], item.position[2]);
         sphere.rotation.set(index * 0.45, index * 0.72, -0.12);
         sphere.userData.label = item.label;
+        sphere.renderOrder = 0;
         sphere.setDamping(0.16, 0.25);
         scene.add(sphere);
         spheres.push(sphere);
@@ -207,6 +189,14 @@
             orbit.radius * sinPhi * Math.cos(orbit.theta)
         );
         camera.lookAt(scene.position);
+    }
+
+    function updateBoxRotation() {
+        scene.rotation.set(boxRotation.x, boxRotation.y, 0, "YXZ");
+        scene.updateMatrixWorld(true);
+        inverseBoxRotation.copy(scene.quaternion).inverse();
+        localGravity.copy(worldGravity).applyQuaternion(inverseBoxRotation);
+        scene.setGravity(localGravity);
     }
 
     function resize() {
@@ -274,7 +264,7 @@
         if (drag.moved && !drag.selected) {
             boxRotation.x = THREE.Math.clamp(drag.rotationX + deltaY * 0.006, -1.15, 1.15);
             boxRotation.y = drag.rotationY + deltaX * 0.007;
-            scene.rotation.set(boxRotation.x, boxRotation.y, 0, "YXZ");
+            updateBoxRotation();
         }
     });
 
