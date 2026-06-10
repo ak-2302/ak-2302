@@ -23,9 +23,11 @@
     const spheres = [];
     const sphereLabels = [];
     const cameraDirection = new THREE.Vector3();
+    const localCameraPosition = new THREE.Vector3();
     const activePointers = new Map();
     const orbit = { theta: 0.58, phi: 1.18, radius: 17 };
-    const drag = { moved: false, selected: null, startX: 0, startY: 0, theta: 0, phi: 0 };
+    const boxRotation = { x: 0, y: 0 };
+    const drag = { moved: false, selected: null, startX: 0, startY: 0, rotationX: 0, rotationY: 0 };
     let pinchDistance = 0;
     let simulationRunning = true;
     let hasSimulated = false;
@@ -48,8 +50,8 @@
     rimLight.position.set(6, -1, 4);
     scene.add(rimLight);
 
-    const boxSize = { x: 9.2, y: 9.2, z: 9.2 };
-    const wallThickness = 0.25;
+    const boxSize = { x: 7.36, y: 7.36, z: 7.36 };
+    const wallThickness = 0.2;
     const wallMaterial = Physijs.createMaterial(
         new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 }),
         0.72,
@@ -157,10 +159,10 @@
     }
 
     const sphereData = [
-        { label: "PROFILE", position: [-2.5, 2.8, 0.8], radius: 1.25, inverse: true },
-        { label: "TOOL", position: [2.4, 2.1, -1.4], radius: 1.15, inverse: false },
-        { label: "LINK", position: [-1.2, -1.2, -1.3], radius: 1.1, inverse: false },
-        { label: "CONTACT", position: [2.3, -1.5, 1.2], radius: 1.3, inverse: false }
+        { label: "PROFILE", position: [-2, 2.24, 0.64], radius: 1.25, inverse: true },
+        { label: "TOOL", position: [1.92, 1.68, -1.12], radius: 1.15, inverse: false },
+        { label: "LINK", position: [-0.96, -0.96, -1.04], radius: 1.1, inverse: false },
+        { label: "CONTACT", position: [1.84, -1.2, 0.96], radius: 1.3, inverse: false }
     ];
 
     sphereData.forEach((item, index) => {
@@ -241,8 +243,8 @@
         activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
         drag.startX = event.clientX;
         drag.startY = event.clientY;
-        drag.theta = orbit.theta;
-        drag.phi = orbit.phi;
+        drag.rotationX = boxRotation.x;
+        drag.rotationY = boxRotation.y;
         drag.moved = false;
         drag.selected = sphereAt(event.clientX, event.clientY);
         container.classList.add("is-dragging");
@@ -270,9 +272,9 @@
         if (Math.hypot(deltaX, deltaY) > 5) drag.moved = true;
 
         if (drag.moved && !drag.selected) {
-            orbit.theta = drag.theta - deltaX * 0.007;
-            orbit.phi = THREE.Math.clamp(drag.phi + deltaY * 0.006, 0.42, 2.72);
-            updateCamera();
+            boxRotation.x = THREE.Math.clamp(drag.rotationX + deltaY * 0.006, -1.15, 1.15);
+            boxRotation.y = drag.rotationY + deltaX * 0.007;
+            scene.rotation.set(boxRotation.x, boxRotation.y, 0, "YXZ");
         }
     });
 
@@ -313,8 +315,11 @@
 
     function render() {
         requestAnimationFrame(render);
+        scene.updateMatrixWorld(true);
+        localCameraPosition.copy(camera.position);
+        scene.worldToLocal(localCameraPosition);
         sphereLabels.forEach((item) => {
-            cameraDirection.subVectors(camera.position, item.sphere.position).normalize();
+            cameraDirection.subVectors(localCameraPosition, item.sphere.position).normalize();
             item.sprite.position.copy(item.sphere.position).add(
                 cameraDirection.multiplyScalar(item.radius * 1.015)
             );
