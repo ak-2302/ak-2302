@@ -72,7 +72,7 @@
     <template id="profileContent">
         <p class="modal__label">About</p>
         <h2 data-modal-title>PROFILE</h2>
-        <p class="modal__lead">Webの技術と、つくることを楽しんでいます。</p>
+        <p class="modal__lead">Webの技術を使って、日常で役立つものや面白い体験をつくっています。</p>
         <div class="profile-grid">
             <dl>
                 <dt>Name</dt>
@@ -87,6 +87,37 @@
                 <dd>Web Development</dd>
             </dl>
         </div>
+
+        <section class="profile-section" aria-labelledby="qualificationTitle">
+            <div class="profile-section__heading">
+                <p>01</p>
+                <h3 id="qualificationTitle">Qualifications</h3>
+            </div>
+            <p class="profile-empty">資格情報は準備中です。</p>
+        </section>
+
+        <section class="profile-section" aria-labelledby="timelineTitle">
+            <div class="profile-section__heading">
+                <p>02</p>
+                <h3 id="timelineTitle">Timeline</h3>
+            </div>
+            <ol class="profile-timeline">
+                <li>
+                    <time datetime="2026">2026</time>
+                    <div>
+                        <h4>Interactive portfolio</h4>
+                        <p>Three.jsとPhysijsを使用した、物理演算で動くポートフォリオサイトを制作。</p>
+                    </div>
+                </li>
+                <li>
+                    <time>Now</time>
+                    <div>
+                        <h4>Web development</h4>
+                        <p>ブラウザで利用できるWebツールの設計・開発に取り組んでいます。</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
     </template>
 
     <template id="toolContent">
