@@ -1,0 +1,16 @@
+{
+    "web": [
+        {
+            "name": "Web development",
+            "description": "ブラウザで利用できるWebツールの設計・開発に取り組んでいます。",
+            "path": "./video_trans/index.html"
+        }
+    ],
+    "github": [
+        {
+            "name": "contact-worker",
+            "description": "Cloudflare Workersを利用したWebツールの設計・開発に取り組んでいます。",
+            "url": "https://github.com/Desigh1/contact-worker"
+        }
+    ]
+}
