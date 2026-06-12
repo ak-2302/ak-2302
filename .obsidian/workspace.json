@@ -11,35 +11,13 @@
             "id": "8a2837caa82c3983",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "obsidian_template/diary.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "diary"
-            }
-          },
-          {
-            "id": "0bf03e81b63e4c1d",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "canvas.canvas",
-                "viewState": {
-                  "x": 0,
-                  "y": 0,
-                  "zoom": 0
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "canvas"
+              "title": "新規タブ"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -199,8 +177,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "0bf03e81b63e4c1d",
+  "active": "8a2837caa82c3983",
   "lastOpenFiles": [
+    "canvas.canvas",
     "tool/chtome_tabtree",
     "tool/index.html",
     "tool/video_trans/index.js",
@@ -215,7 +194,6 @@
     "_diary/2026-02-21.md",
     "diary/data/無題のファイル.md",
     "_diary",
-    "_layouts/default.html",
     "diary/data/2026-02-21.md",
     "diary/テンプレート.md",
     "README.md",
