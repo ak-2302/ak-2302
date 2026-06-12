@@ -27,7 +27,7 @@ assert.equal(validateSha("ABCDEF123"), "abcdef123");
 assert.throws(() => validateSha("not-a-sha"), /16進数/);
 assert.equal(
   buildCommitsApiUrl("octocat", "project"),
-  "https://api.github.com/repos/octocat/project/commits?per_page=30"
+  "https://api.github.com/repos/octocat/project/commits?per_page=100"
 );
 
 const urls = buildCommitUrls("octocat", "project", "abcdef1");

@@ -57,10 +57,10 @@ export function buildCommitUrls(owner, repo, sha) {
   };
 }
 
-export function buildCommitsApiUrl(owner, repo, perPage = 30) {
+export function buildCommitsApiUrl(owner, repo, perPage = 100) {
   const encodedOwner = encodeURIComponent(owner);
   const encodedRepo = encodeURIComponent(repo);
-  const limit = Math.min(Math.max(Number(perPage) || 30, 1), 100);
+  const limit = Math.min(Math.max(Number(perPage) || 100, 1), 100);
   return `https://api.github.com/repos/${encodedOwner}/${encodedRepo}/commits?per_page=${limit}`;
 }
 

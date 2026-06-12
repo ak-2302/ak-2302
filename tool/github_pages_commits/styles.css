@@ -510,7 +510,7 @@ svg {
 .preview-toolbar {
   height: 54px;
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) 32px;
+  grid-template-columns: 64px minmax(0, 1fr) 32px 32px;
   align-items: center;
   gap: 15px;
   padding: 0 17px;
@@ -952,7 +952,7 @@ footer span {
   }
 
   .preview-toolbar {
-    grid-template-columns: 48px minmax(0, 1fr) 28px;
+    grid-template-columns: 48px minmax(0, 1fr) 28px 28px;
     gap: 8px;
     padding: 0 11px;
   }

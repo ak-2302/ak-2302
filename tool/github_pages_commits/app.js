@@ -26,6 +26,7 @@ const errorMessage = document.querySelector("#error-message");
 const previewFrame = document.querySelector("#preview-frame");
 const previewMeta = document.querySelector("#preview-meta");
 const addressBar = document.querySelector("#address-bar span");
+const openPreviewButton = document.querySelector("#open-preview");
 const repoValue = document.querySelector("#repo-value");
 const shaValue = document.querySelector("#sha-value");
 const assetsValue = document.querySelector("#assets-value");
@@ -35,6 +36,8 @@ let activeRequest = null;
 let commitRequest = null;
 let commitLoadTimer = null;
 let currentSourceUrl = "";
+let currentPreviewUrl = "";
+let currentPreviewObjectUrl = "";
 let toastTimer = null;
 
 const loadingSteps = [
@@ -67,6 +70,21 @@ function setBusy(isBusy) {
     : commitSelect.value
       ? "コミット版を表示"
       : "最新ページを表示";
+}
+
+function revokePreviewObjectUrl() {
+  if (currentPreviewObjectUrl) {
+    URL.revokeObjectURL(currentPreviewObjectUrl);
+    currentPreviewObjectUrl = "";
+  }
+}
+
+function setPreviewUrl(url, isObjectUrl = false) {
+  revokePreviewObjectUrl();
+  currentPreviewUrl = url;
+  if (isObjectUrl) {
+    currentPreviewObjectUrl = url;
+  }
 }
 
 function showToast(message) {
@@ -354,7 +372,9 @@ async function loadPreview() {
     const allowScripts = allowScriptsInput.checked;
 
     currentSourceUrl = repository.pagesUrl;
+    setPreviewUrl(repository.pagesUrl);
     openSourceButton.disabled = false;
+    openPreviewButton.disabled = false;
     setBusy(true);
     setState("loading");
     loadingMessage.textContent = "最新の公開ページを読み込み中...";
@@ -397,6 +417,7 @@ async function loadPreview() {
 
   currentSourceUrl = "";
   openSourceButton.disabled = true;
+  openPreviewButton.disabled = true;
   setBusy(true);
   setState("loading");
   setLoadingStep(0);
@@ -419,12 +440,17 @@ async function loadPreview() {
     );
     previewFrame.removeAttribute("src");
     previewFrame.srcdoc = transformed.html;
+    setPreviewUrl(
+      URL.createObjectURL(new Blob([transformed.html], { type: "text/html;charset=utf-8" })),
+      true
+    );
 
     repoValue.textContent = `${repository.owner}/${repository.repo}`;
     shaValue.textContent = sha;
     assetsValue.textContent = String(transformed.rewriteCount);
     currentSourceUrl = urls.github;
     openSourceButton.disabled = false;
+    openPreviewButton.disabled = false;
     setState("ready");
     showToast("コミット時点のページを再構成しました。");
   } catch (error) {
@@ -457,6 +483,12 @@ refreshCommitsButton.addEventListener("click", () => {
   loadCommitHistory({ notifyOnError: true });
 });
 
+openPreviewButton.addEventListener("click", () => {
+  if (currentPreviewUrl) {
+    window.open(currentPreviewUrl, "_blank", "noopener,noreferrer");
+  }
+});
+
 openSourceButton.addEventListener("click", () => {
   if (currentSourceUrl) {
     window.open(currentSourceUrl, "_blank", "noopener,noreferrer");
@@ -470,11 +502,16 @@ pagesUrlInput.addEventListener("input", () => {
     commitRequest.abort();
     commitRequest = null;
   }
+  currentSourceUrl = "";
+  currentPreviewUrl = "";
+  revokePreviewObjectUrl();
   resetCommitOptions();
   commitSelect.disabled = false;
   refreshCommitsButton.disabled = true;
   refreshCommitsButton.classList.remove("is-loading");
   commitHint.textContent = "URLの入力完了後にコミット履歴を取得します";
+  openSourceButton.disabled = true;
+  openPreviewButton.disabled = true;
   setBusy(false);
   commitLoadTimer = window.setTimeout(loadCommitHistory, 700);
 });
@@ -485,7 +522,13 @@ pagesUrlInput.addEventListener("blur", () => {
 
 commitSelect.addEventListener("change", () => {
   markInvalid(commitSelect, false);
+  currentSourceUrl = "";
+  currentPreviewUrl = "";
+  revokePreviewObjectUrl();
+  openSourceButton.disabled = true;
+  openPreviewButton.disabled = true;
   setBusy(false);
 });
 
 setState("empty");
+openPreviewButton.disabled = true;
