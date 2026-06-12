@@ -1,4 +1,5 @@
 import {
+  buildCommitsApiUrl,
   buildCommitUrls,
   parsePagesUrl,
   rewriteAssetUrl,
@@ -9,7 +10,9 @@ import {
 
 const form = document.querySelector("#viewer-form");
 const pagesUrlInput = document.querySelector("#pages-url");
-const shaInput = document.querySelector("#commit-sha");
+const commitSelect = document.querySelector("#commit-select");
+const commitHint = document.querySelector("#commit-hint");
+const refreshCommitsButton = document.querySelector("#refresh-commits");
 const allowScriptsInput = document.querySelector("#allow-scripts");
 const submitButton = document.querySelector("#submit-button");
 const fillExampleButton = document.querySelector("#fill-example");
@@ -29,6 +32,8 @@ const assetsValue = document.querySelector("#assets-value");
 const toast = document.querySelector("#toast");
 
 let activeRequest = null;
+let commitRequest = null;
+let commitLoadTimer = null;
 let currentSourceUrl = "";
 let toastTimer = null;
 
@@ -57,7 +62,11 @@ function setLoadingStep(index) {
 
 function setBusy(isBusy) {
   submitButton.disabled = isBusy;
-  submitButton.querySelector("span").textContent = isBusy ? "再構成しています..." : "コミット版を表示";
+  submitButton.querySelector("span").textContent = isBusy
+    ? "表示を準備しています..."
+    : commitSelect.value
+      ? "コミット版を表示"
+      : "最新ページを表示";
 }
 
 function showToast(message) {
@@ -71,6 +80,118 @@ function showToast(message) {
 
 function markInvalid(input, isInvalid) {
   input.setAttribute("aria-invalid", String(isInvalid));
+}
+
+function formatCommitDate(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+}
+
+function resetCommitOptions(label = "最新の公開ページ") {
+  commitSelect.replaceChildren();
+  const latestOption = document.createElement("option");
+  latestOption.value = "";
+  latestOption.textContent = label;
+  commitSelect.append(latestOption);
+}
+
+async function fetchCommitHistory(repository, signal) {
+  const response = await fetch(
+    buildCommitsApiUrl(repository.owner, repository.repo),
+    {
+      headers: {
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+      cache: "no-store",
+      signal,
+    }
+  );
+
+  if (response.status === 404) {
+    throw new Error("対応する公開リポジトリが見つかりませんでした。");
+  }
+  if (response.status === 403 && response.headers.get("x-ratelimit-remaining") === "0") {
+    throw new Error("GitHub APIの利用上限に達しました。しばらくしてから再取得してください。");
+  }
+  if (!response.ok) {
+    throw new Error(`コミット履歴を取得できませんでした（HTTP ${response.status}）。`);
+  }
+
+  const commits = await response.json();
+  if (!Array.isArray(commits)) {
+    throw new Error("GitHubから予期しない応答を受け取りました。");
+  }
+  return commits;
+}
+
+async function loadCommitHistory({ notifyOnError = false } = {}) {
+  window.clearTimeout(commitLoadTimer);
+  markInvalid(pagesUrlInput, false);
+
+  let repository;
+  try {
+    repository = parsePagesUrl(pagesUrlInput.value.trim());
+  } catch {
+    resetCommitOptions();
+    commitSelect.disabled = false;
+    refreshCommitsButton.disabled = true;
+    commitHint.textContent = "有効なGitHub Pages URLを入力してください";
+    setBusy(false);
+    return;
+  }
+
+  if (commitRequest) commitRequest.abort();
+  const request = new AbortController();
+  commitRequest = request;
+
+  resetCommitOptions("最新の公開ページ（コミット指定なし）");
+  commitSelect.disabled = true;
+  refreshCommitsButton.disabled = true;
+  refreshCommitsButton.classList.add("is-loading");
+  commitHint.textContent = "コミット履歴を取得中...";
+
+  try {
+    const commits = await fetchCommitHistory(repository, request.signal);
+
+    for (const item of commits) {
+      const sha = item.sha || "";
+      if (!/^[0-9a-f]{40}$/i.test(sha)) continue;
+
+      const message = (item.commit?.message || "メッセージなし")
+        .split(/\r?\n/, 1)[0]
+        .trim();
+      const date = formatCommitDate(
+        item.commit?.author?.date || item.commit?.committer?.date
+      );
+      const option = document.createElement("option");
+      option.value = sha;
+      option.textContent = `${sha.slice(0, 7)} · ${date} · ${message.slice(0, 48)}`;
+      option.title = message;
+      commitSelect.append(option);
+    }
+
+    commitHint.textContent = commits.length
+      ? `直近${commits.length}件のコミットから選択できます`
+      : "履歴がないため、最新の公開ページを表示します";
+  } catch (error) {
+    if (error.name === "AbortError") return;
+    commitHint.textContent = `${error.message} 最新ページは表示できます`;
+    if (notifyOnError) showToast(error.message);
+  } finally {
+    if (commitRequest === request) {
+      commitSelect.disabled = false;
+      refreshCommitsButton.disabled = false;
+      refreshCommitsButton.classList.remove("is-loading");
+      commitRequest = null;
+      setBusy(false);
+    }
+  }
 }
 
 function rewriteStyleUrls(value, assetRoot) {
@@ -212,10 +333,8 @@ async function fetchHistoricalPage(sourceUrl, signal) {
 
 async function loadPreview() {
   markInvalid(pagesUrlInput, false);
-  markInvalid(shaInput, false);
 
   let repository;
-  let sha;
 
   try {
     repository = parsePagesUrl(pagesUrlInput.value.trim());
@@ -226,17 +345,52 @@ async function loadPreview() {
     return;
   }
 
+  const selectedSha = commitSelect.value.trim();
+  if (!selectedSha) {
+    if (activeRequest) {
+      activeRequest.abort();
+      activeRequest = null;
+    }
+    const allowScripts = allowScriptsInput.checked;
+
+    currentSourceUrl = repository.pagesUrl;
+    openSourceButton.disabled = false;
+    setBusy(true);
+    setState("loading");
+    loadingMessage.textContent = "最新の公開ページを読み込み中...";
+    addressBar.textContent = repository.pagesUrl;
+
+    previewFrame.removeAttribute("srcdoc");
+    previewFrame.setAttribute(
+      "sandbox",
+      allowScripts
+        ? "allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
+        : ""
+    );
+    previewFrame.src = repository.pagesUrl;
+
+    repoValue.textContent = `${repository.owner}/${repository.repo}`;
+    shaValue.textContent = "LATEST";
+    assetsValue.textContent = "LIVE";
+    setState("ready");
+    setBusy(false);
+    showToast("最新の公開ページを表示しました。");
+    return;
+  }
+
+  let sha;
   try {
-    sha = validateSha(shaInput.value);
+    sha = validateSha(selectedSha);
   } catch (error) {
-    markInvalid(shaInput, true);
-    shaInput.focus();
+    markInvalid(commitSelect, true);
+    commitSelect.focus();
     showToast(error.message);
     return;
   }
 
   if (activeRequest) activeRequest.abort();
-  activeRequest = new AbortController();
+  const request = new AbortController();
+  activeRequest = request;
 
   const urls = buildCommitUrls(repository.owner, repository.repo, sha);
   const allowScripts = allowScriptsInput.checked;
@@ -251,7 +405,7 @@ async function loadPreview() {
   try {
     await new Promise((resolve) => window.setTimeout(resolve, 180));
     setLoadingStep(1);
-    const html = await fetchHistoricalPage(urls.html, activeRequest.signal);
+    const html = await fetchHistoricalPage(urls.html, request.signal);
 
     setLoadingStep(2);
     const transformed = createHistoricalDocument(html, urls.assetRoot, allowScripts);
@@ -263,6 +417,7 @@ async function loadPreview() {
         ? "allow-scripts allow-modals allow-popups"
         : ""
     );
+    previewFrame.removeAttribute("src");
     previewFrame.srcdoc = transformed.html;
 
     repoValue.textContent = `${repository.owner}/${repository.repo}`;
@@ -277,8 +432,10 @@ async function loadPreview() {
     setState("error", error.message || "予期しないエラーが発生しました。");
     addressBar.textContent = "プレビューを読み込めませんでした";
   } finally {
-    setBusy(false);
-    activeRequest = null;
+    if (activeRequest === request) {
+      setBusy(false);
+      activeRequest = null;
+    }
   }
 }
 
@@ -289,13 +446,16 @@ form.addEventListener("submit", (event) => {
 
 fillExampleButton.addEventListener("click", () => {
   pagesUrlInput.value = "https://ak-2302.github.io/ak-2302/";
-  shaInput.value = "de304b3";
   markInvalid(pagesUrlInput, false);
-  markInvalid(shaInput, false);
+  loadCommitHistory();
   pagesUrlInput.focus();
 });
 
 retryButton.addEventListener("click", loadPreview);
+
+refreshCommitsButton.addEventListener("click", () => {
+  loadCommitHistory({ notifyOnError: true });
+});
 
 openSourceButton.addEventListener("click", () => {
   if (currentSourceUrl) {
@@ -303,8 +463,29 @@ openSourceButton.addEventListener("click", () => {
   }
 });
 
-for (const input of [pagesUrlInput, shaInput]) {
-  input.addEventListener("input", () => markInvalid(input, false));
-}
+pagesUrlInput.addEventListener("input", () => {
+  markInvalid(pagesUrlInput, false);
+  window.clearTimeout(commitLoadTimer);
+  if (commitRequest) {
+    commitRequest.abort();
+    commitRequest = null;
+  }
+  resetCommitOptions();
+  commitSelect.disabled = false;
+  refreshCommitsButton.disabled = true;
+  refreshCommitsButton.classList.remove("is-loading");
+  commitHint.textContent = "URLの入力完了後にコミット履歴を取得します";
+  setBusy(false);
+  commitLoadTimer = window.setTimeout(loadCommitHistory, 700);
+});
+
+pagesUrlInput.addEventListener("blur", () => {
+  if (pagesUrlInput.value.trim()) loadCommitHistory();
+});
+
+commitSelect.addEventListener("change", () => {
+  markInvalid(commitSelect, false);
+  setBusy(false);
+});
 
 setState("empty");

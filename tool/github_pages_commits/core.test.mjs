@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {
+  buildCommitsApiUrl,
   buildCommitUrls,
   parsePagesUrl,
   rewriteAssetUrl,
@@ -24,6 +25,10 @@ assert.deepEqual(projectSite, {
 assert.throws(() => parsePagesUrl("https://github.com/octocat"), /github\.io/);
 assert.equal(validateSha("ABCDEF123"), "abcdef123");
 assert.throws(() => validateSha("not-a-sha"), /16進数/);
+assert.equal(
+  buildCommitsApiUrl("octocat", "project"),
+  "https://api.github.com/repos/octocat/project/commits?per_page=30"
+);
 
 const urls = buildCommitUrls("octocat", "project", "abcdef1");
 assert.equal(

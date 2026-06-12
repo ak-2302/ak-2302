@@ -33,8 +33,8 @@
       <section class="hero">
         <div class="eyebrow"><span>Commit time machine</span></div>
         <p class="hero-copy">
-          GitHub PagesのURLとコミットSHAから、公開リポジトリに残る
-          静的ファイルを再構成してプレビューします。
+          GitHub PagesのURLからコミット履歴を取得し、公開リポジトリに残る
+          過去ページまたは最新の公開ページをプレビューします。
         </p>
       </section>
 
@@ -62,19 +62,29 @@
               <span class="field-hint">ユーザーサイト、プロジェクトサイトの両方に対応</span>
             </label>
 
-            <label class="field">
-              <span class="field-label">Commit SHA</span>
-              <span class="input-wrap">
+            <div class="field">
+              <div class="field-label-row">
+                <label class="field-label" for="commit-select">表示するバージョン</label>
+                <button class="refresh-button" id="refresh-commits" type="button" disabled>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 7v5h-5M4 17v-5h5" />
+                    <path d="M18.2 10A7 7 0 0 0 6.4 6.4L4 9M5.8 14A7 7 0 0 0 17.6 17.6L20 15" />
+                  </svg>
+                  履歴を更新
+                </button>
+              </div>
+              <span class="input-wrap select-wrap">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <circle cx="7" cy="6" r="2.5" />
                   <circle cx="17" cy="18" r="2.5" />
                   <path d="M7 8.5v4a5.5 5.5 0 0 0 5.5 5.5h2M17 15.5V11a5 5 0 0 0-5-5H9.5" />
                 </svg>
-                <input id="commit-sha" name="commit-sha" type="text" inputmode="text" autocomplete="off"
-                  spellcheck="false" placeholder="bc31525f6a1234567890..." minlength="7" maxlength="40" required>
+                <select id="commit-select" name="commit-select">
+                  <option value="">最新の公開ページ</option>
+                </select>
               </span>
-              <span class="field-hint">7〜40文字の16進数で指定</span>
-            </label>
+              <span class="field-hint" id="commit-hint">URLを入力するとコミット履歴を自動取得します</span>
+            </div>
 
             <label class="toggle-row">
               <span>
@@ -86,7 +96,7 @@
             </label>
 
             <button class="primary-button" id="submit-button" type="submit">
-              <span>コミット版を表示</span>
+              <span>最新ページを表示</span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M5 12h14M14 7l5 5-5 5" />
               </svg>
