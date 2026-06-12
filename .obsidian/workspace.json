@@ -25,10 +25,17 @@
             "id": "0bf03e81b63e4c1d",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "新規タブ"
+              "type": "canvas",
+              "state": {
+                "file": "canvas.canvas",
+                "viewState": {
+                  "x": 0,
+                  "y": 0,
+                  "zoom": 0
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "canvas"
             }
           }
         ],
