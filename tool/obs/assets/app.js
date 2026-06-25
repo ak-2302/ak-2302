@@ -1,14 +1,14 @@
-const previewTime = document.querySelector("#preview-time");
+const previewClock = document.querySelector("#preview-time");
+const clockFormatter = new Intl.DateTimeFormat("ja-JP", {
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+});
 
-function updatePreviewClock() {
-  if (!previewTime) return;
-
-  previewTime.textContent = new Intl.DateTimeFormat("ja-JP", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date());
+function renderPreviewClock() {
+  if (!previewClock) return;
+  previewClock.textContent = clockFormatter.format(new Date());
 }
 
-updatePreviewClock();
-setInterval(updatePreviewClock, 1000);
+renderPreviewClock();
+window.setInterval(renderPreviewClock, 1000);

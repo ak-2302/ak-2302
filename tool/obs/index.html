@@ -8,57 +8,69 @@
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
-    <header class="site-header">
-      <a class="brand" href="./">OBS Widget Shelf</a>
-      <span class="header-label">Free browser widgets</span>
-    </header>
-    <main>
-      <section class="hero">
-        <p class="eyebrow">STREAMING TOOLKIT</p>
-        <h1>画面に必要な情報を、<br /><span>好きな見た目で。</span></h1>
-        <p class="hero-copy">
-          色、縁取り、影、表示内容を調整してURLをコピー。
-          OBSのブラウザソースへ貼り付けるだけで使えます。
-        </p>
-      </section>
-      <section class="catalog" aria-labelledby="catalog-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">WIDGETS</p>
-            <h2 id="catalog-title">ウィジェット一覧</h2>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="./">OBS Widget Shelf</a>
+        <span class="header-label">Free browser widgets</span>
+      </header>
+      <main>
+        <section class="hero">
+          <p class="eyebrow">STREAMING TOOLKIT</p>
+          <div class="hero-inner">
+            <div>
+              <h1>画面に必要な情報を、<br /><span>好きな見た目で。</span></h1>
+            </div>
+            <p class="hero-copy">
+              色、縁取り、影、表示内容を調整してURLをコピー。
+              OBSのブラウザソースへ貼り付けるだけで使えます。
+            </p>
           </div>
-          <p>5 categories / 11 templates</p>
-        </div>
-        <div class="widget-grid">
-          <a class="widget-card is-available" href="./widgets/clock/">
-            <div class="card-preview clock-preview"><span id="preview-time">21:30</span></div>
-            <div class="card-body"><div><p class="card-index">01</p><h3>時計・カレンダー</h3></div><span class="card-arrow">→</span></div>
-            <p class="card-description">時刻、日付、曜日を表示します。</p>
-          </a>
-          <a class="widget-card is-available" href="./widgets/counter/">
-            <div class="card-preview counter-preview"><span>128</span></div>
-            <div class="card-body"><div><p class="card-index">02</p><h3>カウンター</h3></div><span class="card-arrow">→</span></div>
-            <p class="card-description">キー操作で数字を増減します。</p>
-          </a>
-          <a class="widget-card is-available" href="./widgets/timer/">
-            <div class="card-preview timer-preview"><span>05:00</span></div>
-            <div class="card-body"><div><p class="card-index">03</p><h3>タイマー</h3></div><span class="card-arrow">→</span></div>
-            <p class="card-description">配信用カウントダウンです。</p>
-          </a>
-          <a class="widget-card is-available" href="./widgets/memo/">
-            <div class="card-preview memo-preview"><span>ON AIR</span></div>
-            <div class="card-body"><div><p class="card-index">04</p><h3>メモ</h3></div><span class="card-arrow">→</span></div>
-            <p class="card-description">自由なテキストを表示します。</p>
-          </a>
-          <a class="widget-card is-available" href="./widgets/schedule/">
-            <div class="card-preview schedule-preview"><b>↓</b><span>22:00 TALK</span></div>
-            <div class="card-body"><div><p class="card-index">05</p><h3>スケジュール</h3></div><span class="card-arrow">→</span></div>
-            <p class="card-description">進行予定を縦に並べます。</p>
-          </a>
-        </div>
-      </section>
-    </main>
-    <footer><p>OBS Widget Shelf</p><p>Built for streamers.</p></footer>
+          <div class="hero-meta" aria-label="feature highlights">
+            <span class="pill">URL 生成</span>
+            <span class="pill">透過背景</span>
+            <span class="pill">OBS 向け</span>
+            <span class="pill">軽量静的構成</span>
+          </div>
+        </section>
+        <section class="catalog" aria-labelledby="catalog-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">WIDGETS</p>
+              <h2 id="catalog-title">ウィジェット一覧</h2>
+            </div>
+            <p class="section-note">5 categories / 11 templates</p>
+          </div>
+          <div class="widget-grid">
+            <a class="widget-card is-available" href="./widgets/clock/">
+              <div class="card-preview clock-preview"><span id="preview-time">21:30</span></div>
+              <div class="card-body"><div><p class="card-index">01</p><h3>時計・カレンダー</h3></div><span class="card-arrow">→</span></div>
+              <p class="card-description">時刻、日付、曜日を表示します。</p>
+            </a>
+            <a class="widget-card is-available" href="./widgets/counter/">
+              <div class="card-preview counter-preview"><span>128</span></div>
+              <div class="card-body"><div><p class="card-index">02</p><h3>カウンター</h3></div><span class="card-arrow">→</span></div>
+              <p class="card-description">キー操作で数字を増減します。</p>
+            </a>
+            <a class="widget-card is-available" href="./widgets/timer/">
+              <div class="card-preview timer-preview"><span>05:00</span></div>
+              <div class="card-body"><div><p class="card-index">03</p><h3>タイマー</h3></div><span class="card-arrow">→</span></div>
+              <p class="card-description">配信用カウントダウンです。</p>
+            </a>
+            <a class="widget-card is-available" href="./widgets/memo/">
+              <div class="card-preview memo-preview"><span>ON AIR</span></div>
+              <div class="card-body"><div><p class="card-index">04</p><h3>メモ</h3></div><span class="card-arrow">→</span></div>
+              <p class="card-description">自由なテキストを表示します。</p>
+            </a>
+            <a class="widget-card is-available" href="./widgets/schedule/">
+              <div class="card-preview schedule-preview"><b>↓</b><span>22:00 TALK</span></div>
+              <div class="card-body"><div><p class="card-index">05</p><h3>スケジュール</h3></div><span class="card-arrow">→</span></div>
+              <p class="card-description">進行予定を縦に並べます。</p>
+            </a>
+          </div>
+        </section>
+      </main>
+      <footer><p>OBS Widget Shelf</p><p>Built for streamers.</p></footer>
+    </div>
     <script src="./assets/app.js"></script>
   </body>
 </html>
