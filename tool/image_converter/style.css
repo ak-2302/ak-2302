@@ -40,6 +40,7 @@ h1 { margin:0; font-size:clamp(2.7rem,7vw,5.6rem); line-height:.95; letter-spaci
 .canvas_heading .section_label { margin:0; }
 .canvas_stage { min-height:clamp(390px,58vh,680px); margin-top:10px; display:grid; place-items:center; overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#101313; background-image:linear-gradient(45deg,#171c1c 25%,transparent 25%),linear-gradient(-45deg,#171c1c 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#171c1c 75%),linear-gradient(-45deg,transparent 75%,#171c1c 75%); background-size:28px 28px; background-position:0 0,0 14px,14px -14px,-14px 0; }
 .canvas_stage img { max-width:92%; max-height:clamp(360px,54vh,630px); object-fit:contain; filter:drop-shadow(0 14px 20px #0008); }
+.canvas_stage img.preview_crop { aspect-ratio:1; object-fit:cover; }
 .canvas_meta { padding:10px 2px 0; color:var(--muted); font-size:.75rem; }
 .canvas_meta span:first-child { max-width:50%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text); }
 .settings_panel { position:fixed; left:18px; right:18px; bottom:12px; z-index:3; margin:0; padding:16px 18px; box-shadow:0 -10px 35px #0008; }
