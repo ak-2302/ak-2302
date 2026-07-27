@@ -54,7 +54,12 @@ async function convert(){
 function render_results(){result_list.innerHTML='';const before=files.reduce((sum,item)=>sum+item.file.size,0),after=results.reduce((sum,item)=>sum+item.blob.size,0);$('result_summary').textContent=`${format_bytes(before)} → ${format_bytes(after)}`;results.forEach(result=>{const row=document.createElement('div');row.className='result_row';row.innerHTML=`<img class="result_thumb" src="${result.url}" alt=""><span title="${result.name}">${result.name}</span><small>${format_bytes(result.blob.size)}</small><a class="download_link" href="${result.url}" download="${result.name}">保存</a>`;result_list.append(row);});}
 
 file_input.addEventListener('change',e=>add_files(e.target.files));
-['dragenter','dragover'].forEach(event=>drop_zone.addEventListener(event,e=>{e.preventDefault();drop_zone.classList.add('is_dragging')}));['dragleave','drop'].forEach(event=>drop_zone.addEventListener(event,e=>{e.preventDefault();drop_zone.classList.remove('is_dragging')}));drop_zone.addEventListener('drop',e=>add_files(e.dataTransfer.files));
+const canvas_stage = document.getElementById('canvas_stage');
+canvas_stage.addEventListener('click', () => file_input.click());
+canvas_stage.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); file_input.click(); } });
+['dragenter','dragover'].forEach(event=>canvas_stage.addEventListener(event,e=>{e.preventDefault();canvas_stage.classList.add('is_dragging')}));
+['dragleave','drop'].forEach(event=>canvas_stage.addEventListener(event,e=>{e.preventDefault();canvas_stage.classList.remove('is_dragging')}));
+canvas_stage.addEventListener('drop',e=>add_files(e.dataTransfer.files));
 $('clear_button').addEventListener('click',()=>{files.splice(0).forEach(item=>URL.revokeObjectURL(item.url));results.splice(0).forEach(item=>URL.revokeObjectURL(item.url));render_files();result_panel.hidden=true;set_status('');});
 convert_button.addEventListener('click',convert);$('download_all_button').addEventListener('click',async()=>{if(!results.length)return;const zip=new JSZip();results.forEach(result=>zip.file(result.name,result.blob));const blob=await zip.generateAsync({type:'blob'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='converted-images.zip';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 $('quality_input').addEventListener('input',e=>$('quality_value').textContent=`${e.target.value}%`);[['brightness','0'],['contrast','0'],['saturation','0']].forEach(([name])=>$(name+'_input').addEventListener('input',e=>$(name+'_value').textContent=e.target.value));

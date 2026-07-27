@@ -9,28 +9,11 @@
 </head>
 <body>
   <main class="app_shell">
-    <header class="site_header">
-      <div>
-        <p class="eyebrow">LOCAL IMAGE TOOL</p>
-        <h1>画像変換ツール</h1>
-        <p class="intro">変換、補正、サイズ変更をひとつの画面で。画像は端末内で処理されます。</p>
-      </div>
-      <div class="privacy_note"><span class="privacy_dot"></span>外部へ送信しません</div>
-    </header>
-
-    <section class="drop_zone" id="drop_zone" aria-label="画像追加エリア">
-      <div class="drop_icon" aria-hidden="true">＋</div>
-      <div>
-        <h2>画像を追加</h2>
-        <p>ここへドラッグ＆ドロップ、またはファイルを選択</p>
-      </div>
-      <label class="button button_primary" for="file_input">画像を選択</label>
-      <input id="file_input" type="file" accept="image/*" hidden>
-    </section>
+    <input id="file_input" type="file" accept="image/*" hidden>
 
     <section class="canvas_panel panel">
       <div class="canvas_heading"><p class="section_label">CANVAS</p><button id="clear_button" class="text_button" type="button">画像を削除</button></div>
-      <div id="canvas_stage" class="canvas_stage">
+      <div id="canvas_stage" class="canvas_stage" role="button" tabindex="0" aria-label="画像を選択">
         <div id="empty_state" class="empty_state"><strong>ここに画像が表示されます</strong><span>画像を1枚選択してください。</span></div>
         <img id="canvas_image" alt="編集対象の画像" hidden>
       </div>

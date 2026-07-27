@@ -20,6 +20,14 @@ h1 { margin:0; font-size:clamp(2.7rem,7vw,5.6rem); line-height:.95; letter-spaci
 @media (max-width:480px){.app_shell{width:min(100% - 22px,1180px);padding-top:32px}.file_panel,.settings_panel,.result_panel,.drop_zone{padding:18px}.image_list{grid-template-columns:repeat(2,1fr)}.preview_frame{height:130px}.result_row{grid-template-columns:38px minmax(0,1fr) auto}.result_thumb{width:38px;height:32px}.result_row small{display:none}}
 
 /* Single-image editor layout */
+.app_shell { width:100%; height:100vh; padding:0; overflow:hidden; }
+.canvas_panel { height:calc(100vh - 132px); margin:0; padding:10px 18px 0; border:0; border-radius:0; background:transparent; }
+.canvas_heading { display:none; }
+.canvas_stage { height:calc(100% - 30px); min-height:0; margin:0; cursor:pointer; }
+.canvas_stage:hover,.canvas_stage:focus-visible { border-color:var(--accent); outline:none; }
+.canvas_stage.is_dragging { border-color:var(--accent); background-color:#162017; }
+.canvas_stage img { max-height:calc(100% - 20px); }
+.canvas_meta { height:30px; padding:7px 2px 0; }
 .drop_zone { min-height:74px; padding:14px 18px; border-style:solid; }
 .drop_zone .drop_icon { width:40px; height:40px; font-size:1.5rem; }
 .drop_zone h2 { font-size:.95rem; }
@@ -32,9 +40,11 @@ h1 { margin:0; font-size:clamp(2.7rem,7vw,5.6rem); line-height:.95; letter-spaci
 .canvas_stage img { max-width:92%; max-height:clamp(360px,54vh,630px); object-fit:contain; filter:drop-shadow(0 14px 20px #0008); }
 .canvas_meta { padding:10px 2px 0; color:var(--muted); font-size:.75rem; }
 .canvas_meta span:first-child { max-width:50%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text); }
-.settings_panel { position:sticky; bottom:12px; z-index:3; margin-top:16px; padding:16px 18px; box-shadow:0 -10px 35px #0008; }
+.settings_panel { position:fixed; left:18px; right:18px; bottom:12px; z-index:3; margin:0; padding:16px 18px; box-shadow:0 -10px 35px #0008; }
 .settings_title { margin-bottom:12px; }.settings_title .section_label { margin-bottom:3px; }.settings_hint { color:var(--muted); font-size:.72rem; }
 .settings_grid { display:grid; grid-template-columns:1.05fr 1.25fr 1.5fr 1.3fr 1.15fr; align-items:end; gap:14px; }.settings_grid .field,.settings_grid .control_group { margin:0; }.settings_grid .field_group { display:grid; grid-template-columns:1fr 1fr; gap:8px; }.settings_grid .check_row { margin:0 0 11px; white-space:nowrap; }.settings_grid .control_group { padding:0; border:0; }.settings_grid .icon_buttons { grid-template-columns:repeat(4,1fr); }.settings_grid .icon_buttons button { padding:8px 3px; font-size:.68rem; }.settings_grid .slider_row { margin:5px 0; font-size:.72rem; }.settings_grid .control_label { margin-bottom:4px; font-size:.72rem; }.settings_actions { display:flex; align-items:center; gap:16px; margin-top:14px; }.settings_actions .button_accent { width:auto; min-width:190px; margin:0; }.settings_actions .status_message { flex:1; margin:0; }
 .result_panel { margin-top:16px; }
 @media (max-width:900px){.settings_grid{grid-template-columns:repeat(3,1fr)}.settings_grid .field_group{grid-column:span 1}.settings_grid .control_group{grid-column:span 2}}
 @media (max-width:600px){.app_shell{width:min(100% - 20px,1180px);padding-top:28px}.site_header{margin-bottom:18px}.site_header h1{font-size:clamp(2.3rem,14vw,4rem)}.intro{font-size:.85rem}.privacy_note{font-size:.75rem}.drop_zone{padding:10px 12px}.drop_zone .drop_icon{display:none}.drop_zone .button{width:auto;margin-left:auto;min-height:38px;padding:0 13px;font-size:.78rem}.canvas_stage{min-height:52vh}.canvas_stage img{max-height:47vh}.canvas_meta{font-size:.68rem}.settings_panel{padding:14px 12px}.settings_grid{grid-template-columns:1fr 1fr;gap:10px}.settings_grid .control_group{grid-column:span 2}.settings_grid .field_group{grid-column:span 2}.settings_grid .check_row{font-size:.75rem}.settings_actions{align-items:stretch;flex-direction:column;gap:8px}.settings_actions .button_accent{width:100%}}
+
+@media (max-width:600px){.app_shell{width:100%;padding:0}.canvas_panel{height:calc(100vh - 220px);padding:8px 10px 0}.settings_panel{left:10px;right:10px;bottom:8px}.canvas_stage{min-height:0}.canvas_stage img{max-height:calc(100% - 14px)}}
