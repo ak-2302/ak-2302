@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+  <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+  <meta name="description" content="動画を10MB以下に圧縮するブラウザ内ツール">
+  <title>動画圧縮ツール</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .header,.panel_top,.size_card,.file_meta,video{display:none!important}.app{width:min(520px,calc(100% - 24px));padding:24px 0}.workspace{display:block}.preview,.controls{padding:0;border:0;background:transparent}.dropzone{min-height:230px;background:transparent;border-color:var(--line)}.dropzone strong{font-size:.85rem;font-weight:600}.dropzone span{display:none}.playmark{width:36px;height:36px;font-size:.75rem}.controls{margin-top:12px}.compress{display:none!important}.progress_wrap{margin:0;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}.status{text-align:center}.result{margin-top:12px;padding:12px;border:1px solid var(--line);background:var(--panel)}.result h2{display:none}.summary{margin:0}.download{width:100%}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="header"><h1>動画圧縮</h1><span>10MB以内</span></header>
+    <section class="workspace">
+      <section class="preview panel">
+        <div class="panel_top"><h2>動画</h2><button id="clearButton" class="ghost" type="button" hidden>削除</button></div>
+        <input id="fileInput" type="file" accept="video/*" hidden>
+        <div id="dropZone" class="dropzone" role="button" tabindex="0" aria-label="動画ファイルを選択"><div class="playmark">▶</div><strong id="dropTitle">動画をここにドロップ</strong><span id="dropHint">またはクリックしてファイルを選択</span><button id="chooseButton" class="primary" type="button">動画を選ぶ</button></div>
+        <video id="video" controls playsinline hidden></video>
+        <div id="fileMeta" class="file_meta" hidden><span id="fileName"></span><span id="fileDetails"></span></div>
+      </section>
+      <aside class="controls panel">
+        <input id="targetSize" type="hidden" value="10">
+        <select id="quality" hidden><option value="balanced" selected>バランス</option></select>
+        <span id="bitrate" hidden></span><span id="estimateNote" hidden></span>
+        <div class="panel_top"><h2>圧縮</h2></div>
+        <div class="size_card"><span>元のサイズ</span><strong id="beforeSize">—</strong><em id="sizeState">動画未選択</em></div>
+        <button id="compressButton" class="compress primary" type="button" disabled hidden>圧縮を開始</button>
+        <div id="progressWrap" class="progress_wrap"><div class="progress_head"><span id="progressLabel">準備中…</span><b id="progressValue">0%</b></div><div class="progress"><i id="progressBar"></i></div></div>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </aside>
+    </section>
+    <section id="result" class="result panel" hidden><div><p class="label">RESULT</p><h2>圧縮が完了しました</h2><p id="resultSummary" class="summary"></p></div><button id="download" class="primary download" type="button">動画を保存</button></section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
