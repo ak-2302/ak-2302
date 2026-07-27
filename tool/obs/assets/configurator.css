@@ -42,7 +42,9 @@
 }
 
 .preview-stage {
-  height: 430px;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  max-height: 620px;
   background: #0a0b0b;
 }
 
@@ -59,6 +61,11 @@
   color: var(--muted);
   font-family: var(--mono);
   font-size: 11px;
+}
+
+.preview-label::after {
+  content: "OBS標準 1920 × 1080";
+  color: var(--accent);
 }
 
 .control-panel {
@@ -192,7 +199,7 @@
   }
 
   .preview-stage {
-    height: 300px;
+    max-height: none;
   }
 }
 
