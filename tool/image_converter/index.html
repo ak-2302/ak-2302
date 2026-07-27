@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="画像をブラウザ内で変換、リサイズ、補正するローカル画像ツール">
+  <title>画像変換ツール</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="app_shell">
+    <header class="site_header">
+      <div>
+        <p class="eyebrow">LOCAL IMAGE TOOL</p>
+        <h1>画像変換ツール</h1>
+        <p class="intro">変換、補正、サイズ変更をひとつの画面で。画像は端末内で処理されます。</p>
+      </div>
+      <div class="privacy_note"><span class="privacy_dot"></span>外部へ送信しません</div>
+    </header>
+
+    <section class="drop_zone" id="drop_zone" aria-label="画像追加エリア">
+      <div class="drop_icon" aria-hidden="true">＋</div>
+      <div>
+        <h2>画像を追加</h2>
+        <p>ここへドラッグ＆ドロップ、またはファイルを選択</p>
+      </div>
+      <label class="button button_primary" for="file_input">ファイルを選択</label>
+      <input id="file_input" type="file" accept="image/*" multiple hidden>
+    </section>
+
+    <section class="stats" aria-label="画像統計">
+      <div><span>画像</span><strong id="stat_count">0</strong><small>枚</small></div>
+      <div><span>元の合計</span><strong id="stat_input_size">0 B</strong></div>
+      <div><span>変換後</span><strong id="stat_output_size">—</strong></div>
+      <div><span>差分</span><strong id="stat_difference">—</strong></div>
+    </section>
+
+    <div class="workspace">
+      <section class="panel file_panel">
+        <div class="panel_heading">
+          <div><p class="section_label">FILES</p><h2>プレビュー</h2></div>
+          <button id="clear_button" class="text_button" type="button">すべて削除</button>
+        </div>
+        <div id="image_list" class="image_list">
+          <div id="empty_state" class="empty_state"><strong>画像がまだありません</strong><span>上のエリアから画像を追加してください。</span></div>
+        </div>
+      </section>
+
+      <aside class="panel settings_panel">
+        <div class="panel_heading"><div><p class="section_label">SETTINGS</p><h2>変換設定</h2></div></div>
+        <label class="field">出力形式<select id="format_select"><option value="image/webp">WebP</option><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/avif">AVIF</option></select></label>
+        <label class="field">品質 <output id="quality_value">85%</output><input id="quality_input" type="range" min="1" max="100" value="85"></label>
+        <div class="field_group"><label class="field">幅 (px)<input id="width_input" type="number" min="1" placeholder="元の幅"></label><label class="field">高さ (px)<input id="height_input" type="number" min="1" placeholder="元の高さ"></label></div>
+        <label class="check_row"><input id="aspect_lock" type="checkbox" checked><span>縦横比を維持</span></label>
+        <div class="control_group"><span class="control_label">回転・反転</span><div class="icon_buttons"><button type="button" data-action="rotate_left">↶ 左回転</button><button type="button" data-action="rotate_right">↷ 右回転</button><button type="button" data-action="flip_h">↔ 水平反転</button><button type="button" data-action="flip_v">↕ 垂直反転</button></div></div>
+        <div class="control_group"><span class="control_label">補正</span><label class="slider_row">明るさ <output id="brightness_value">0</output><input id="brightness_input" type="range" min="-100" max="100" value="0"></label><label class="slider_row">コントラスト <output id="contrast_value">0</output><input id="contrast_input" type="range" min="-100" max="100" value="0"></label><label class="slider_row">色調 <output id="saturation_value">0</output><input id="saturation_input" type="range" min="-100" max="100" value="0"></label></div>
+        <label class="check_row"><input id="crop_toggle" type="checkbox"><span>中央を正方形にトリミング</span></label>
+        <button id="convert_button" class="button button_accent" type="button" disabled>変換する</button>
+      </aside>
+    </div>
+
+    <section id="result_panel" class="panel result_panel" hidden>
+      <div class="panel_heading"><div><p class="section_label">RESULT</p><h2>変換結果</h2><p id="result_summary" class="muted"></p></div><button id="download_all_button" class="button button_primary" type="button">ZIPで保存</button></div>
+      <div id="result_list" class="result_list"></div>
+    </section>
+
+    <p id="status_message" class="status_message" role="status" aria-live="polite"></p>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
