@@ -24,30 +24,22 @@
         <h2>画像を追加</h2>
         <p>ここへドラッグ＆ドロップ、またはファイルを選択</p>
       </div>
-      <label class="button button_primary" for="file_input">ファイルを選択</label>
-      <input id="file_input" type="file" accept="image/*" multiple hidden>
+      <label class="button button_primary" for="file_input">画像を選択</label>
+      <input id="file_input" type="file" accept="image/*" hidden>
     </section>
 
-    <section class="stats" aria-label="画像統計">
-      <div><span>画像</span><strong id="stat_count">0</strong><small>枚</small></div>
-      <div><span>元の合計</span><strong id="stat_input_size">0 B</strong></div>
-      <div><span>変換後</span><strong id="stat_output_size">—</strong></div>
-      <div><span>差分</span><strong id="stat_difference">—</strong></div>
+    <section class="canvas_panel panel">
+      <div class="canvas_heading"><p class="section_label">CANVAS</p><button id="clear_button" class="text_button" type="button">画像を削除</button></div>
+      <div id="canvas_stage" class="canvas_stage">
+        <div id="empty_state" class="empty_state"><strong>ここに画像が表示されます</strong><span>画像を1枚選択してください。</span></div>
+        <img id="canvas_image" alt="編集対象の画像" hidden>
+      </div>
+      <div class="canvas_meta"><span id="canvas_file_name">未選択</span><span id="canvas_dimensions">—</span><span id="canvas_size">—</span></div>
     </section>
 
-    <div class="workspace">
-      <section class="panel file_panel">
-        <div class="panel_heading">
-          <div><p class="section_label">FILES</p><h2>プレビュー</h2></div>
-          <button id="clear_button" class="text_button" type="button">すべて削除</button>
-        </div>
-        <div id="image_list" class="image_list">
-          <div id="empty_state" class="empty_state"><strong>画像がまだありません</strong><span>上のエリアから画像を追加してください。</span></div>
-        </div>
-      </section>
-
-      <aside class="panel settings_panel">
-        <div class="panel_heading"><div><p class="section_label">SETTINGS</p><h2>変換設定</h2></div></div>
+    <aside class="settings_panel panel">
+      <div class="settings_title"><div><p class="section_label">CONTROLS</p><h2>画像設定</h2></div><span class="settings_hint">変更はリアルタイムに反映</span></div>
+      <div class="settings_grid">
         <label class="field">出力形式<select id="format_select"><option value="image/webp">WebP</option><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/avif">AVIF</option></select></label>
         <label class="field">品質 <output id="quality_value">85%</output><input id="quality_input" type="range" min="1" max="100" value="85"></label>
         <div class="field_group"><label class="field">幅 (px)<input id="width_input" type="number" min="1" placeholder="元の幅"></label><label class="field">高さ (px)<input id="height_input" type="number" min="1" placeholder="元の高さ"></label></div>
@@ -55,16 +47,15 @@
         <div class="control_group"><span class="control_label">回転・反転</span><div class="icon_buttons"><button type="button" data-action="rotate_left">↶ 左回転</button><button type="button" data-action="rotate_right">↷ 右回転</button><button type="button" data-action="flip_h">↔ 水平反転</button><button type="button" data-action="flip_v">↕ 垂直反転</button></div></div>
         <div class="control_group"><span class="control_label">補正</span><label class="slider_row">明るさ <output id="brightness_value">0</output><input id="brightness_input" type="range" min="-100" max="100" value="0"></label><label class="slider_row">コントラスト <output id="contrast_value">0</output><input id="contrast_input" type="range" min="-100" max="100" value="0"></label><label class="slider_row">色調 <output id="saturation_value">0</output><input id="saturation_input" type="range" min="-100" max="100" value="0"></label></div>
         <label class="check_row"><input id="crop_toggle" type="checkbox"><span>中央を正方形にトリミング</span></label>
-        <button id="convert_button" class="button button_accent" type="button" disabled>変換する</button>
-      </aside>
-    </div>
+      </div>
+      <div class="settings_actions"><button id="convert_button" class="button button_accent" type="button" disabled>変換して保存</button><span id="status_message" class="status_message" role="status" aria-live="polite"></span></div>
+    </aside>
 
     <section id="result_panel" class="panel result_panel" hidden>
       <div class="panel_heading"><div><p class="section_label">RESULT</p><h2>変換結果</h2><p id="result_summary" class="muted"></p></div><button id="download_all_button" class="button button_primary" type="button">ZIPで保存</button></div>
       <div id="result_list" class="result_list"></div>
     </section>
 
-    <p id="status_message" class="status_message" role="status" aria-live="polite"></p>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script src="./script.js"></script>

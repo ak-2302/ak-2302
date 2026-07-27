@@ -1,6 +1,5 @@
 const file_input = document.getElementById('file_input');
 const drop_zone = document.getElementById('drop_zone');
-const image_list = document.getElementById('image_list');
 const empty_state = document.getElementById('empty_state');
 const convert_button = document.getElementById('convert_button');
 const result_panel = document.getElementById('result_panel');
@@ -16,19 +15,24 @@ const extension_for = (mime) => ({'image/jpeg':'jpg','image/png':'png','image/we
 const set_status = (message, error=false) => { status_message.textContent=message; status_message.classList.toggle('error',error); };
 
 function add_files(file_list) {
-  [...file_list].filter(file => file.type.startsWith('image/')).forEach(file => files.push({ file, url: URL.createObjectURL(file), image: null, rotation:0, flip_h:false, flip_v:false }));
+  const file = [...file_list].find(candidate => candidate.type.startsWith('image/'));
+  if (!file) return;
+  files.splice(0).forEach(item => URL.revokeObjectURL(item.url));
+  files.push({ file, url: URL.createObjectURL(file), image: null, rotation:0, flip_h:false, flip_v:false });
   render_files();
 }
 function render_files() {
-  image_list.querySelectorAll('.image_card').forEach(card => card.remove());
-  empty_state.hidden = files.length > 0;
-  files.forEach((item,index) => {
-    const card=document.createElement('article'); card.className='image_card'; card.dataset.index=index;
-    card.innerHTML=`<div class="preview_frame"><img src="${item.url}" alt="${item.file.name}"></div><div class="card_info"><strong class="card_name" title="${item.file.name}">${item.file.name}</strong><div class="card_meta"><span>${format_bytes(item.file.size)}</span><span>${item.file.type.replace('image/','').toUpperCase()}</span></div><button class="remove_card" type="button">削除</button></div>`;
-    card.querySelector('.remove_card').addEventListener('click',()=>{URL.revokeObjectURL(item.url);files.splice(index,1);render_files();});
-    card.addEventListener('click',()=>{active_image=item;}); image_list.append(card);
-  });
-  $('stat_count').textContent=files.length; $('stat_input_size').textContent=format_bytes(files.reduce((sum,item)=>sum+item.file.size,0)); convert_button.disabled=!files.length;
+  const item = files[0];
+  empty_state.hidden = Boolean(item);
+  $('canvas_image').hidden = !item;
+  if (item) {
+    $('canvas_image').src = item.url;
+    $('canvas_file_name').textContent = item.file.name;
+    $('canvas_size').textContent = format_bytes(item.file.size);
+    $('canvas_image').onload = () => { $('canvas_dimensions').textContent = `${$('canvas_image').naturalWidth} × ${$('canvas_image').naturalHeight}px`; item.image = $('canvas_image'); };
+    active_image = item;
+  } else { $('canvas_file_name').textContent='未選択'; $('canvas_dimensions').textContent='—'; $('canvas_size').textContent='—'; active_image=null; }
+  convert_button.disabled=!files.length;
 }
 function read_image(item) { return new Promise((resolve,reject)=>{ if(item.image) return resolve(item.image); const image=new Image(); image.onload=()=>{item.image=image;resolve(image)};image.onerror=reject;image.src=item.url; }); }
 function get_settings(){return {mime:$('format_select').value,quality:Number($('quality_input').value)/100,width:Number($('width_input').value)||null,height:Number($('height_input').value)||null,lock:$('aspect_lock').checked,brightness:Number($('brightness_input').value),contrast:Number($('contrast_input').value),saturation:Number($('saturation_input').value),crop:$('crop_toggle').checked};}
@@ -47,11 +51,11 @@ async function convert(){
   try { for(let i=0;i<files.length;i++){const item=files[i];const image=await read_image(item);const canvas=canvas_for(image,item,settings);const blob=await canvas_blob(canvas,settings.mime,settings.quality);const base=item.file.name.replace(/\.[^.]+$/,'');results.push({blob,name:`${base}.${extension_for(settings.mime)}`,source:item.file.name,url:URL.createObjectURL(blob)});} render_results();set_status(`${results.length}枚の変換が完了しました。`); }
   catch(error){set_status(error.message,true);} finally{convert_button.disabled=false;}
 }
-function render_results(){result_list.innerHTML='';const before=files.reduce((sum,item)=>sum+item.file.size,0),after=results.reduce((sum,item)=>sum+item.blob.size,0);$('stat_output_size').textContent=format_bytes(after);$('stat_difference').textContent=`${after<=before?'−':''}${format_bytes(Math.abs(before-after))}`;$('result_summary').textContent=`${format_bytes(before)} → ${format_bytes(after)}`;results.forEach(result=>{const row=document.createElement('div');row.className='result_row';row.innerHTML=`<img class="result_thumb" src="${result.url}" alt=""><span title="${result.name}">${result.name}</span><small>${format_bytes(result.blob.size)}</small><a class="download_link" href="${result.url}" download="${result.name}">保存</a>`;result_list.append(row);});}
+function render_results(){result_list.innerHTML='';const before=files.reduce((sum,item)=>sum+item.file.size,0),after=results.reduce((sum,item)=>sum+item.blob.size,0);$('result_summary').textContent=`${format_bytes(before)} → ${format_bytes(after)}`;results.forEach(result=>{const row=document.createElement('div');row.className='result_row';row.innerHTML=`<img class="result_thumb" src="${result.url}" alt=""><span title="${result.name}">${result.name}</span><small>${format_bytes(result.blob.size)}</small><a class="download_link" href="${result.url}" download="${result.name}">保存</a>`;result_list.append(row);});}
 
 file_input.addEventListener('change',e=>add_files(e.target.files));
 ['dragenter','dragover'].forEach(event=>drop_zone.addEventListener(event,e=>{e.preventDefault();drop_zone.classList.add('is_dragging')}));['dragleave','drop'].forEach(event=>drop_zone.addEventListener(event,e=>{e.preventDefault();drop_zone.classList.remove('is_dragging')}));drop_zone.addEventListener('drop',e=>add_files(e.dataTransfer.files));
-$('clear_button').addEventListener('click',()=>{files.splice(0).forEach(item=>URL.revokeObjectURL(item.url));results.splice(0).forEach(item=>URL.revokeObjectURL(item.url));render_files();result_panel.hidden=true;set_status('');$('stat_output_size').textContent='—';$('stat_difference').textContent='—';});
+$('clear_button').addEventListener('click',()=>{files.splice(0).forEach(item=>URL.revokeObjectURL(item.url));results.splice(0).forEach(item=>URL.revokeObjectURL(item.url));render_files();result_panel.hidden=true;set_status('');});
 convert_button.addEventListener('click',convert);$('download_all_button').addEventListener('click',async()=>{if(!results.length)return;const zip=new JSZip();results.forEach(result=>zip.file(result.name,result.blob));const blob=await zip.generateAsync({type:'blob'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='converted-images.zip';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 $('quality_input').addEventListener('input',e=>$('quality_value').textContent=`${e.target.value}%`);[['brightness','0'],['contrast','0'],['saturation','0']].forEach(([name])=>$(name+'_input').addEventListener('input',e=>$(name+'_value').textContent=e.target.value));
 $('width_input').addEventListener('input',()=>{if(!$('aspect_lock').checked||!active_image?.image)return;const image=active_image.image;if($('width_input').value)$('height_input').value=Math.round(Number($('width_input').value)*image.naturalHeight/image.naturalWidth)});$('height_input').addEventListener('input',()=>{if(!$('aspect_lock').checked||!active_image?.image)return;const image=active_image.image;if($('height_input').value)$('width_input').value=Math.round(Number($('height_input').value)*image.naturalWidth/image.naturalHeight)});
