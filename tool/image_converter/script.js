@@ -60,6 +60,22 @@ canvas_stage.addEventListener('keydown', event => { if (event.key === 'Enter' ||
 ['dragenter','dragover'].forEach(event=>canvas_stage.addEventListener(event,e=>{e.preventDefault();canvas_stage.classList.add('is_dragging')}));
 ['dragleave','drop'].forEach(event=>canvas_stage.addEventListener(event,e=>{e.preventDefault();canvas_stage.classList.remove('is_dragging')}));
 canvas_stage.addEventListener('drop',e=>add_files(e.dataTransfer.files));
+const settings_panel = document.getElementById('settings_panel');
+const tool_popover = document.getElementById('tool_popover');
+const tool_buttons = [...document.querySelectorAll('.tool_menu_button')];
+const tool_panels = [...document.querySelectorAll('.tool_panel')];
+function close_tool_menu(){ tool_popover.hidden=true; tool_buttons.forEach(button=>button.setAttribute('aria-expanded','false')); }
+tool_buttons.forEach(button=>button.addEventListener('click', event=>{
+  event.stopPropagation();
+  const panel_name=button.dataset.tool;
+  const is_open=!tool_popover.hidden && tool_popover.querySelector(`[data-panel="${panel_name}"]`)?.hidden===false;
+  tool_panels.forEach(panel=>panel.hidden=panel.dataset.panel!==panel_name);
+  tool_popover.hidden=is_open;
+  tool_buttons.forEach(item=>item.setAttribute('aria-expanded',String(!is_open && item===button)));
+}));
+tool_panels.forEach(panel=>panel.addEventListener('click',event=>event.stopPropagation()));
+document.addEventListener('click', event=>{ if(!settings_panel.contains(event.target)) close_tool_menu(); });
+tool_panels.forEach(panel=>panel.hidden=true);
 $('clear_button').addEventListener('click',()=>{files.splice(0).forEach(item=>URL.revokeObjectURL(item.url));results.splice(0).forEach(item=>URL.revokeObjectURL(item.url));render_files();result_panel.hidden=true;set_status('');});
 convert_button.addEventListener('click',convert);$('download_all_button').addEventListener('click',async()=>{if(!results.length)return;const zip=new JSZip();results.forEach(result=>zip.file(result.name,result.blob));const blob=await zip.generateAsync({type:'blob'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='converted-images.zip';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 $('quality_input').addEventListener('input',e=>$('quality_value').textContent=`${e.target.value}%`);[['brightness','0'],['contrast','0'],['saturation','0']].forEach(([name])=>$(name+'_input').addEventListener('input',e=>$(name+'_value').textContent=e.target.value));
