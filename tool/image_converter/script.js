@@ -56,11 +56,11 @@ function render_results(){result_list.innerHTML='';const before=files.reduce((su
 
 file_input.addEventListener('change',e=>add_files(e.target.files));
 const canvas_stage = document.getElementById('canvas_stage');
-canvas_stage.addEventListener('click', () => file_input.click());
-canvas_stage.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); file_input.click(); } });
+canvas_stage.addEventListener('click', () => { if (!files.length) file_input.click(); });
+canvas_stage.addEventListener('keydown', event => { if ((event.key === 'Enter' || event.key === ' ') && !files.length) { event.preventDefault(); file_input.click(); } });
 ['dragenter','dragover'].forEach(event=>canvas_stage.addEventListener(event,e=>{e.preventDefault();canvas_stage.classList.add('is_dragging')}));
 ['dragleave','drop'].forEach(event=>canvas_stage.addEventListener(event,e=>{e.preventDefault();canvas_stage.classList.remove('is_dragging')}));
-canvas_stage.addEventListener('drop',e=>add_files(e.dataTransfer.files));
+canvas_stage.addEventListener('drop',e=>{ if (!files.length) add_files(e.dataTransfer.files); });
 const settings_panel = document.getElementById('settings_panel');
 const tool_popover = document.getElementById('tool_popover');
 const tool_buttons = [...document.querySelectorAll('.tool_menu_button')];
