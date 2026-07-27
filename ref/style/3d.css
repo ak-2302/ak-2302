@@ -150,27 +150,15 @@
         grid-template-rows: 64px 1fr 50px;
     }
 
-    .site-header__location {
-        display: none;
-    }
-
     .hero__copy {
         left: 20px;
         top: 11%;
         transform: none;
     }
 
-    .hero h1 {
-        font-size: clamp(46px, 13vw, 76px);
-    }
-
     .hero__description {
         font-size: 10px;
         margin-top: 24px;
-    }
-
-    .hero__roles {
-        display: none;
     }
 
     .stage-wrap {
