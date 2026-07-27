@@ -1,10 +1,15 @@
-## Hi there 👋
-![GitHub Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=ak-2302&theme=tokyo-night)
+# ak-2302 Portfolio
 
-Site
+黒いキャンバスの中で、物理演算で動く4つの球からプロフィール、ツール、リンク、コンタクトへ移動できる個人ポートフォリオサイトです。
 
-test
+## 使用方法
 
-About Me
+ルートディレクトリを静的ファイルサーバーで配信し、`index.html`を開いてください。球はドラッグでステージを回転、ホイールまたはピンチでズーム、クリックで各コンテンツを開けます。
 
-belonging domain
+## 動作環境
+
+- モダンブラウザ（Chrome / Safari / Firefox）
+- JavaScript有効
+- ローカル確認時は静的ファイルサーバーが必要
+
+Three.jsとPhysijsを使ったインタラクティブな表示のため、WebGL対応ブラウザを推奨します。

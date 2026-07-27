@@ -6,8 +6,16 @@
     right: clamp(-80px, 1vw, 16px);
     top: 50%;
     transform: translateY(-50%);
-    width: min(65vw, 900px);
+    width: min(62vw, 900px);
     z-index: 1;
+}
+
+.stage-wrap::before {
+    border: 1px solid rgba(242, 242, 237, .2);
+    content: "";
+    inset: 8% 6% 10%;
+    pointer-events: none;
+    position: absolute;
 }
 
 .physics-stage {
@@ -138,6 +146,33 @@
 }
 
 @media (max-width: 760px) {
+    .site-shell {
+        grid-template-rows: 64px 1fr 50px;
+    }
+
+    .site-header__location {
+        display: none;
+    }
+
+    .hero__copy {
+        left: 20px;
+        top: 11%;
+        transform: none;
+    }
+
+    .hero h1 {
+        font-size: clamp(46px, 13vw, 76px);
+    }
+
+    .hero__description {
+        font-size: 10px;
+        margin-top: 24px;
+    }
+
+    .hero__roles {
+        display: none;
+    }
+
     .stage-wrap {
         bottom: auto;
         height: calc(100% - 140px);
@@ -146,6 +181,10 @@
         top: 140px;
         transform: none;
         width: 100%;
+    }
+
+    .stage-wrap::before {
+        inset: 7% 10% 8%;
     }
 
     .stage-hint {
@@ -162,6 +201,10 @@
     }
 
     .stage-hint p:last-child {
+        display: none;
+    }
+
+    .hero__scroll {
         display: none;
     }
 }
