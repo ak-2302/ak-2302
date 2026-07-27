@@ -38,35 +38,48 @@
               <p class="eyebrow">WIDGETS</p>
               <h2 id="catalog-title">ウィジェット一覧</h2>
             </div>
-            <p class="section-note">5 categories / 11 templates</p>
+            <p class="section-note"><span id="widget-count">11</span> templates<br />すべて無料・ブラウザ完結</p>
+          </div>
+          <div class="catalog-tools" aria-label="ウィジェットを絞り込む">
+            <label class="search-box">
+              <span class="sr-only">ウィジェットを検索</span>
+              <input id="widget-search" type="search" placeholder="ウィジェットを検索" autocomplete="off" />
+              <span aria-hidden="true">⌕</span>
+            </label>
+            <div class="filter-list" role="group" aria-label="カテゴリ">
+              <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">すべて</button>
+              <button class="filter-button" type="button" data-filter="info" aria-pressed="false">情報表示</button>
+              <button class="filter-button" type="button" data-filter="control" aria-pressed="false">操作系</button>
+            </div>
           </div>
           <div class="widget-grid">
-            <a class="widget-card is-available" href="./widgets/clock/">
+            <a class="widget-card is-available" data-category="info" data-search="時計 カレンダー 時刻 日付" href="./widgets/clock/">
               <div class="card-preview clock-preview"><span id="preview-time">21:30</span></div>
               <div class="card-body"><div><p class="card-index">01</p><h3>時計・カレンダー</h3></div><span class="card-arrow">→</span></div>
               <p class="card-description">時刻、日付、曜日を表示します。</p>
             </a>
-            <a class="widget-card is-available" href="./widgets/counter/">
+            <a class="widget-card is-available" data-category="control" data-search="カウンター 数字 増減" href="./widgets/counter/">
               <div class="card-preview counter-preview"><span>128</span></div>
               <div class="card-body"><div><p class="card-index">02</p><h3>カウンター</h3></div><span class="card-arrow">→</span></div>
               <p class="card-description">キー操作で数字を増減します。</p>
             </a>
-            <a class="widget-card is-available" href="./widgets/timer/">
+            <a class="widget-card is-available" data-category="control" data-search="タイマー カウントダウン 時間" href="./widgets/timer/">
               <div class="card-preview timer-preview"><span>05:00</span></div>
               <div class="card-body"><div><p class="card-index">03</p><h3>タイマー</h3></div><span class="card-arrow">→</span></div>
               <p class="card-description">配信用カウントダウンです。</p>
             </a>
-            <a class="widget-card is-available" href="./widgets/memo/">
+            <a class="widget-card is-available" data-category="info" data-search="メモ テキスト 表示" href="./widgets/memo/">
               <div class="card-preview memo-preview"><span>ON AIR</span></div>
               <div class="card-body"><div><p class="card-index">04</p><h3>メモ</h3></div><span class="card-arrow">→</span></div>
               <p class="card-description">自由なテキストを表示します。</p>
             </a>
-            <a class="widget-card is-available" href="./widgets/schedule/">
+            <a class="widget-card is-available" data-category="info" data-search="スケジュール 予定 進行" href="./widgets/schedule/">
               <div class="card-preview schedule-preview"><b>↓</b><span>22:00 TALK</span></div>
               <div class="card-body"><div><p class="card-index">05</p><h3>スケジュール</h3></div><span class="card-arrow">→</span></div>
               <p class="card-description">進行予定を縦に並べます。</p>
             </a>
           </div>
+          <p class="empty-state" id="empty-state" hidden>条件に一致するウィジェットがありません。</p>
         </section>
       </main>
       <footer><p>OBS Widget Shelf</p><p>Built for streamers.</p></footer>
