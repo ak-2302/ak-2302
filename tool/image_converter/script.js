@@ -18,7 +18,7 @@ function add_files(file_list) {
   const file = [...file_list].find(candidate => candidate.type.startsWith('image/'));
   if (!file) return;
   files.splice(0).forEach(item => URL.revokeObjectURL(item.url));
-  files.push({ file, url: URL.createObjectURL(file), image: null, rotation:0, flip_h:false, flip_v:false });
+  files.push({ file, url: URL.createObjectURL(file), image: null, rotation:0, flip_h:false, flip_v:false, zoom:1, pan_x:0, pan_y:0 });
   render_files();
 }
 function render_files() {
@@ -37,7 +37,7 @@ function render_files() {
 }
 function read_image(item) { return new Promise((resolve,reject)=>{ if(item.image) return resolve(item.image); const image=new Image(); image.onload=()=>{item.image=image;resolve(image)};image.onerror=reject;image.src=item.url; }); }
 function get_settings(){return {mime:$('format_select').value,quality:Number($('quality_input').value)/100,width:Number($('width_input').value)||null,height:Number($('height_input').value)||null,lock:$('aspect_lock').checked,brightness:Number($('brightness_input').value),contrast:Number($('contrast_input').value),saturation:Number($('saturation_input').value),crop:$('crop_toggle').checked};}
-function update_preview(){const image=$('canvas_image');if(!active_image||image.hidden)return;const settings=get_settings();image.style.filter=`brightness(${100+settings.brightness}%) contrast(${100+settings.contrast}%) saturate(${100+settings.saturation}%) drop-shadow(0 14px 20px #0008)`;image.style.transform=`rotate(${active_image.rotation}deg) scale(${active_image.flip_h?-1:1},${active_image.flip_v?-1:1})`;image.classList.toggle('preview_crop',settings.crop);if(settings.width||settings.height){const natural_width=image.naturalWidth,natural_height=image.naturalHeight;let width=settings.width,height=settings.height;if(width&&!height&&settings.lock)height=Math.round(width*natural_height/natural_width);if(height&&!width&&settings.lock)width=Math.round(height*natural_width/natural_height);image.style.width=width?`${width}px`:'';image.style.height=height?`${height}px`:'';}else{image.style.width='';image.style.height='';}}
+function update_preview(){const image=$('canvas_image');if(!active_image||image.hidden)return;const settings=get_settings();image.style.filter=`brightness(${100+settings.brightness}%) contrast(${100+settings.contrast}%) saturate(${100+settings.saturation}%) drop-shadow(0 14px 20px #0008)`;image.style.transform=`translate(${active_image.pan_x}px,${active_image.pan_y}px) rotate(${active_image.rotation}deg) scale(${active_image.zoom*(active_image.flip_h?-1:1)},${active_image.zoom*(active_image.flip_v?-1:1)})`;image.classList.toggle('preview_crop',settings.crop);if(settings.width||settings.height){const natural_width=image.naturalWidth,natural_height=image.naturalHeight;let width=settings.width,height=settings.height;if(width&&!height&&settings.lock)height=Math.round(width*natural_height/natural_width);if(height&&!width&&settings.lock)width=Math.round(height*natural_width/natural_height);image.style.width=width?`${width}px`:'';image.style.height=height?`${height}px`:'';}else{image.style.width='';image.style.height='';}}
 function canvas_for(image,item,settings){
   let source_w=image.naturalWidth, source_h=image.naturalHeight;
   if(settings.crop){const side=Math.min(source_w,source_h);const sx=(source_w-side)/2,sy=(source_h-side)/2;const crop=document.createElement('canvas');crop.width=side;crop.height=side;crop.getContext('2d').drawImage(image,sx,sy,side,side,0,0,side,side);image=crop;source_w=side;source_h=side;}
@@ -62,6 +62,16 @@ canvas_stage.addEventListener('keydown', event => { if ((event.key === 'Enter' |
 ['dragenter','dragover'].forEach(event=>canvas_stage.addEventListener(event,e=>{e.preventDefault();canvas_stage.classList.add('is_dragging')}));
 ['dragleave','drop'].forEach(event=>canvas_stage.addEventListener(event,e=>{e.preventDefault();canvas_stage.classList.remove('is_dragging')}));
 canvas_stage.addEventListener('drop',e=>{ if (!files.length) add_files(e.dataTransfer.files); });
+let pointer_drag=null;let pinch_state=null;
+function distance_between(first,second){return Math.hypot(first.clientX-second.clientX,first.clientY-second.clientY);}
+function set_zoom(value){if(!active_image)return;active_image.zoom=Math.min(4,Math.max(.25,value));update_preview();}
+canvas_stage.addEventListener('pointerdown',event=>{if(!active_image)return;event.preventDefault();canvas_stage.setPointerCapture(event.pointerId);pointer_drag={pointer_id:event.pointerId,start_x:event.clientX,start_y:event.clientY,pan_x:active_image.pan_x,pan_y:active_image.pan_y};});
+canvas_stage.addEventListener('pointermove',event=>{if(!pointer_drag||pointer_drag.pointer_id!==event.pointerId||!active_image)return;event.preventDefault();active_image.pan_x=pointer_drag.pan_x+event.clientX-pointer_drag.start_x;active_image.pan_y=pointer_drag.pan_y+event.clientY-pointer_drag.start_y;update_preview();});
+['pointerup','pointercancel','lostpointercapture'].forEach(type=>canvas_stage.addEventListener(type,()=>{pointer_drag=null;}));
+canvas_stage.addEventListener('wheel',event=>{if(!active_image)return;event.preventDefault();set_zoom(active_image.zoom*(event.deltaY>0?.9:1.1));},{passive:false});
+canvas_stage.addEventListener('touchstart',event=>{if(event.touches.length===2&&active_image){event.preventDefault();pinch_state={distance:distance_between(event.touches[0],event.touches[1]),zoom:active_image.zoom};}},{passive:false});
+canvas_stage.addEventListener('touchmove',event=>{if(event.touches.length===2&&pinch_state&&active_image){event.preventDefault();set_zoom(pinch_state.zoom*distance_between(event.touches[0],event.touches[1])/pinch_state.distance);}},{passive:false});
+canvas_stage.addEventListener('touchend',event=>{if(event.touches.length<2)pinch_state=null;});
 const settings_panel = document.getElementById('settings_panel');
 const tool_popover = document.getElementById('tool_popover');
 const tool_buttons = [...document.querySelectorAll('.tool_menu_button')];
