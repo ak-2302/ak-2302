@@ -24,6 +24,7 @@ function add_files(file_list) {
 function render_files() {
   const item = files[0];
   empty_state.hidden = Boolean(item);
+  canvas_stage?.classList.toggle('has_image', Boolean(item));
   $('canvas_image').hidden = !item;
   if (item) {
     $('canvas_image').src = item.url;
