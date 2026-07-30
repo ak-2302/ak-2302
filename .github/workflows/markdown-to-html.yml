@@ -1,0 +1,40 @@
+name: Markdown to HTML
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "note/**/*.md"
+      - "scripts/markdown-to-html.mjs"
+      - "package.json"
+      - ".github/workflows/markdown-to-html.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ソースコードを取得
+        uses: actions/checkout@v4
+
+      - name: Node.jsをセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 依存関係をインストール
+        run: npm install --no-audit --no-fund
+
+      - name: MarkdownをHTMLへ変換
+        run: npm run markdown:html
+
+      - name: 生成したHTMLをコミット
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: "MarkdownからHTMLを生成"
+          file_pattern: "**/*.html"

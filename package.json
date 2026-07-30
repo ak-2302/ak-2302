@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "markdown:html": "node scripts/markdown-to-html.mjs"
+  },
+  "dependencies": {
+    "glob": "^11.0.0",
+    "marked": "^16.0.0"
+  }
+}
