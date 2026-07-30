@@ -1,0 +1,144 @@
+:root {
+    --black: #090909;
+    --graphite: #151515;
+    --gray: #999993;
+    --light-gray: #d8d8d2;
+    --white: #f2f2ed;
+    --line: rgba(242, 242, 237, .18);
+    --accent: #dfff00;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--black);
+}
+
+body {
+    background: var(--black);
+    color: var(--white);
+    font-family: "DM Sans", Arial, sans-serif;
+    line-height: 1.8;
+    margin: 0;
+    min-width: 320px;
+}
+
+.note-page__content {
+    margin: 0 auto;
+    max-width: 820px;
+    padding: clamp(28px, 7vw, 84px) clamp(20px, 5vw, 56px) 96px;
+}
+
+.note-page__back {
+    color: var(--gray);
+    display: inline-block;
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .08em;
+    margin-bottom: clamp(48px, 10vw, 100px);
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.note-page__back:hover,
+.note-page__back:focus-visible {
+    color: var(--accent);
+}
+
+.note-page__article {
+    border-top: 1px solid var(--line);
+    padding-top: clamp(28px, 5vw, 52px);
+}
+
+.note-page__article h1,
+.note-page__article h2,
+.note-page__article h3 {
+    font-weight: 500;
+    letter-spacing: -.045em;
+    line-height: 1.1;
+}
+
+.note-page__article h1 {
+    font-size: clamp(42px, 8vw, 76px);
+    margin: 0 0 48px;
+}
+
+.note-page__article h2 {
+    border-bottom: 1px solid var(--line);
+    font-size: clamp(24px, 4vw, 36px);
+    margin: 56px 0 20px;
+    padding-bottom: 12px;
+}
+
+.note-page__article h3 {
+    font-size: 22px;
+    margin: 36px 0 12px;
+}
+
+.note-page__article p,
+.note-page__article ul,
+.note-page__article ol,
+.note-page__article blockquote,
+.note-page__article pre {
+    margin: 20px 0;
+}
+
+.note-page__article p,
+.note-page__article li {
+    color: var(--light-gray);
+    font-size: 15px;
+}
+
+.note-page__article ul,
+.note-page__article ol {
+    padding-left: 1.5em;
+}
+
+.note-page__article li::marker {
+    color: var(--accent);
+}
+
+.note-page__article blockquote {
+    border-left: 2px solid var(--accent);
+    color: var(--gray);
+    padding: 8px 20px;
+}
+
+.note-page__article code {
+    background: var(--graphite);
+    color: var(--accent);
+    font-family: "Space Mono", monospace;
+    font-size: .85em;
+    padding: .15em .35em;
+}
+
+.note-page__article pre {
+    background: var(--graphite);
+    border: 1px solid var(--line);
+    overflow-x: auto;
+    padding: 20px;
+}
+
+.note-page__article pre code {
+    background: transparent;
+    color: var(--light-gray);
+    padding: 0;
+}
+
+.note-page__article a {
+    color: var(--accent);
+}
+
+.note-page__article img {
+    height: auto;
+    max-width: 100%;
+}
+
+@media (max-width: 520px) {
+    .note-page__article p,
+    .note-page__article li {
+        font-size: 14px;
+    }
+}
