@@ -2,5 +2,9 @@
   {
     "title": "note/page1",
     "url": "./note/page1.html"
+  },
+  {
+    "title": "サンプルノート",
+    "url": "./note/sample.html"
   }
 ]
