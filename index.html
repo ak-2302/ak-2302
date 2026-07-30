@@ -26,7 +26,7 @@
             <div class="hero__copy">
                 <p class="eyebrow">Personal website / 2026</p>
                 <p class="hero__description">
-                    4つの球が、それぞれの入り口です。<br>
+                    6つの球が、それぞれの入り口です。<br>
                     触れて、転がして、選んでください。
                 </p>
             </div>
@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <p class="hero__index" aria-hidden="true">01 — 04</p>
+            <p class="hero__index" aria-hidden="true">01 — 06</p>
             <p class="hero__scroll" aria-hidden="true">SELECT A SPHERE <span>↗</span></p>
         </section>
 
@@ -60,7 +60,7 @@
         <button class="modal__backdrop" type="button" data-modal-close tabindex="-1" aria-label="閉じる"></button>
         <section class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
             <div class="modal__header">
-                <p id="modalNumber">01 / 04</p>
+                <p id="modalNumber">01 / 06</p>
                 <button class="modal__close" type="button" data-modal-close aria-label="閉じる">
                     <span></span><span></span>
                 </button>
@@ -142,6 +142,24 @@
             <span><small>Collection</small>Web tools</span>
             <b>VIEW ALL <i>↗</i></b>
         </a>
+    </template>
+
+    <template id="noteContent">
+        <p class="modal__label">Writing</p>
+        <h2 data-modal-title>NOTE</h2>
+        <p class="modal__lead">思いついたことや残しておきたい文章を記述できます。このメモはこのブラウザに保存されます。</p>
+        <textarea class="note-editor" id="noteEditor" rows="12" placeholder="ここに文章を入力してください。" aria-label="文章入力欄"></textarea>
+        <p class="note-editor__status" id="noteEditorStatus" aria-live="polite">自動保存されます</p>
+    </template>
+
+    <template id="ideaContent">
+        <p class="modal__label">Experiment</p>
+        <h2 data-modal-title>IDEA</h2>
+        <p class="modal__lead">まだ形になっていない、ユニークなアイデアを集める場所です。</p>
+        <div class="idea-card">
+            <p>MAKE SOMETHING UNEXPECTED</p>
+            <span>遊び心のある実験や、新しい組み合わせをここから始めます。</span>
+        </div>
     </template>
 
     <template id="linkContent">

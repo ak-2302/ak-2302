@@ -38,7 +38,7 @@
 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x000000, 0);
-    renderer.domElement.setAttribute("aria-label", "PROFILE、TOOL、LINK、CONTACTの4つの球");
+    renderer.domElement.setAttribute("aria-label", "PROFILE、TOOL、NOTE、IDEA、LINK、CONTACTの6つの球");
     renderer.domElement.setAttribute("role", "img");
     container.appendChild(renderer.domElement);
 
@@ -139,7 +139,9 @@
     const sphereData = [
         { label: "PROFILE", position: [-2, 2.24, 0.64], radius: 1.25 },
         { label: "TOOL", position: [1.92, 1.68, -1.12], radius: 1.15 },
-        { label: "LINK", position: [-0.96, -0.96, -1.04], radius: 1.1 },
+        { label: "NOTE", position: [-2.18, -0.48, -1.1], radius: 1.08 },
+        { label: "IDEA", position: [0.08, 0.02, 1.22], radius: 1.08 },
+        { label: "LINK", position: [-0.96, -2.04, -1.04], radius: 1.1 },
         { label: "CONTACT", position: [1.84, -1.2, 0.96], radius: 1.3 }
     ];
 

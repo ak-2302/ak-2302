@@ -534,6 +534,55 @@ body {
     opacity: .55;
 }
 
+.note-editor {
+    background: #e8e8e2;
+    border: 1px solid #c8c8c2;
+    display: block;
+    font-family: var(--sans);
+    line-height: 1.8;
+    margin-top: 42px;
+    min-height: 240px;
+    padding: 16px;
+    resize: vertical;
+    width: 100%;
+}
+
+.note-editor:focus {
+    border-color: var(--black);
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.note-editor__status {
+    color: #777773;
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: .08em;
+    margin-top: 10px;
+}
+
+.idea-card {
+    background: var(--black);
+    color: var(--white);
+    margin-top: 55px;
+    padding: 30px;
+}
+
+.idea-card p {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .12em;
+}
+
+.idea-card span {
+    color: #aaa;
+    display: block;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-top: 22px;
+}
+
 @media (max-width: 760px) {
     .site-shell {
         grid-template-rows: 62px 1fr 48px;

@@ -7,10 +7,12 @@
     const modalNumber = document.getElementById("modalNumber");
     const closeButtons = document.querySelectorAll("[data-modal-close]");
     const triggerMap = {
-        PROFILE: { template: "profileContent", number: "01 / 04" },
-        TOOL: { template: "toolContent", number: "02 / 04" },
-        LINK: { template: "linkContent", number: "03 / 04" },
-        CONTACT: { template: "contactContent", number: "04 / 04" }
+        PROFILE: { template: "profileContent", number: "01 / 06" },
+        TOOL: { template: "toolContent", number: "02 / 06" },
+        NOTE: { template: "noteContent", number: "03 / 06" },
+        IDEA: { template: "ideaContent", number: "04 / 06" },
+        LINK: { template: "linkContent", number: "05 / 06" },
+        CONTACT: { template: "contactContent", number: "06 / 06" }
     };
     let lastFocusedElement = null;
 
@@ -71,6 +73,18 @@
         });
     }
 
+    function setupNoteEditor() {
+        const editor = document.getElementById("noteEditor");
+        const status = document.getElementById("noteEditorStatus");
+        if (!editor) return;
+
+        editor.value = localStorage.getItem("ak-2302-note") || "";
+        editor.addEventListener("input", () => {
+            localStorage.setItem("ak-2302-note", editor.value);
+            if (status) status.textContent = "保存しました";
+        });
+    }
+
     function openModal(label) {
         const content = triggerMap[label];
         const template = content && document.getElementById(content.template);
@@ -84,6 +98,7 @@
         modal.setAttribute("aria-hidden", "false");
         document.querySelector(".modal__close")?.focus();
         setupContactForm();
+        setupNoteEditor();
     }
 
     function closeModal() {
