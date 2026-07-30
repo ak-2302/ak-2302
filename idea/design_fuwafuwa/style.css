@@ -1,0 +1,67 @@
+:root {
+  color-scheme: light;
+  --ink: #172944;
+  --muted: #7689a7;
+  --line: rgba(119, 158, 210, .27);
+  --blue: #86aeea;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  min-height: 100vh;
+  overflow: hidden;
+  background: #f9fbff;
+  color: var(--ink);
+  font-family: "Zen Kaku Gothic New", sans-serif;
+}
+
+.page_shell { position: relative; min-height: 100vh; padding: 3.2rem 3.3rem; overflow: hidden; }
+.page_header { position: relative; z-index: 4; display: flex; justify-content: space-between; align-items: flex-start; }
+.wordmark { margin-bottom: 1.7rem; color: #516582; font-family: "Zen Old Mincho", serif; font-size: 1.35rem; letter-spacing: .14em; }
+h1 { margin: 0; font-family: "Zen Old Mincho", serif; font-size: clamp(2.1rem, 3.4vw, 3.45rem); font-weight: 600; letter-spacing: .06em; line-height: 1.3; }
+.intro p { margin: 1.5rem 0 0; color: var(--muted); font-size: .98rem; line-height: 2; letter-spacing: .04em; }
+.add_button { display: inline-flex; align-items: center; gap: .8rem; border: 0; border-radius: 999px; padding: 1.05rem 1.75rem; background: #82a9e5; color: white; box-shadow: 0 .7rem 1.3rem rgba(104, 144, 208, .24); font: 500 1rem "Zen Kaku Gothic New", sans-serif; letter-spacing: .1em; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.add_button:hover { background: #719bdd; transform: translateY(-2px); box-shadow: 0 .9rem 1.5rem rgba(104, 144, 208, .3); }
+.add_button:active { transform: translateY(1px) scale(.98); }
+.plus { font-size: 1.65rem; font-weight: 300; line-height: .7; }
+.bubble_stage { position: absolute; top: 12%; left: 22%; width: min(62vw, 58rem); aspect-ratio: 1; }
+.stage_ring { position: absolute; inset: 0; border: 1px solid var(--line); border-radius: 50%; }
+.bubble_field { position: absolute; inset: 4%; }
+.bubble { position: absolute; border-radius: 50%; cursor: grab; touch-action: none; box-shadow: inset -.55rem -.65rem 1rem rgba(124, 164, 215, .13), inset .55rem .4rem .7rem rgba(255, 255, 255, .9), 0 .65rem 1rem rgba(150, 179, 216, .15); transform: translate(-50%, -50%); transition: box-shadow .2s ease; will-change: left, top; }
+.bubble::after { content: ""; position: absolute; top: 13%; left: 18%; width: 27%; height: 17%; border-radius: 50%; background: rgba(255,255,255,.72); filter: blur(1px); transform: rotate(25deg); }
+.bubble:hover { box-shadow: inset -.55rem -.65rem 1rem rgba(124, 164, 215, .15), inset .55rem .4rem .7rem white, 0 1rem 1.5rem rgba(150, 179, 216, .25); }
+.bubble.dragging { cursor: grabbing; z-index: 3; }
+.page_footer { position: absolute; z-index: 4; left: 3.3rem; bottom: 2.8rem; color: #526783; font-size: .95rem; letter-spacing: .06em; line-height: 2.5; }
+.count_line, .hint_line { display: flex; align-items: center; gap: .7rem; }
+.count_dot { width: 1rem; height: 1rem; border-radius: 50%; background: #9ac4f3; box-shadow: 0 .2rem .5rem rgba(100,150,210,.22); }
+.hint_line { color: #8ea0ba; }
+.hand_icon { font-size: 1.25rem; color: #7c91b3; transform: rotate(180deg); }
+.bubble.bursting { z-index: 10; animation: bubble_burst .72s cubic-bezier(.2,.8,.2,1) forwards; pointer-events: none; }
+.bubble.bursting::before, .bubble.bursting::after { content: ""; position: absolute; inset: -20%; border: 1px solid rgba(139, 182, 239, .56); border-radius: 50%; animation: ripple .72s ease-out forwards; }
+.bubble.bursting::after { animation-delay: .12s; }
+.page_shell.is_transitioning::after { content: ""; position: absolute; z-index: 8; inset: 0; background: rgba(249,251,255,.9); animation: veil .82s ease forwards; pointer-events: none; }
+.arrival_screen { position: absolute; z-index: 12; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; opacity: 0; pointer-events: none; transform: scale(.97); }
+.arrival_screen.is_visible { opacity: 1; pointer-events: auto; transform: scale(1); transition: opacity .65s ease .15s, transform .65s cubic-bezier(.2,.8,.2,1) .15s; }
+.arrival_orb { width: 5rem; aspect-ratio: 1; margin-bottom: 2.2rem; border-radius: 50%; background: radial-gradient(circle at 35% 25%, rgba(255,255,255,.95), #d9e9ff 45%, #b4cff5); box-shadow: 0 1.5rem 2.5rem rgba(123, 168, 228, .22); }
+.arrival_label { margin: 0 0 .9rem; color: #8598b4; font-size: .9rem; letter-spacing: .16em; }
+.arrival_screen h2 { margin: 0; font: 600 clamp(2.2rem, 4vw, 3.6rem)/1.35 "Zen Old Mincho", serif; letter-spacing: .08em; }
+.arrival_copy { margin: 1.5rem 0 2rem; color: var(--muted); font-size: .95rem; line-height: 2; letter-spacing: .05em; }
+.return_button { border: 1px solid rgba(124, 165, 222, .45); border-radius: 999px; padding: .85rem 1.6rem; background: transparent; color: #5b78a4; font: 500 .9rem "Zen Kaku Gothic New", sans-serif; letter-spacing: .1em; cursor: pointer; transition: background .2s ease, color .2s ease; }
+.return_button:hover { background: #82a9e5; color: white; }
+@keyframes bubble_burst { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 48% { transform: translate(-50%, -50%) scale(1.8); opacity: .92; } 100% { transform: translate(-50%, -50%) scale(4.8); opacity: 0; } }
+@keyframes ripple { 0% { inset: -20%; opacity: .8; } 100% { inset: -270%; opacity: 0; } }
+@keyframes veil { 0% { opacity: 0; } 100% { opacity: 1; } }
+
+@media (max-width: 720px) {
+  .page_shell { padding: 2rem 1.4rem; }
+  .page_header { display: block; }
+  .wordmark { margin-bottom: 1rem; font-size: 1.1rem; }
+  h1 { font-size: 2.1rem; }
+  .intro p { margin-top: 1rem; font-size: .82rem; line-height: 1.8; }
+  .add_button { position: absolute; top: -.25rem; right: 0; padding: .75rem 1rem; font-size: .78rem; }
+  .bubble_stage { top: 31%; left: 5%; width: 90vw; }
+  .page_footer { left: 1.4rem; bottom: 1.2rem; font-size: .78rem; }
+}
+
+@media (prefers-reduced-motion: reduce) { .add_button, .bubble { transition: none; } }

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ふわふわ — 泡のあつまる場所</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page_shell">
+    <header class="page_header">
+      <div class="intro">
+        <div class="wordmark">ふわふわ</div>
+        <h1>泡のあつまる場所</h1>
+        <p>ふわふわと漂う泡たちが、やさしく集まったり、<br>はなれたりする様子を眺めてみましょう。</p>
+      </div>
+      <button class="add_button" id="add_button" type="button" aria-label="新しい泡を追加">
+        <span class="plus" aria-hidden="true">＋</span><span>泡を出す</span>
+      </button>
+    </header>
+
+    <section class="bubble_stage" id="bubble_stage" aria-label="泡の観察エリア">
+      <div class="stage_ring" aria-hidden="true"></div>
+      <div class="bubble_field" id="bubble_field"></div>
+    </section>
+
+    <footer class="page_footer">
+      <div class="count_line"><span class="count_dot"></span><span id="bubble_count">18</span> 個の泡が漂っています</div>
+      <div class="hint_line"><span class="hand_icon" aria-hidden="true">♧</span>ドラッグして動かせます</div>
+    </footer>
+
+    <section class="arrival_screen" id="arrival_screen" aria-hidden="true">
+      <div class="arrival_orb" aria-hidden="true"></div>
+      <p class="arrival_label">ひとつの泡から</p>
+      <h2>静かな場所へ</h2>
+      <p class="arrival_copy">また泡たちのところへ戻って、<br>ゆっくり眺めることもできます。</p>
+      <button class="return_button" id="return_button" type="button">泡を眺める</button>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
