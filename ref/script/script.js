@@ -85,6 +85,26 @@
         });
     }
 
+    async function setupNoteLinks() {
+        const links = document.getElementById("noteLinks");
+        if (!links) return;
+
+        try {
+            const response = await fetch("./note/index.json", { cache: "no-store" });
+            if (!response.ok) throw new Error("Note index failed");
+            const notes = await response.json();
+            links.replaceChildren(...notes.map((note) => {
+                const link = document.createElement("a");
+                link.className = "feature-link";
+                link.href = note.url;
+                link.innerHTML = `<span><small>Document</small>${note.title}</span><b>OPEN NOTE <i>↗</i></b>`;
+                return link;
+            }));
+        } catch {
+            links.textContent = "ノート一覧を読み込めませんでした。";
+        }
+    }
+
     function openModal(label) {
         const content = triggerMap[label];
         const template = content && document.getElementById(content.template);
@@ -99,6 +119,7 @@
         document.querySelector(".modal__close")?.focus();
         setupContactForm();
         setupNoteEditor();
+        setupNoteLinks();
     }
 
     function closeModal() {

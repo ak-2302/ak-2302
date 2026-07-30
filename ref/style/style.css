@@ -561,6 +561,14 @@ body {
     margin-top: 10px;
 }
 
+.note-links {
+    margin-top: 30px;
+}
+
+.note-links .feature-link {
+    margin-top: 12px;
+}
+
 .idea-card {
     background: var(--black);
     color: var(--white);

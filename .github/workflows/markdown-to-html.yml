@@ -6,6 +6,8 @@ on:
     paths:
       - "note/**/*.md"
       - "scripts/markdown-to-html.mjs"
+      - "index.html"
+      - "ref/script/script.js"
       - "package.json"
       - ".github/workflows/markdown-to-html.yml"
   workflow_dispatch:
@@ -37,4 +39,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: "MarkdownからHTMLを生成"
-          file_pattern: "**/*.html"
+          file_pattern: "note/**/*.html note/index.json"

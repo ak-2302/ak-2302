@@ -1,19 +1,22 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { dirname, relative, resolve } from "node:path";
+import { relative, resolve } from "node:path";
 import { glob } from "glob";
 import { marked } from "marked";
 
 const root = resolve(process.cwd());
 const files = await glob("note/**/*.md", {
   cwd: root,
-  ignore: ["**/node_modules/**", "**/.git/**", "contact-worker/.wrangler/**"],
+  ignore: ["**/node_modules/**", "**/.git/**"],
 });
 
-for (const file of files) {
+const notes = [];
+
+for (const file of files.sort()) {
   const sourcePath = resolve(root, file);
   const outputPath = sourcePath.replace(/\.md$/i, ".html");
   const markdown = await readFile(sourcePath, "utf8");
-  const title = relative(root, sourcePath).replace(/\.md$/i, "");
+  const title = markdown.match(/^#\s+(.+)$/m)?.[1]?.trim()
+    || relative(root, sourcePath).replace(/\.md$/i, "");
   const body = marked.parse(markdown);
   const html = `<!doctype html>
 <html lang="ja">
@@ -35,5 +38,12 @@ ${body}
 `;
 
   await writeFile(outputPath, html);
+  notes.push({
+    title,
+    url: `./${file.replace(/\.md$/i, ".html")}`,
+  });
   console.log(`${file} -> ${relative(root, outputPath)}`);
 }
+
+await writeFile(resolve(root, "note/index.json"), `${JSON.stringify(notes, null, 2)}\n`);
+console.log(`Generated note/index.json (${notes.length} notes)`);
