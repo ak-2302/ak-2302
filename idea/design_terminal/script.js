@@ -3,13 +3,22 @@ const command_input = document.getElementById('command_input');
 const terminal_output = document.getElementById('terminal_output');
 
 const responses = {
-  'help': 'COMMANDS\n\n  whoami          プロフィールを表示\n  ls ideas        アイデアの一覧を表示\n  ls tools        使用中のツールを表示\n  cat now.md      今取り組んでいることを表示\n  cat contact.txt 連絡先を表示\n  clear           画面をクリア\n\nコマンドを入力して Enter を押してください。',
+  'help': 'COMMANDS\n\n  pwd             現在の場所を表示\n  ls              ファイルとディレクトリを一覧表示\n  whoami          プロフィールを表示\n  date            現在日時を表示\n  uname           システム情報を表示\n  echo <text>     テキストを表示\n  ls ideas        アイデアの一覧を表示\n  ls tools        使用中のツールを表示\n  cat now.md      今取り組んでいることを表示\n  cat contact.txt 連絡先を表示\n  clear           画面をクリア',
+  'ls': 'ideas/\ntools/\nnow.md\ncontact.txt',
   'whoami': 'ak-2302 — Designer / Developer / Collector of small ideas.',
+  'uname': 'ak-studio 1.0.0 browser arm64',
   'ls ideas': '01 / 余白のある道具\n02 / 生活のログを残す\n03 / 音のない通知',
   'ls tools': 'markdown-html   image-converter   contact-worker',
   'cat now.md': '# NOW\n→ 小さなWebサイトをつくる\n→ 新しい音を集める\n→ 歩いて考える',
   'cat contact.txt': 'mail  /  hello@example.com\nweb   /  github.com/ak-2302',
 };
+
+function get_response(command) {
+  if (command === 'pwd') return `${window.location.href.replace(/index\.html$/, '')}`;
+  if (command === 'date') return new Intl.DateTimeFormat('ja-JP', { dateStyle: 'full', timeStyle: 'short' }).format(new Date());
+  if (command.startsWith('echo ')) return command.slice(5);
+  return responses[command];
+}
 
 function add_output(command, response) {
   const line = document.createElement('div');
@@ -36,7 +45,7 @@ command_form.addEventListener('submit', (event) => {
       if (child !== command_form) child.remove();
     });
   }
-  else add_output(command, responses[command] ?? `command not found: ${command}\ntry 'help' for available commands`);
+  else add_output(command, get_response(command) ?? `command not found: ${command}\ntry 'help' for available commands`);
   command_input.value = '';
 });
 
