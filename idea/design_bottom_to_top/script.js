@@ -33,7 +33,7 @@ contents.forEach(([label, title, text], index) => {
   const innerSide = wave >= 0 ? -1 : 1;
   const card = document.createElement('article');
   card.className = 'content-card';
-  card.style.left = `${50 + wave + innerSide * 18}%`;
+  card.style.left = `${50 + wave + innerSide * 27}%`;
   card.style.top = `${pageHeight - 42 - progress * (pageHeight - 70) - 4}vh`;
   card.style.transform = 'translateX(-50%)';
   card.innerHTML = `<small>${label}</small><h2>${title}</h2><p>${text}</p>`;
