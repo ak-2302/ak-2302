@@ -8,6 +8,7 @@ const contents = [
   ['03 / notes', '書き留める', '立ち止まったときに見つけたこと。'],
   ['04 / contact', '声をかけて', 'ここまで来たら、ぜひ一言。'],
 ];
+const contentProgress = [0.5, 1.5, 2.5, 3.5].map((peak) => peak / 4.2);
 
 for (let index = 0; index < pawCount; index += 1) {
   const paw = document.createElement('img');
@@ -26,8 +27,9 @@ for (let index = 0; index < pawCount; index += 1) {
 }
 
 contents.forEach(([label, title, text], index) => {
-  const progress = (index + 3) / (contents.length + 4);
-  const wave = Math.sin(progress * Math.PI * 4.2) * 25;
+  const progress = contentProgress[index];
+  const sinValue = Math.sin(progress * Math.PI * 4.2);
+  const wave = sinValue * 25;
   const innerSide = wave >= 0 ? -1 : 1;
   const card = document.createElement('article');
   card.className = 'content-card';
