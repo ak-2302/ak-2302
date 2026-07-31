@@ -30,7 +30,7 @@ contents.forEach(([label, title, text], index) => {
   const progress = contentProgress[index];
   const sinValue = Math.sin(progress * Math.PI * 4.2);
   const wave = sinValue * 25;
-  const innerSide = wave >= 0 ? -1 : 1;
+  const innerSide = wave >= 0 ? 1 : -1;
   const card = document.createElement('article');
   card.className = 'content-card';
   card.style.left = `${50 + wave + innerSide * 18}%`;
