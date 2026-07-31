@@ -13,7 +13,7 @@ button,input { font:inherit; }
 @keyframes blink{50%{opacity:0}} @media (max-width:900px){.workspace{grid-template-columns:10rem minmax(0,1fr)}.activity_panel{display:none}.window_controls,.topbar_status{width:5rem}.topbar_status{font-size:0}.topbar_status .status_dot{font-size:inherit}.sidebar{padding:.8rem .65rem}.terminal_scroll{padding:1.25rem 1rem}.command_form{padding:.75rem 1rem}} @media (max-width:560px){body{padding:0}.terminal_shell{height:100vh;min-height:0;border:0}.workspace{grid-template-columns:1fr}.sidebar{display:none}.topbar{min-height:2.25rem}.window_title{font-size:.62rem}.statusbar{font-size:.55rem}.statusbar_right{display:none}.output_block{padding-left:.8rem}.now_row{grid-template-columns:1rem 1fr}.tag{display:none}.idea_item{display:block}.file_date{display:block}}
 
 /* [AI] 入力欄を表示部の一部として扱う */
-.terminal_scroll .command_form{margin-top:1rem;padding:.8rem 0;background:transparent}
+.terminal_scroll .command_form{margin-top:0;padding:.8rem 0;background:transparent}
 
 /* [AI] 外枠を固定し、ターミナルの内容だけをスクロールさせる */
 .welcome_layout{height:100%;min-height:0}
