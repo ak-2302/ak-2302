@@ -16,18 +16,18 @@ function add_output(command, response) {
   line.className = 'output_line';
   line.innerHTML = `<span class="green">ak@studio</span><span class="muted">:~$</span> <span class="command"></span>`;
   line.querySelector('.command').textContent = command;
-  terminal_output.append(line);
+  terminal_output.insertBefore(line, command_form);
   if (response) {
     const block = document.createElement('div');
     block.className = 'output_block';
     block.style.whiteSpace = 'pre-line';
     block.textContent = response;
-    terminal_output.append(block);
+    terminal_output.insertBefore(block, command_form);
   }
   const next = document.createElement('div');
   next.className = 'output_line';
   next.innerHTML = '<span class="green">ak@studio</span><span class="muted">:~$</span> <span class="cursor_block"></span>';
-  terminal_output.append(next);
+  terminal_output.insertBefore(next, command_form);
   terminal_output.scrollTop = terminal_output.scrollHeight;
 }
 
@@ -35,7 +35,11 @@ command_form.addEventListener('submit', (event) => {
   event.preventDefault();
   const command = command_input.value.trim().toLowerCase();
   if (!command) return;
-  if (command === 'clear') { terminal_output.innerHTML = ''; }
+  if (command === 'clear') {
+    [...terminal_output.children].forEach((child) => {
+      if (child !== command_form) child.remove();
+    });
+  }
   else add_output(command, responses[command] ?? `command not found: ${command}\ntry 'help' for available commands`);
   command_input.value = '';
 });
