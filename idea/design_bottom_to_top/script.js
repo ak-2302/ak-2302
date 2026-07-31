@@ -13,7 +13,7 @@ for (let index = 0; index < pawCount; index += 1) {
   paw.src = 'assets/paw.png';
   paw.alt = '';
   paw.style.left = `${50 + wave + stepOffset}%`;
-  paw.style.top = `${pageHeight - 10 - progress * (pageHeight - 20)}vh`;
+  paw.style.top = `${pageHeight - 42 - progress * (pageHeight - 70)}vh`;
   paw.style.transform = `translateX(-50%) rotate(${stepSide * 9 + wave * 0.18}deg)`;
   trail.appendChild(paw);
   pawImages.push(paw);
