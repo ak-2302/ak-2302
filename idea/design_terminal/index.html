@@ -15,46 +15,15 @@
       <div class="topbar_status"><span class="status_dot"></span> online <span class="divider">/</span> 23:02 JST</div>
     </header>
 
-    <div class="workspace">
-      <aside class="sidebar" aria-label="ファイルナビゲーション">
-        <div class="side_heading"><span class="prompt_mark">~/</span> workspace</div>
-        <nav class="file_tree">
-          <button class="tree_item is_active" data-command="whoami"><span class="tree_icon">⌁</span> whoami</button>
-          <button class="tree_item" data-command="ls ideas"><span class="tree_icon">▱</span> ideas/</button>
-          <button class="tree_item" data-command="ls tools"><span class="tree_icon">▱</span> tools/</button>
-          <button class="tree_item" data-command="cat now.md"><span class="tree_icon">▤</span> now.md</button>
-          <button class="tree_item" data-command="cat contact.txt"><span class="tree_icon">@</span> contact.txt</button>
-        </nav>
-        <div class="side_footer"><span class="key_hint">⌘ K</span> command palette</div>
-      </aside>
-
+    <div class="workspace welcome_layout">
       <section class="terminal_panel">
         <div class="terminal_scroll" id="terminal_output" aria-live="polite">
-          <div class="output_line muted">Last login: Thu Jul 31 23:02:26 on ttys001</div>
-          <div class="output_line blank">&nbsp;</div>
-          <div class="output_line"><span class="green">ak@studio</span><span class="muted">:</span><span class="blue">~</span><span class="muted">$</span> <span class="command">whoami</span></div>
-          <div class="output_block intro_block">
-            <div class="ascii_title">ak-2302</div>
-            <p>Designer / Developer / Collector of small ideas.</p>
-            <p class="muted">東京を拠点に、考えたことを形にしています。</p>
+          <div class="welcome_screen">
+            <div class="welcome_mark">⌁</div>
+            <div class="welcome_title">受付中</div>
+            <p>コマンドを入力してください</p>
+            <span class="cursor_block"></span>
           </div>
-          <div class="output_line blank">&nbsp;</div>
-          <div class="output_line"><span class="green">ak@studio</span><span class="muted">:</span><span class="blue">~</span><span class="muted">$</span> <span class="command">cat now.md</span></div>
-          <div class="output_block now_block">
-            <div class="section_label"># NOW</div>
-            <div class="now_row"><span class="bullet">→</span><span>小さなWebサイトをつくる</span><span class="tag">building</span></div>
-            <div class="now_row"><span class="bullet">→</span><span>新しい音を集める</span><span class="tag tag_dim">listening</span></div>
-            <div class="now_row"><span class="bullet">→</span><span>歩いて考える</span><span class="tag tag_dim">outside</span></div>
-          </div>
-          <div class="output_line blank">&nbsp;</div>
-          <div class="output_line"><span class="green">ak@studio</span><span class="muted">:</span><span class="blue">~</span><span class="muted">$</span> <span class="command">ls ideas</span></div>
-          <div class="output_block ideas_block">
-            <div class="idea_item"><span class="file_name">01 / 余白のある道具</span><span class="file_date">2026-07-31</span></div>
-            <div class="idea_item"><span class="file_name">02 / 生活のログを残す</span><span class="file_date">2026-07-18</span></div>
-            <div class="idea_item"><span class="file_name">03 / 音のない通知</span><span class="file_date">2026-06-22</span></div>
-          </div>
-          <div class="output_line blank">&nbsp;</div>
-          <div class="output_line"><span class="green">ak@studio</span><span class="muted">:</span><span class="blue">~</span><span class="muted">$</span> <span class="cursor_block"></span></div>
         </div>
         <form class="command_form" id="command_form">
           <span class="form_prompt">ak@studio:~$</span>
@@ -63,14 +32,6 @@
         </form>
       </section>
 
-      <aside class="activity_panel" aria-label="アクティビティ">
-        <div class="panel_heading">SYSTEM / STATUS</div>
-        <div class="system_status"><span class="status_dot"></span><div><strong>all systems normal</strong><small>uptime 14d 06h 32m</small></div></div>
-        <div class="graph_wrap"><div class="graph_label"><span>activity</span><span>last 24h</span></div><div class="graph" aria-label="アクティビティグラフ"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-        <div class="panel_heading recent_heading">RECENTLY UPDATED</div>
-        <div class="recent_list"><div><span class="recent_dot"></span><span>design_terminal</span><time>now</time></div><div><span class="recent_dot"></span><span>note/after-rain.md</span><time>2d</time></div><div><span class="recent_dot"></span><span>tool/markdown-html</span><time>5d</time></div></div>
-        <div class="quote">“Make it useful,<br>then make it yours.”</div>
-      </aside>
     </div>
 
     <footer class="statusbar"><span>UTF-8</span><span>main*</span><span class="statusbar_right">welcome to my corner of the internet <span class="pulse">●</span></span></footer>
