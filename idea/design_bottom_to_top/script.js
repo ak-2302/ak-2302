@@ -41,4 +41,8 @@ contents.forEach(([label, title, text], index) => {
 });
 
 Promise.all(pawImages.map((paw) => paw.decode ? paw.decode().catch(() => undefined) : Promise.resolve()))
-  .then(() => setTimeout(() => window.scrollTo(0, document.documentElement.scrollHeight), 100));
+  .then(() => setTimeout(() => {
+    const title = document.querySelector('.title-section');
+    const centeredPosition = title.offsetTop - (window.innerHeight - title.offsetHeight) / 2;
+    window.scrollTo(0, Math.max(0, centeredPosition));
+  }, 100));
