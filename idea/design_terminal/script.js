@@ -3,7 +3,7 @@ const command_input = document.getElementById('command_input');
 const terminal_output = document.getElementById('terminal_output');
 
 const responses = {
-  'help': 'available: whoami, ls ideas, ls tools, cat now.md, cat contact.txt, clear',
+  'help': 'COMMANDS\n\n  whoami          プロフィールを表示\n  ls ideas        アイデアの一覧を表示\n  ls tools        使用中のツールを表示\n  cat now.md      今取り組んでいることを表示\n  cat contact.txt 連絡先を表示\n  clear           画面をクリア\n\nコマンドを入力して Enter を押してください。',
   'whoami': 'ak-2302 — Designer / Developer / Collector of small ideas.',
   'ls ideas': '01 / 余白のある道具\n02 / 生活のログを残す\n03 / 音のない通知',
   'ls tools': 'markdown-html   image-converter   contact-worker',
@@ -20,6 +20,7 @@ function add_output(command, response) {
   if (response) {
     const block = document.createElement('div');
     block.className = 'output_block';
+    if (command === 'help') block.classList.add('help_block');
     block.style.whiteSpace = 'pre-line';
     block.textContent = response;
     terminal_output.insertBefore(block, command_form);

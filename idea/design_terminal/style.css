@@ -19,3 +19,4 @@ button,input { font:inherit; }
 .welcome_layout{height:100%;min-height:0}
 .welcome_layout .terminal_panel{height:100%;min-height:0}
 .terminal_scroll{min-height:0}
+.help_block{line-height:1.9;white-space:pre-line;color:#c6d1c5}
