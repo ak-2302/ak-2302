@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    const CONTACT_ENDPOINT = "https://contact-worker.koyoarai93.workers.dev";
+    const CONTACT_ENDPOINT = "https://contact-worker.meiteya.workers.dev";
     const modal = document.getElementById("contentModal");
     const modalContent = document.getElementById("modalContent");
     const modalNumber = document.getElementById("modalNumber");
