@@ -14,3 +14,8 @@ button,input { font:inherit; }
 
 /* [AI] 入力欄を表示部の一部として扱う */
 .terminal_scroll .command_form{margin-top:1rem;padding:.8rem 0;background:transparent}
+
+/* [AI] 外枠を固定し、ターミナルの内容だけをスクロールさせる */
+.welcome_layout{height:100%;min-height:0}
+.welcome_layout .terminal_panel{height:100%;min-height:0}
+.terminal_scroll{min-height:0}
