@@ -24,10 +24,6 @@ function add_output(command, response) {
     block.textContent = response;
     terminal_output.insertBefore(block, command_form);
   }
-  const next = document.createElement('div');
-  next.className = 'output_line';
-  next.innerHTML = '<span class="green">ak@studio</span><span class="muted">:~$</span> <span class="cursor_block"></span>';
-  terminal_output.insertBefore(next, command_form);
   terminal_output.scrollTop = terminal_output.scrollHeight;
 }
 
