@@ -20,7 +20,6 @@ function add_output(command, response) {
   if (response) {
     const block = document.createElement('div');
     block.className = 'output_block';
-    if (command === 'help') block.classList.add('help_block');
     block.style.whiteSpace = 'pre-line';
     block.textContent = response;
     terminal_output.insertBefore(block, command_form);
