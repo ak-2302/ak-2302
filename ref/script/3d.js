@@ -30,7 +30,7 @@
     const activePointers = new Map();
     const orbit = { theta: 0.58, phi: 1.18, radius: 17 };
     const boxRotation = { x: 0, y: 0 };
-    const drag = { moved: false, selected: null, startX: 0, startY: 0, rotationX: 0, rotationY: 0 };
+    const drag = { moved: false, opened: false, selected: null, startX: 0, startY: 0, rotationX: 0, rotationY: 0 };
     let pinchDistance = 0;
     let simulationRunning = true;
     let hasSimulated = false;
@@ -241,8 +241,17 @@
         drag.rotationX = boxRotation.x;
         drag.rotationY = boxRotation.y;
         drag.moved = false;
+        drag.opened = false;
         drag.selected = sphereAt(event.clientX, event.clientY);
         container.classList.add("is-dragging");
+
+        // [AI] タッチ端末ではpointerupの遅延を避け、球体へのタップを開始時に確定する。
+        if (event.pointerType === "touch" && activePointers.size === 1 && drag.selected) {
+            drag.opened = true;
+            window.dispatchEvent(new CustomEvent("sphere-select", {
+                detail: { label: drag.selected.userData.label }
+            }));
+        }
 
         if (activePointers.size === 2) pinchDistance = pointerDistance();
     });
@@ -278,7 +287,7 @@
 
     function finishPointer(event) {
         const wasSelected = drag.selected;
-        const shouldOpen = activePointers.size === 1 && !drag.moved && wasSelected;
+        const shouldOpen = activePointers.size === 1 && !drag.opened && !drag.moved && wasSelected;
         activePointers.delete(event.pointerId);
         if (!activePointers.size) container.classList.remove("is-dragging");
         if (activePointers.size < 2) pinchDistance = 0;
