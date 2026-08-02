@@ -265,7 +265,9 @@
 
         const deltaX = event.clientX - drag.startX;
         const deltaY = event.clientY - drag.startY;
-        if (Math.hypot(deltaX, deltaY) > 5) drag.moved = true;
+        // [AI] スマートフォンのタップに含まれる微細な揺れをドラッグ扱いしない。
+        const moveThreshold = event.pointerType === "touch" ? 12 : 5;
+        if (Math.hypot(deltaX, deltaY) > moveThreshold) drag.moved = true;
 
         if (drag.moved && !drag.selected) {
             boxRotation.x = THREE.Math.clamp(drag.rotationX + deltaY * 0.006, -1.15, 1.15);
