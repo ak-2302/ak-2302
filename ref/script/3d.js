@@ -40,6 +40,7 @@
     renderer.setClearColor(0x000000, 0);
     renderer.domElement.setAttribute("aria-label", "PROFILE、TOOL、NOTE、IDEA、LINK、CONTACTの6つの球");
     renderer.domElement.setAttribute("role", "img");
+    renderer.domElement.style.touchAction = "none";
     container.appendChild(renderer.domElement);
 
     scene.setGravity(worldGravity);
@@ -232,6 +233,7 @@
     }
 
     renderer.domElement.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "touch") event.preventDefault();
         renderer.domElement.setPointerCapture(event.pointerId);
         activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
         drag.startX = event.clientX;
@@ -247,6 +249,7 @@
 
     renderer.domElement.addEventListener("pointermove", (event) => {
         if (!activePointers.has(event.pointerId)) return;
+        if (event.pointerType === "touch") event.preventDefault();
         activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
 
         if (activePointers.size === 2) {
@@ -282,6 +285,10 @@
             window.dispatchEvent(new CustomEvent("sphere-select", {
                 detail: { label: wasSelected.userData.label }
             }));
+        }
+
+        if (renderer.domElement.hasPointerCapture(event.pointerId)) {
+            renderer.domElement.releasePointerCapture(event.pointerId);
         }
     }
 
