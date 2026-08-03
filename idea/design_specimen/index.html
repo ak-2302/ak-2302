@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="夜の中で、ふと心に残った記憶を集める標本室。">
+  <title>夜の標本室</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="museum_shell" id="museum_shell">
+    <header class="site_header">
+      <a class="wordmark" href="#top">夜の標本室</a>
+      <nav aria-label="メインナビゲーション">
+        <a href="#specimens">標本をみる</a><a href="#about">標本室について</a><a href="#notes">ノート</a><a href="#contact">連絡先</a>
+      </nav>
+      <time id="clock" datetime="23:47:12">23 : 47 : 12</time>
+    </header>
+
+    <section class="hero" id="top">
+      <div class="hero_copy">
+        <h1>夜の標本室</h1>
+        <span class="rule" aria-hidden="true"></span>
+        <p>夜の中で、ふと心に残ったかけらたち。<br>小さな記憶を集めて、標本にしています。<br>光を動かして、私の夜を探してください。</p>
+      </div>
+      <div class="constellation" id="specimens" aria-label="記憶の標本一覧"></div>
+      <div class="light_cursor" id="light_cursor" aria-hidden="true"></div>
+    </section>
+
+    <aside class="detail_drawer" id="detail_drawer" aria-live="polite">
+      <button class="close_button" id="close_button" type="button" aria-label="標本の詳細を閉じる">←</button>
+      <div class="detail_content">
+        <div class="detail_title"><span id="detail_number">02</span><h2 id="detail_title">雨上がり</h2></div>
+        <span class="detail_rule"></span><time id="detail_date">2024.05.21</time>
+        <p id="detail_copy">雨が止んだあと、世界の輪郭がすこしだけ、やわらかくなる。<br><br>湿った風が頬をなでて、遠くの灯りがきれいに滲んでいた。あの帰り道の、静かな呼吸を覚えていたくて、この標本に閉じ込めました。</p>
+        <div class="detail_illustration" aria-hidden="true"><span></span><i></i><b></b></div>
+        <a class="note_link" href="#notes">この標本についてのノートを見る <span>→</span></a>
+      </div>
+      <div class="detail_count"><span id="detail_index">07</span> / 12</div>
+    </aside>
+
+    <footer class="site_footer" id="notes"><span class="footer_mark">✦</span><span>光を動かして、標本を探す</span><span class="progress"><i></i><i></i><i class="active"></i><i></i><i></i></span></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
