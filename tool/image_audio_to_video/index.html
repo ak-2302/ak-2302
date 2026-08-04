@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>静止画ビデオ工房</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app_shell">
+    <header class="topbar">
+      <a class="brand" href="#"><span class="brand_mark">◒</span><span>静止画ビデオ工房</span></a>
+      <div class="privacy_note"><span class="status_dot"></span>ブラウザ内で処理</div>
+    </header>
+
+    <section class="intro">
+      <div>
+        <p class="overline">IMAGE + AUDIO</p>
+        <h1>一枚の画像に、<br><em>音の時間</em>を重ねる。</h1>
+        <p class="lead">背景画像と音声ファイルを選ぶだけ。<br>シンプルな動画に変換して保存できます。</p>
+      </div>
+      <div class="step_indicator" aria-label="作成ステップ"><span class="active">01 素材</span><i></i><span>02 書き出し</span></div>
+    </section>
+
+    <section class="workspace">
+      <div class="asset_column">
+        <div class="section_heading"><span>01</span><h2>素材を追加</h2></div>
+        <label class="drop_zone" id="image_drop_zone" for="image_input">
+          <input id="image_input" type="file" accept="image/*">
+          <span class="upload_icon">＋</span><strong>背景画像</strong><small id="image_name">JPG / PNG / WEBP</small>
+        </label>
+        <label class="drop_zone" id="audio_drop_zone" for="audio_input">
+          <input id="audio_input" type="file" accept="audio/*">
+          <span class="upload_icon audio_icon">∿</span><strong>音声ファイル</strong><small id="audio_name">MP3 / WAV / M4A</small>
+        </label>
+        <p class="helper"><span>⌁</span> ファイルは端末の外へ送信されません</p>
+      </div>
+
+      <div class="preview_column">
+        <div class="section_heading"><span>PREVIEW</span><h2>プレビュー</h2></div>
+        <div class="preview_frame" id="preview_frame">
+          <canvas id="preview_canvas" width="1280" height="720"></canvas>
+          <div class="empty_preview" id="empty_preview"><span class="preview_glyph">◫</span><p>画像を追加すると<br>ここにプレビューが表示されます</p></div>
+          <button class="play_button" id="play_button" type="button" aria-label="プレビューを再生">▶</button>
+        </div>
+        <div class="timeline"><span id="current_time">00:00</span><div class="timeline_track"><span id="timeline_progress"></span></div><span id="total_time">00:00</span></div>
+      </div>
+    </section>
+
+    <section class="export_row">
+      <div class="format_group"><div class="section_heading"><span>02</span><h2>書き出し設定</h2></div><div class="format_options"><label><input type="radio" name="format" value="webm" checked><span>WEBM</span><small>軽量・高品質</small></label></div></div>
+      <div class="export_action"><button id="export_button" type="button" disabled><span id="export_label">動画を書き出す</span><span class="arrow">→</span></button><p id="export_status">画像と音声を追加してください</p></div>
+    </section>
+    <footer><span>静止画ビデオ工房</span><span>処理はすべてこのブラウザで完結します</span></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
