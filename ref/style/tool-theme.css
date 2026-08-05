@@ -71,6 +71,33 @@ a:focus-visible, [role="button"]:focus-visible {
 .hero, .intro { margin-bottom: 34px; }
 .hero h1, .intro h1 { color: var(--tool-text); letter-spacing: -.06em; }
 .hero h1 span, .intro h1 em, .intro h1 em { color: var(--tool-text); }
+.tool-title {
+  padding: 56px 0 48px;
+  border-bottom: 1px solid var(--tool-line);
+}
+.tool-title__label {
+  margin: 0 0 14px;
+  color: var(--tool-muted);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.tool-title h1 {
+  margin: 0;
+  color: var(--tool-text);
+  font-family: Georgia, "Yu Mincho", serif;
+  font-size: clamp(42px, 6vw, 76px);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -.06em;
+}
+.hero {
+  padding: 56px 0 48px;
+  border-bottom: 1px solid var(--tool-line);
+}
+.hero h1 { font-family: Georgia, "Yu Mincho", serif; font-weight: 400; }
 .eyebrow, .section-label, .section_label, .overline, .section_heading span,
 .panel-kicker, .section-heading .eyebrow { color: var(--tool-muted); }
 .eyebrow::before { background: var(--tool-text); }
@@ -158,9 +185,18 @@ body:has(.canvas_panel) .save_dialog select {
   background: var(--tool-surface-raised);
   border-color: var(--tool-line);
 }
+body:has(.canvas_panel) .tool-title { padding-top: 34px; padding-bottom: 28px; }
+body:has(.canvas_panel) .canvas_panel { height: calc(100vh - 250px); }
+body:has(.canvas_panel) .canvas_stage { min-height: 0; }
+body:has(.canvas_panel) .settings_panel { bottom: 12px; }
 
 @media (max-width: 600px) {
   .app-shell, .app_shell, .app { width: calc(100% - 22px); padding-top: 32px; }
+  .tool-title { padding: 32px 0 28px; }
+  .tool-title h1 { font-size: clamp(38px, 12vw, 58px); }
+  .hero { padding: 32px 0 28px; }
+  body:has(.canvas_panel) .tool-title { padding: 24px 0 20px; }
+  body:has(.canvas_panel) .canvas_panel { height: calc(100vh - 220px); }
 }
 
 .button, .primary, .primary-button, .button-primary, .button_accent, .button_primary,
