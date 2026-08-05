@@ -15,6 +15,7 @@
         CONTACT: { template: "contactContent", number: "06 / 06" }
     };
     let lastFocusedElement = null;
+    let modalKeydownHandler = null;
 
     const currentYear = document.getElementById("currentYear");
     const currentTime = document.getElementById("currentTime");
@@ -140,12 +141,24 @@
         setupContactForm();
         setupNoteEditor();
         setupNoteLinks();
+        modalKeydownHandler = (event) => {
+            if (event.key !== "Tab") return;
+            const focusable = [...modal.querySelectorAll("a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled])")];
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+            else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        };
+        modal.addEventListener("keydown", modalKeydownHandler);
     }
 
     function closeModal() {
         if (!modal?.classList.contains("is-open")) return;
         modal.classList.remove("is-open");
         modal.setAttribute("aria-hidden", "true");
+        if (modalKeydownHandler) modal.removeEventListener("keydown", modalKeydownHandler);
+        modalKeydownHandler = null;
         lastFocusedElement?.focus();
     }
 

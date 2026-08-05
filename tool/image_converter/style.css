@@ -1,4 +1,6 @@
 * { box-sizing: border-box; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { transition-duration:.01ms !important; animation-duration:.01ms !important; } }
 :root { color-scheme: dark; --bg:#080b0b; --surface:#101515; --surface2:#151c1b; --line:#293532; --text:#f2f5f2; --muted:#899792; --accent:#d5ff61; --danger:#ff8278; --radius:16px; }
 html { min-height:100%; }
 body { margin:0; min-height:100%; background:radial-gradient(circle at 85% 0, rgba(213,255,97,.09), transparent 28rem), var(--bg); color:var(--text); font-family:Inter,"Hiragino Sans","Yu Gothic",sans-serif; }

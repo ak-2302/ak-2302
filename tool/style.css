@@ -31,6 +31,9 @@ a { color:inherit; text-decoration:none; }
 .tool-card__body > p:last-child { max-width:560px; margin:20px 0 0; color:#979793; font-size:12px; line-height:1.9; }
 .tool-card__arrow { justify-self:end; color:var(--accent); font-size:22px; transition:transform .25s ease; }
 .tool-card:hover .tool-card__arrow { transform:translate(4px,-4px); }
+.tool-card:focus-visible { outline:2px solid var(--accent); outline-offset:6px; }
+.tool-card::after { content:"OPEN TOOL"; align-self:end; grid-column:2; color:#656561; font:9px var(--mono); letter-spacing:.12em; opacity:0; transform:translateY(4px); transition:opacity .25s ease,transform .25s ease; }
+.tool-card:hover::after, .tool-card:focus-visible::after { opacity:1; transform:none; }
 .tool-footer { display:flex; justify-content:space-between; padding:18px 0 22px; border-top:1px solid var(--line); font:9px var(--mono); letter-spacing:.1em; text-transform:uppercase; position:relative; z-index:1; }
 @media (max-width:620px) {
   .tool-header, .tool-footer, .tool-main { width:calc(100% - 32px); }
@@ -43,3 +46,4 @@ a { color:inherit; text-decoration:none; }
   .tool-card:hover { padding-inline:6px; }
   .tool-card__body > p:last-child { font-size:11px; }
 }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { transition-duration:.01ms !important; animation-duration:.01ms !important; } }
