@@ -1,42 +1,84 @@
-/* [AI] Shared visual language for the tool collection. Page-specific styles remain responsible for layout. */
+/* [AI] Shared visual language follows the pageback workspace: paper, ink, lime and quiet borders. */
 :root {
-  --tool-bg: #080b0b;
-  --tool-surface: #111817;
-  --tool-surface-raised: #17201e;
-  --tool-line: rgba(223, 255, 0, .18);
-  --tool-line-strong: rgba(223, 255, 0, .42);
-  --tool-text: #f2f2ed;
-  --tool-muted: #92958f;
-  --tool-accent: #dfff00;
-  --tool-danger: #ff8b80;
-  --tool-radius: 16px;
-  --tool-shadow: 0 18px 50px rgba(0, 0, 0, .22);
-  /* Legacy aliases keep the separate static tools visually in sync. */
+  color-scheme: light;
+  --tool-bg: #f5f5ef;
+  --tool-surface: #ffffff;
+  --tool-surface-raised: #fafaf6;
+  --tool-line: #deded6;
+  --tool-line-soft: #ecece6;
+  --tool-text: #171714;
+  --tool-muted: #6e6e67;
+  --tool-accent: #e7ff55;
+  --tool-accent-strong: #d8f23f;
+  --tool-blue: #5667ff;
+  --tool-danger: #c94343;
+  --tool-radius: 12px;
+  --tool-radius-large: 20px;
+  --tool-shadow: 0 24px 70px rgba(35, 35, 28, .1);
+
+  /* Legacy aliases keep the separate static tools visually aligned. */
   --accent: var(--tool-accent);
+  --accent-strong: var(--tool-accent-strong);
   --green: var(--tool-accent);
-  --green-strong: #efffa0;
-  --accent-2: #efffa0;
+  --green-strong: var(--tool-accent-strong);
+  --accent-2: var(--tool-accent-strong);
+  --blue: var(--tool-blue);
   --line: var(--tool-line);
   --muted: var(--tool-muted);
   --text: var(--tool-text);
+  --ink: var(--tool-text);
   --bg: var(--tool-bg);
+  --paper: var(--tool-bg);
+  --white: var(--tool-surface);
+  --surface: var(--tool-surface);
+  --surface2: var(--tool-surface-raised);
+  --panel: var(--tool-surface);
 }
 
 html { background: var(--tool-bg); }
-body { color: var(--tool-text); background-color: var(--tool-bg); -webkit-font-smoothing: antialiased; }
+body {
+  color: var(--tool-text);
+  background: radial-gradient(circle at 84% 12%, rgba(231, 255, 85, .17), transparent 24rem), var(--tool-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
 button, input, select, textarea { font: inherit; }
 button:not(:disabled), label, a { -webkit-tap-highlight-color: transparent; }
-button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible,
-a:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--tool-accent); outline-offset: 3px; }
+button { color: inherit; }
 button:disabled { cursor: not-allowed; }
-.button, .primary, .primary-button, .button-primary, .button_accent, .button_primary, .tool_save_button {
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible,
+a:focus-visible, [role="button"]:focus-visible {
+  outline: 2px solid var(--tool-blue);
+  outline-offset: 3px;
+}
+
+/* Shared surfaces use pageback's fine border, generous radius and restrained shadow. */
+.panel, .control-panel, .preview-panel, .upload-card, .drop_zone, .dropzone, .canvas_stage,
+.settings_panel, .settings-panel, .result, .result_panel, .result-panel, .notice,
+.workspace, .stats, .image_card, .size_card {
+  border-color: var(--tool-line);
+  border-radius: var(--tool-radius);
+}
+.panel, .control-panel, .preview-panel, .upload-card, .result_panel, .result-panel,
+.workspace, .stats, .image_card, .size_card { background: var(--tool-surface); }
+
+.button, .primary, .primary-button, .button-primary, .button_accent, .button_primary,
+.tool_save_button {
   transition: transform .2s ease, filter .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
 .button:hover:not(:disabled), .primary:hover:not(:disabled), .primary-button:hover:not(:disabled),
 .button-primary:hover:not(:disabled), .button_accent:hover:not(:disabled), .button_primary:hover:not(:disabled),
-.tool_save_button:hover:not(:disabled) { filter: brightness(1.08); box-shadow: 0 8px 24px rgba(223, 255, 0, .12); transform: translateY(-1px); }
-.panel, .control-panel, .preview-panel, .upload-card, .drop_zone, .dropzone, .canvas_stage,
-.settings_panel, .settings-panel, .result, .result_panel, .result-panel, .notice { border-color: var(--tool-line); }
+.tool_save_button:hover:not(:disabled) {
+  filter: brightness(1.03);
+  box-shadow: 0 8px 24px rgba(35, 35, 28, .12);
+  transform: translateY(-1px);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
 }
