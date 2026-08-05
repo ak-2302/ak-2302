@@ -93,13 +93,33 @@
             const response = await fetch("./note/index.json", { cache: "no-store" });
             if (!response.ok) throw new Error("Note index failed");
             const notes = await response.json();
-            links.replaceChildren(...notes.map((note) => {
+            if (!Array.isArray(notes)) throw new Error("Invalid note index");
+
+            const noteElements = notes
+                .filter((note) => note && typeof note.title === "string" && typeof note.url === "string")
+                .map((note) => {
                 const link = document.createElement("a");
                 link.className = "feature-link";
-                link.href = note.url;
-                link.innerHTML = `<span><small>Document</small>${note.title}</span><b>OPEN NOTE <i>↗</i></b>`;
+                const url = new URL(note.url, window.location.href);
+                if (url.origin !== window.location.origin || !url.pathname.startsWith("/note/")) {
+                    return null;
+                }
+                link.href = url.href;
+
+                const label = document.createElement("span");
+                const type = document.createElement("small");
+                type.textContent = "Document";
+                label.append(type, document.createTextNode(note.title));
+
+                const action = document.createElement("b");
+                action.append("OPEN NOTE ");
+                const arrow = document.createElement("i");
+                arrow.textContent = "↗";
+                action.append(arrow);
+                link.append(label, action);
                 return link;
-            }));
+            }).filter(Boolean);
+            links.replaceChildren(...noteElements);
         } catch {
             links.textContent = "ノート一覧を読み込めませんでした。";
         }

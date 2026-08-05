@@ -110,24 +110,30 @@ export default {
 		const name = payload.name.trim();
 		const email = payload.email.trim();
 		const message = payload.message.trim();
-		const discordResponse = await fetch(env.DISCORD_WEBHOOK_URL, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				username: "Website Contact",
-				allowed_mentions: { parse: [] },
-				embeds: [{
-					title: "New contact message",
-					description: message,
-					color: 0xc9ff57,
-					fields: [
-						{ name: "Name", value: name },
-						{ name: "Email", value: email },
-					],
-					timestamp: new Date().toISOString(),
-				}],
-			}),
-		});
+		let discordResponse;
+		try {
+			discordResponse = await fetch(env.DISCORD_WEBHOOK_URL, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					username: "Website Contact",
+					allowed_mentions: { parse: [] },
+					embeds: [{
+						title: "New contact message",
+						description: message,
+						color: 0xc9ff57,
+						fields: [
+							{ name: "Name", value: name },
+							{ name: "Email", value: email },
+						],
+						timestamp: new Date().toISOString(),
+					}],
+				}),
+			});
+		} catch (error) {
+			console.error("Discord webhook request failed.", error);
+			return jsonResponse({ error: "Failed to deliver message." }, 502, origin);
+		}
 
 		if (!discordResponse.ok) {
 			console.error(`Discord webhook failed with status ${discordResponse.status}.`);

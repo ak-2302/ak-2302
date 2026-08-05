@@ -2,7 +2,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "markdown:html": "node scripts/markdown-to-html.mjs"
+    "markdown:html": "node scripts/markdown-to-html.mjs",
+    "test": "npm run markdown:html && npm run test:github-pages && npm run test:worker",
+    "test:github-pages": "npm --prefix tool/github_pages_commits test",
+    "test:worker": "npm --prefix contact-worker test -- --run"
   },
   "dependencies": {
     "glob": "^11.0.0",

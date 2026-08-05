@@ -113,4 +113,17 @@ describe("contact worker", () => {
 		expect(response.status).toBe(502);
 		expect(await response.json()).toEqual({ error: "Failed to deliver message." });
 	});
+
+	it("returns a delivery error when the webhook request fails", async () => {
+		vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("network unavailable"));
+
+		const response = await run(postRequest({
+			name: "Test User",
+			email: "test@example.com",
+			message: "Hello",
+		}));
+
+		expect(response.status).toBe(502);
+		expect(await response.json()).toEqual({ error: "Failed to deliver message." });
+	});
 });

@@ -11,6 +11,16 @@ const files = await glob("note/**/*.md", {
 
 const notes = [];
 
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[character]);
+}
+
 for (const file of files.sort()) {
   const sourcePath = resolve(root, file);
   const outputPath = sourcePath.replace(/\.md$/i, ".html");
@@ -24,7 +34,7 @@ for (const file of files.sort()) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./style.css">
-  <title>${title}</title>
+  <title>${escapeHtml(title)}</title>
 </head>
 <body class="note-page">
   <main class="note-page__content">
