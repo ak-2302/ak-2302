@@ -123,6 +123,42 @@ input, select, textarea {
 .result a, .download_link { color: var(--tool-blue); }
 .status.error, .status_message.error { color: var(--tool-danger); }
 
+/* [AI] The image editor keeps the same paper/ink palette inside its canvas and dock. */
+body:has(.canvas_panel) {
+  background: radial-gradient(circle at 84% 12%, rgba(231, 255, 85, .17), transparent 24rem), var(--tool-bg);
+}
+body:has(.canvas_panel) .canvas_panel {
+  background: var(--tool-surface);
+  border-color: var(--tool-line);
+}
+body:has(.canvas_panel) .canvas_stage {
+  background-color: var(--tool-surface-raised);
+  background-image: linear-gradient(45deg, #f0f0e9 25%, transparent 25%),
+    linear-gradient(-45deg, #f0f0e9 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f0f0e9 75%),
+    linear-gradient(-45deg, transparent 75%, #f0f0e9 75%);
+  background-size: 28px 28px;
+  background-position: 0 0, 0 14px, 14px -14px, -14px 0;
+}
+body:has(.canvas_panel) .tool_menu {
+  background: rgba(255, 255, 255, .98);
+  border-color: var(--tool-line);
+  box-shadow: 0 14px 35px rgba(35, 35, 28, .14);
+}
+body:has(.canvas_panel) .tool_popover,
+body:has(.canvas_panel) .save_dialog {
+  background: var(--tool-surface);
+  border-color: var(--tool-line);
+  box-shadow: var(--tool-shadow);
+}
+body:has(.canvas_panel) .tool_popover input,
+body:has(.canvas_panel) .tool_popover select,
+body:has(.canvas_panel) .save_dialog input,
+body:has(.canvas_panel) .save_dialog select {
+  background: var(--tool-surface-raised);
+  border-color: var(--tool-line);
+}
+
 @media (max-width: 600px) {
   .app-shell, .app_shell, .app { width: calc(100% - 22px); padding-top: 32px; }
 }
