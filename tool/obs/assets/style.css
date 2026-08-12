@@ -18,6 +18,23 @@
   --sans: "Noto Sans JP", sans-serif;
 }
 
+/* [AI] Collection pages use a printed catalogue treatment; preview canvases stay vivid. */
+html { background: #f4f1e9; }
+body { color: #242522; background: #f4f1e9; }
+body::before { display: none; }
+.site-header { border: 0; border-bottom: 1px solid #c9c4b8; border-radius: 0; background: #f4f1e9; box-shadow: none; }
+.brand { color: #242522; }
+.brand::before { background: #a85f3d; box-shadow: none; }
+.hero { padding: 56px 0 48px; }
+h1 { color: #242522; font-family: Georgia, "Yu Mincho", serif; font-weight: 400; }
+h1 span, .eyebrow, .card-index { color: #a85f3d; background: none; }
+.hero-copy, .catalog-tools, .widget-card { background: #f4f1e9; border-color: #c9c4b8; box-shadow: none; border-radius: 8px; }
+.pill { border-color: #c9c4b8; border-radius: 4px; background: transparent; color: #77766d; }
+.widget-card:hover { border-color: #a85f3d; box-shadow: none; }
+.search-box input, .filter-button { background: #f4f1e9; border-color: #c9c4b8; color: #242522; border-radius: 4px; }
+.filter-button.is-active { background: #a85f3d; border-color: #a85f3d; color: #fffaf2; }
+footer { color: #77766d; border-color: #c9c4b8; }
+
 * {
   box-sizing: border-box;
 }
@@ -484,3 +501,20 @@ footer p {
     width: 100%;
   }
 }
+
+/* [AI] Catalogue overrides are last so the shelf reads as a physical index, not a glass dashboard. */
+html { background: #f4f1e9; }
+body { color: #242522; background: #f4f1e9; }
+body::before { display: none; }
+.site-header { border: 0; border-bottom: 1px solid #c9c4b8; border-radius: 0; background: #f4f1e9; box-shadow: none; }
+.brand { color: #242522; }
+.brand::before { background: #a85f3d; box-shadow: none; }
+.hero { padding: 56px 0 48px; }
+h1 { color: #242522; font-family: Georgia, "Yu Mincho", serif; font-weight: 400; }
+h1 span, .eyebrow, .card-index { color: #a85f3d; background: none; }
+.hero-copy, .catalog-tools, .widget-card { background: #f4f1e9; border-color: #c9c4b8; box-shadow: none; border-radius: 8px; }
+.pill { border-color: #c9c4b8; border-radius: 4px; background: transparent; color: #77766d; }
+.widget-card:hover { border-color: #a85f3d; box-shadow: none; }
+.search-box input, .filter-button { background: #f4f1e9; border-color: #c9c4b8; color: #242522; border-radius: 4px; }
+.filter-button.is-active { background: #a85f3d; border-color: #a85f3d; color: #fffaf2; }
+footer { color: #77766d; border-color: #c9c4b8; }

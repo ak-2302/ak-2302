@@ -4,6 +4,17 @@
   font-size: 12px;
 }
 
+/* [AI] Controls are paper forms; the live widget preview remains the only saturated surface. */
+html, body { background: #f4f1e9; color: #242522; }
+body::before { display: none; }
+.site-header { border-radius: 0; background: #f4f1e9; border-color: #c9c4b8; box-shadow: none; }
+.config-main { background: #f4f1e9; }
+.config-heading h1 { color: #242522; font-family: Georgia, "Yu Mincho", serif; font-weight: 400; }
+.config-heading > p:last-child, .back-link, .preview-label, footer { color: #77766d; }
+.preview-panel, .control-panel, .usage { background: #f4f1e9; border-color: #c9c4b8; border-radius: 8px; box-shadow: none; }
+.field input, .field select, .field textarea { background: #fffdf8; color: #242522; border-color: #c9c4b8; border-radius: 4px; }
+.button-primary { background: #a85f3d; border-color: #a85f3d; color: #fffaf2; }
+
 .config-main {
   padding: 76px 0 120px;
 }
@@ -208,3 +219,14 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* [AI] Form overrides are last: the live widget preview remains the only saturated surface. */
+html, body { background: #f4f1e9; color: #242522; }
+body::before { display: none; }
+.site-header { border-radius: 0; background: #f4f1e9; border-color: #c9c4b8; box-shadow: none; }
+.config-main { background: #f4f1e9; }
+.config-heading h1 { color: #242522; font-family: Georgia, "Yu Mincho", serif; font-weight: 400; }
+.config-heading > p:last-child, .back-link, .preview-label, footer { color: #77766d; }
+.preview-panel, .control-panel, .usage { background: #f4f1e9; border-color: #c9c4b8; border-radius: 8px; box-shadow: none; }
+.field input, .field select, .field textarea { background: #fffdf8; color: #242522; border-color: #c9c4b8; border-radius: 4px; }
+.button-primary { background: #a85f3d; border-color: #a85f3d; color: #fffaf2; }
