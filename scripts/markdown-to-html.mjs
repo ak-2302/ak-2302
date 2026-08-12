@@ -34,6 +34,7 @@ for (const file of files.sort()) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="../ref/style/editorial-pages.css">
   <title>${escapeHtml(title)}</title>
 </head>
 <body class="note-page">
