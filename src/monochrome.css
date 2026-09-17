@@ -1,0 +1,265 @@
+:root {
+  --black: #0a0a0a;
+  --white: #f7f7f4;
+  --gray: #a6a6a1;
+  --line: rgba(247, 247, 244, 0.24);
+  --accent: #e7b8c5;
+  --tool-bg: #0a0a0a;
+  --tool-surface: #141414;
+  --tool-surface-raised: #1d1d1d;
+  --tool-text: #f7f7f4;
+  --tool-muted: #b5b5af;
+  --tool-line: #4b4b4b;
+  --tool-accent: #e7b8c5;
+  --tool-accent-strong: #f1cbd5;
+}
+
+html,
+body,
+#root,
+.site-shell,
+.collection-page,
+.idea-page,
+.counter-config,
+.app_shell,
+.app,
+.app-shell,
+.page-shell,
+.museum_shell {
+  background-color: #0a0a0a !important;
+  background-image: none !important;
+  color: #f7f7f4;
+}
+
+body::before,
+body::after,
+.hero::before,
+.tool-page::before {
+  display: none !important;
+}
+
+input,
+textarea,
+select {
+  background-color: #f7f7f4 !important;
+  border-color: #777 !important;
+  color: #0a0a0a !important;
+}
+
+button,
+.button,
+.primary,
+.button-accent,
+.tool_save_button {
+  border-color: #e7b8c5;
+}
+
+button:not(:disabled):hover,
+.button:hover,
+.primary:hover,
+.button-accent:hover,
+.tool_save_button:hover:not(:disabled) {
+  background-color: #e7b8c5 !important;
+  color: #0a0a0a !important;
+}
+
+button:disabled,
+.button:disabled {
+  border-color: #555;
+  color: #999 !important;
+}
+
+.modal__panel {
+  background-color: #f7f7f4 !important;
+  color: #0a0a0a !important;
+}
+
+.modal__panel input,
+.modal__panel textarea,
+.modal__panel select {
+  background-color: transparent !important;
+  color: #0a0a0a !important;
+}
+
+/* Liquid UI: tool surfaces share one translucent, monochrome material. */
+.app_shell,
+.app-shell,
+.tool-page,
+.page-shell,
+.collection-page {
+  --liquid-surface: rgba(255, 255, 255, 0.075);
+  --liquid-surface-strong: rgba(255, 255, 255, 0.12);
+  --liquid-border: rgba(255, 255, 255, 0.28);
+}
+
+.app_shell .panel,
+.app .panel,
+.app-shell .panel,
+.tool-page .panel,
+.page-shell .panel,
+.collection-page .panel,
+.app_shell .card,
+.app .card,
+.app-shell .card,
+.tool-page .card,
+.page-shell .card,
+.collection-page .card,
+.app_shell .drop_zone,
+.app .drop_zone,
+.app-shell .drop_zone,
+.tool-page .drop_zone,
+.page-shell .drop_zone {
+  background: linear-gradient(
+    145deg,
+    var(--liquid-surface-strong),
+    var(--liquid-surface)
+  ) !important;
+  border: 1px solid var(--liquid-border) !important;
+  border-radius: 24px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 18px 50px rgba(0, 0, 0, 0.18) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+  backdrop-filter: blur(18px) saturate(115%);
+}
+
+.app_shell input,
+.app input,
+.app_shell textarea,
+.app textarea,
+.app_shell select,
+.app select,
+.app-shell input,
+.app-shell textarea,
+.app-shell select,
+.tool-page input,
+.tool-page textarea,
+.tool-page select,
+.page-shell input,
+.page-shell textarea,
+.page-shell select,
+.collection-page input,
+.collection-page textarea,
+.collection-page select {
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 14px !important;
+  background: rgba(0, 0, 0, 0.28) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+.app_shell button,
+.app button,
+.app-shell button,
+.tool-page button,
+.page-shell button,
+.collection-page button,
+.app_shell .button,
+.app .button,
+.app-shell .button,
+.tool-page .button,
+.page-shell .button,
+.collection-page .button {
+  border-radius: 999px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 8px 22px rgba(0, 0, 0, 0.16) !important;
+}
+
+.app_shell .button_primary,
+.app .button_primary,
+.app_shell .button_accent,
+.app .button_accent,
+.app-shell .button_primary,
+.app-shell .button_accent,
+.tool-page .button_primary,
+.tool-page .button_accent,
+.page-shell .button_primary,
+.page-shell .button_accent {
+  background: linear-gradient(135deg, #f1cbd5, #e7b8c5) !important;
+}
+
+.app_shell .upload-card,
+.app .upload-card,
+.app_shell .size_card,
+.app .size_card,
+.app_shell .tool_popover,
+.app .tool_popover,
+.app_shell .tool_panel,
+.app .tool_panel,
+.app_shell .result,
+.app .result {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0.045)
+  ) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 22px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 20px 55px rgba(0, 0, 0, 0.2) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  backdrop-filter: blur(22px) saturate(125%);
+}
+
+.app_shell .dropzone,
+.app .dropzone,
+.app_shell .drop_zone,
+.app .drop_zone {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.025)
+  ) !important;
+  border-color: rgba(255, 255, 255, 0.38) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 0 35px rgba(255, 255, 255, 0.025) !important;
+}
+
+.app_shell .workspace,
+.app .workspace {
+  background: transparent !important;
+  color: var(--tool-text) !important;
+}
+
+.app_shell .brand,
+.app .brand,
+.app_shell .section_heading h2,
+.app .section_heading h2,
+.app_shell .format_options span,
+.app .format_options span {
+  color: #f7f7f4 !important;
+}
+
+.app_shell .privacy_note,
+.app .privacy_note,
+.app_shell .format_options small,
+.app .format_options small {
+  color: #b5b5af !important;
+}
+
+.app_shell input:focus,
+.app_shell textarea:focus,
+.app_shell select:focus,
+.app input:focus,
+.app textarea:focus,
+.app select:focus,
+.app-shell input:focus,
+.app-shell textarea:focus,
+.app-shell select:focus {
+  outline: 2px solid rgba(231, 184, 197, 0.65);
+  outline-offset: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 5px rgba(231, 184, 197, 0.08) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

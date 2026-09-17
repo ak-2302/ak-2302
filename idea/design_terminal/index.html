@@ -1,36 +1,12 @@
 <!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ターミナル風のインタラクティブなプロフィールサイト">
-  <title>terminal://ak-2302</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../../ref/style/editorial-pages.css">
-</head>
-<body>
-  <main class="terminal_shell">
-    <header class="topbar">
-      <div class="window_controls" aria-label="ウィンドウ操作"><span></span><span></span><span></span></div>
-      <div class="window_title">terminal://ak-2302 — zsh</div>
-      <div class="topbar_status"><span class="status_dot"></span> online <span class="divider">/</span> 23:02 JST</div>
-    </header>
-
-    <div class="workspace welcome_layout">
-      <section class="terminal_panel">
-        <div class="terminal_scroll" id="terminal_output" aria-live="polite">
-          <form class="command_form" id="command_form">
-            <span class="form_prompt">ak@studio:~$</span>
-            <input id="command_input" value="help" autocomplete="off" spellcheck="false" aria-label="コマンド入力">
-            <button type="submit" aria-label="コマンドを実行">↵</button>
-          </form>
-        </div>
-      </section>
-
-    </div>
-
-    <footer class="statusbar"><span>UTF-8</span><span>main*</span><span class="statusbar_right">welcome to my corner of the internet <span class="pulse">●</span></span></footer>
-  </main>
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>terminal://ak-2302</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

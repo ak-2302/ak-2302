@@ -1,16 +1,18 @@
 :root {
-  --ink: #171714;
-  --muted: #6e6e67;
-  --line: #deded6;
-  --line-soft: #ecece6;
-  --paper: #f5f5ef;
-  --white: #ffffff;
-  --accent: #e7ff55;
-  --accent-strong: #d8f23f;
+  --ink: #f7f7f4;
+  --muted: #b5b5af;
+  --line: #4b4b4b;
+  --line-soft: #2d2d2d;
+  --paper: #0a0a0a;
+  --white: #141414;
+  --accent: #e7b8c5;
+  --accent-strong: #f1cbd5;
   --blue: #5667ff;
   --danger: #c94343;
-  --shadow: 0 24px 70px rgba(35, 35, 28, 0.1);
-  font-family: Inter, "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+  font-family:
+    Inter, "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic",
+    sans-serif;
   color: var(--ink);
   background: var(--paper);
   font-synthesis: none;
@@ -28,9 +30,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 84% 12%, rgba(231, 255, 85, 0.17), transparent 24rem),
-    var(--paper);
+  background: var(--paper);
 }
 
 button,
@@ -312,7 +312,10 @@ svg {
   outline: none;
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 12px;
-  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
 }
 
 .input-wrap input::placeholder {
@@ -447,7 +450,10 @@ svg {
   cursor: pointer;
   font-size: 13px;
   font-weight: 760;
-  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background 120ms ease;
 }
 
 .primary-button svg {
@@ -645,7 +651,7 @@ svg {
 .history-card-back {
   top: 0;
   left: 13px;
-  background: #ededE7;
+  background: #edede7;
   transform: rotate(-9deg);
 }
 
@@ -694,7 +700,9 @@ svg {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .error-icon {
@@ -1025,4 +1033,45 @@ footer span {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+}
+
+/* [AI] Reactの共通レイアウトが持つ固定ビューポート設定を、この縦長ツールでは解除する。 */
+html:has(.github-pages-tool),
+body:has(.github-pages-tool),
+#root:has(.github-pages-tool) {
+  height: auto !important;
+  min-height: 100%;
+  overflow: visible !important;
+}
+
+.github-pages-tool {
+  min-height: 100svh;
+  overflow: visible;
+}
+
+.github-pages-tool .page-shell {
+  overflow: visible;
+}
+
+.github-pages-tool .workspace {
+  min-height: 0;
+}
+
+.github-pages-tool button {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.github-pages-tool .text-button,
+.github-pages-tool .refresh-button {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.github-pages-tool .primary-button {
+  min-height: 54px;
+  height: auto;
+  padding: 14px 18px;
 }

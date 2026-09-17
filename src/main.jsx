@@ -1,0 +1,20 @@
+import { createRoot } from "react-dom/client";
+import "./styles.css";
+import "./collection.css";
+import "./idea.css";
+import "./widgets.css";
+import "./counter.css";
+import "./memo.css";
+import "./clock.css";
+import "./schedule.css";
+import "./comment.css";
+import "./solid-background.css";
+import "../tool/image_audio_to_video/style.css";
+import "../tool/video_trans/index.css";
+import "../idea/design_specimen/style.css";
+import "../tool/github_pages_commits/styles.css";
+import "../ref/style/3d.css";
+import "./monochrome.css";
+import { ReactRouter } from "./router.jsx";
+
+createRoot(document.getElementById("root")).render(<ReactRouter />);

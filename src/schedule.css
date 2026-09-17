@@ -1,0 +1,44 @@
+.schedule-preview {
+  background: #151918;
+  border: 1px solid #303735;
+  margin: 55px 0 28px;
+  max-width: 680px;
+  padding: 28px;
+}
+.schedule-preview small {
+  color: #b8f525;
+  font: 11px var(--mono);
+  letter-spacing: 0.14em;
+}
+.schedule-preview ol {
+  margin: 24px 0 0;
+  padding-left: 28px;
+}
+.schedule-preview li {
+  border-bottom: 1px solid #303735;
+  color: #f6f7f1;
+  font: 14px var(--mono);
+  padding: 14px 0;
+}
+.schedule-preview li button {
+  color: #89928e;
+  float: right;
+}
+.schedule-config form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  max-width: 680px;
+}
+.schedule-config form input {
+  background: #101211;
+  border: 1px solid #303735;
+  color: #f6f7f1;
+  flex: 1;
+  padding: 12px;
+}
+.schedule-config form button {
+  background: #b8f525;
+  color: #101211;
+  padding: 0 18px;
+}

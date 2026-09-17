@@ -1,0 +1,115 @@
+.idea-page {
+  background: #f1eee6;
+  color: #25231f;
+  min-height: 100%;
+  font-family: var(--sans);
+  overflow: auto;
+}
+.idea-header {
+  border-bottom: 1px solid rgba(37, 35, 31, 0.2);
+  display: flex;
+  font: 10px var(--mono);
+  justify-content: space-between;
+  padding: 24px clamp(24px, 7vw, 110px);
+}
+.idea-header a {
+  color: inherit;
+  text-decoration: none;
+}
+.idea-content {
+  margin: auto;
+  max-width: 960px;
+  padding: clamp(80px, 14vh, 160px) 24px;
+  position: relative;
+}
+.idea-content h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(56px, 10vw, 130px);
+  font-weight: 400;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  margin: 28px 0;
+}
+.idea-content > p:not(.eyebrow) {
+  color: #69645d;
+  line-height: 1.9;
+}
+.idea-action {
+  border: 1px solid currentColor;
+  margin-top: 44px;
+  padding: 14px 20px;
+}
+.bubble-field {
+  height: 330px;
+  margin: 48px 0 18px;
+  overflow: hidden;
+  position: relative;
+}
+.bubble-field i {
+  animation: float 5s ease-in-out infinite alternate;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(40, 35, 30, 0.15);
+  border-radius: 50%;
+  height: clamp(20px, 5vw, 70px);
+  left: calc((var(--i) * 37) % 96 * 1%);
+  position: absolute;
+  top: calc((var(--i) * 61) % 86 * 1%);
+  width: clamp(20px, 5vw, 70px);
+}
+.walk-trail {
+  border-left: 1px solid currentColor;
+  margin-top: 80px;
+  padding: 40px;
+}
+.paw-nav {
+  display: grid;
+  gap: 0;
+  margin-top: 64px;
+  max-width: 560px;
+}
+.paw-nav a {
+  border-bottom: 1px solid rgba(37, 35, 31, 0.3);
+  color: inherit;
+  padding: 22px 0;
+  text-decoration: none;
+}
+.paw-nav a:hover {
+  padding-left: 12px;
+}
+.terminal-box {
+  background: #111;
+  color: #dfff00;
+  font: 13px var(--mono);
+  margin-top: 55px;
+  max-width: 700px;
+  padding: 28px;
+}
+.terminal-box input {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  outline: 0;
+  width: calc(100% - 32px);
+}
+.terminal-box button {
+  color: inherit;
+}
+.idea-fuwafuwa {
+  background: #dce8ee;
+}
+.idea-neko {
+  background: #efe4d0;
+}
+.idea-terminal {
+  background: #090909;
+  color: #f2f2ed;
+}
+.idea-terminal .idea-content > p:not(.eyebrow) {
+  color: #9aa099;
+}
+@keyframes float {
+  to {
+    transform: translateY(-20px) rotate(8deg);
+  }
+}

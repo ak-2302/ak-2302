@@ -1,3 +1,14 @@
-.content-card{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
-.content-card{width:min(16rem,22vw)}
-.title-section{padding:0 0 8rem;background:transparent}
+.content-card {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.content-card {
+  width: min(16rem, 22vw);
+}
+.title-section {
+  padding: 0 0 8rem;
+  background: transparent;
+}

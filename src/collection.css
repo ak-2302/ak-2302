@@ -1,0 +1,70 @@
+.collection-page {
+  background: #f2f2ed;
+  color: #090909;
+  min-height: 100%;
+  padding: 0 clamp(24px, 7vw, 120px);
+  font-family: var(--sans);
+  overflow: auto;
+}
+.collection-header,
+.collection-footer {
+  align-items: center;
+  border-bottom: 1px solid #c8c8c2;
+  display: flex;
+  font: 10px var(--mono);
+  justify-content: space-between;
+  padding: 26px 0;
+}
+.collection-header .site-logo {
+  color: #090909;
+}
+.collection-intro {
+  max-width: 760px;
+  padding: clamp(80px, 13vh, 160px) 0 80px;
+}
+.collection-intro h1 {
+  font-size: clamp(72px, 12vw, 170px);
+  font-weight: 500;
+  letter-spacing: -0.08em;
+  line-height: 0.8;
+  margin: 28px 0;
+}
+.collection-intro > p:last-child {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.collection-list {
+  border-top: 1px solid #aaa;
+}
+.collection-list a {
+  align-items: center;
+  border-bottom: 1px solid #aaa;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 54px 1fr 28px;
+  padding: 28px 0;
+  text-decoration: none;
+}
+.collection-list a:hover {
+  background: #dfff00;
+}
+.collection-list span {
+  color: #888;
+  font: 11px var(--mono);
+}
+.collection-list strong {
+  font-size: clamp(16px, 2vw, 24px);
+  font-weight: 500;
+}
+.collection-list b {
+  font: 22px var(--sans);
+}
+.collection-footer {
+  border-top: 0;
+  margin-top: 100px;
+}
+.collection-footer a {
+  color: #090909;
+  text-decoration: none;
+}
