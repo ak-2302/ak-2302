@@ -1,57 +1,1428 @@
-import React, { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import * as FFmpeg from '@ffmpeg/ffmpeg';
-import JSZip from 'jszip';
-import './styles.css';
-import './collection.css';
-import './idea.css';
-import './widgets.css';
-import './counter.css';
-import './memo.css';
-import './clock.css';
-import './schedule.css';
-import './comment.css';
-import './solid-background.css';
-import '../tool/image_audio_to_video/style.css';
-import '../tool/image_converter/style.css';
-import '../tool/video_compressor/style.css';
-import '../tool/video_trans/index.css';
-import videoTransHtml from '../tool/video_trans/index.html?raw';
-import specimenHtml from '../idea/design_specimen/index.html?raw';
-import githubPagesHtml from '../tool/github_pages_commits/index.html?raw';
-import '../idea/design_specimen/style.css';
-import '../tool/github_pages_commits/styles.css';
-import '../ref/style/3d.css';
-import './monochrome.css';
-import { ActionLink, BackLink, SectionHeading, TextButton } from './components/ui.jsx';
+import React, { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import * as FFmpeg from "@ffmpeg/ffmpeg";
+import JSZip from "jszip";
+import "./styles.css";
+import "./collection.css";
+import "./idea.css";
+import "./widgets.css";
+import "./counter.css";
+import "./memo.css";
+import "./clock.css";
+import "./schedule.css";
+import "./comment.css";
+import "./solid-background.css";
+import "../tool/image_audio_to_video/style.css";
+import "../tool/image_converter/style.css";
+import "../tool/video_compressor/style.css";
+import "../tool/video_trans/index.css";
+import videoTransHtml from "../tool/video_trans/index.html?raw";
+import specimenHtml from "../idea/design_specimen/index.html?raw";
+import githubPagesHtml from "../tool/github_pages_commits/index.html?raw";
+import "../idea/design_specimen/style.css";
+import "../tool/github_pages_commits/styles.css";
+import "../ref/style/3d.css";
+import "./monochrome.css";
+import {
+  ActionLink,
+  BackLink,
+  SectionHeading,
+  TextButton,
+} from "./components/ui.jsx";
 
-const endpoint = 'https://contact-worker.meiteya.workers.dev';
-const items = [['PROFILE','About'],['TOOL','Works'],['NOTE','Writing'],['IDEA','Experiment'],['LINK','Social'],['CONTACT','Message']];
-const ideas = [['Bottom to Top','./idea/design_bottom_to_top/'],['Fuwafuwa','./idea/design_fuwafuwa/'],['Neko','./idea/design_neko/'],['Terminal','./idea/design_terminal/'],['Specimen','./idea/design_specimen/']];
-function useClock(){const [v,setV]=useState('--:--');useEffect(()=>{const f=()=>setV(new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date()));f();const i=setInterval(f,30000);return()=>clearInterval(i)},[]);return v}
-function Links({links}){const entries=links[0]?.[0]==='Web tools'?tools:links;return <div className="feature-list">{entries.map(([label,href])=><ActionLink href={href} key={href}>{label}</ActionLink>)}</div>}
-function Modal({name,onClose}){const [status,setStatus]=useState('');const [notes,setNotes]=useState([]);const [closing,setClosing]=useState(false);const number=items.findIndex(x=>x[0]===name)+1;const requestClose=()=>{if(!closing)setClosing(true)};useEffect(()=>{if(name==='NOTE')fetch('./note/index.json',{cache:'no-store'}).then(r=>r.json()).then(setNotes).catch(()=>setStatus('ノート一覧を読み込めませんでした。'))},[name]);useEffect(()=>{const f=e=>e.key==='Escape'&&requestClose();document.addEventListener('keydown',f);return()=>document.removeEventListener('keydown',f)},[closing]);const submit=async e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.currentTarget));if(!data.name||!data.email||!data.message)return setStatus('すべての項目を入力してください。');setStatus('送信中...');try{const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});if(!r.ok)throw Error();e.currentTarget.reset();setStatus('送信しました。')}catch{setStatus('送信できませんでした。時間をおいて再度お試しください。')}};return <div className={`modal is-open${closing?' is-closing':''}`} onAnimationEnd={e=>{if(closing&&e.target===e.currentTarget)onClose()}}><button className="modal__backdrop" onClick={requestClose} aria-label="閉じる"/><section className="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div className="modal__header"><p>{String(number).padStart(2,'0')} / 06</p><button className="modal__close" onClick={requestClose} aria-label="閉じる">×</button></div><div className="modal__body"><p className="modal__label">{items[number-1][1]}</p><h2 id="modal-title">{name}</h2>{name==='PROFILE'&&<><p className="modal__lead">Webの技術を使って、日常で役立つものや面白い体験をつくっています。</p><div className="profile-grid"><dl><dt>Name</dt><dd>ak-2302</dd></dl><dl><dt>Location</dt><dd>Japan</dd></dl><dl><dt>Focus</dt><dd>Web Development</dd></dl></div></>}{name==='TOOL'&&<><p className="modal__lead">手軽に使える道具をつくっています。</p><Links links={[["Web tools",'./tool/']]}/></>}{name==='NOTE'&&<Links links={notes.map(n=>[n.title,n.url])}/>} {name==='IDEA'&&<><p className="modal__lead">まだ形になっていない、ユニークなアイデアを集める場所です。</p><Links links={ideas}/></>}{name==='LINK'&&<nav className="social-links">{[['GitHub','https://github.com/ak-2302'],['Qiita','https://qiita.com/ak-2302'],['Zenn','https://zenn.dev/ak2302'],['X','https://x.com/ak_2302x']].map(([x,h])=><a href={h} target="_blank" rel="noreferrer" key={h}><span>{x}</span><b>↗</b></a>)}</nav>}{name==='CONTACT'&&<form className="contact-form" onSubmit={submit}><label>Name<input name="name" required maxLength="80"/></label><label>Email<input name="email" type="email" required maxLength="254"/></label><label>Message<textarea name="message" rows="4" required maxLength="1800"/></label><div className="contact-form__footer"><p aria-live="polite">{status}</p><button type="submit">SEND MESSAGE <span>↗</span></button></div></form>}</div></section></div>}
-function Home(){const [open,setOpen]=useState(null);const clock=useClock();return <main className="site-shell"><header className="site-header"><a className="site-logo" href="./"><span className="site-logo__mark"/>ak-2302</a><p className="site-header__status"><span/> Interactive portfolio</p></header><section className="hero"><div className="hero__copy"><p className="eyebrow">Personal website / 2026</p><p className="hero__description">6つの入り口を、触れて選んでください。</p></div><div className="stage-wrap"><div className="sphere-stage" aria-label="コンテンツメニュー">{items.map(([label,type],i)=><button className={`sphere sphere--${i+1}`} key={label} onClick={()=>setOpen(label)}><strong>{label}</strong><small>AK / 2302</small><em>{type}</em></button>)}</div><div className="stage-hint">CLICK A SPHERE</div></div><p className="hero__index">01 — 06</p></section><footer className="site-footer"><p>© {new Date().getFullYear()} ak-2302</p><p>REACT × VITE</p><time>{clock}</time></footer>{open&&<Modal name={open} onClose={()=>setOpen(null)}/>}</main>}
-const tools=[['動画をまとめて変換する','/tool/video_trans/'],['画像を変換・補正する','/tool/image_converter/'],['動画を10MB以下に圧縮する','/tool/video_compressor/'],['過去のGitHub Pagesの履歴を見る','/tool/github_pages_commits/'],['配信画面に使えるウィジェット','/tool/obs/'],['画像と音声から動画をつくる','/tool/image_audio_to_video/']];
-function CollectionPage(){const [notes,setNotes]=useState([]);const isNote=location.pathname.startsWith('/note');useEffect(()=>{if(isNote)fetch('./index.json').then(r=>r.json()).then(setNotes).catch(()=>setNotes([]))},[isNote]);const list=isNote?notes.map(n=>[n.title,n.url.replace('./note/','./')]):tools;return <main className="collection-page"><header className="collection-header"><a className="site-logo" href="./"><span className="site-logo__mark"/>ak-2302</a><span>{isNote?'NOTE':'TOOLS'}</span></header><section className="collection-intro"><p className="eyebrow">{isNote?'Writing':'Web tools'}</p><h1>{isNote?'Notes':'Tools'}</h1><p>{isNote?'思考のメモや、制作の記録を綴っています。':'日常で役立つ、手軽なWebツールをまとめています。'}</p></section><section className="collection-list">{list.map(([label,href],i)=><a href={href} key={href}><span>{String(i+1).padStart(2,'0')}</span><strong>{label}</strong><b>↗</b></a>)}</section><footer className="collection-footer"><a href="./">← ak-2302</a><span>REACT × VITE</span></footer></main>}
-const ideaMeta={bottom_to_top:['a little walk','足あとをたどって。','scroll up to explore'],fuwafuwa:['ふわふわ','泡のあつまる場所','泡を出す'],neko:['ねこのあとを追って','好奇心のままに、気になる場所へ。','プロフィールや制作物を置いています。'],terminal:['terminal://ak-2302','welcome to my corner of the internet','help']};
-function IdeaPage(){const key=location.pathname.includes('fuwafuwa')?'fuwafuwa':location.pathname.includes('neko')?'neko':location.pathname.includes('terminal')?'terminal':'bottom_to_top';const meta=ideaMeta[key];const [count,setCount]=useState(18);const [command,setCommand]=useState('');const [output,setOutput]=useState('');const run=e=>{e.preventDefault();setOutput(command==='help'?'about  works  contact  clear':command==='clear'?'':'command not found');setCommand('')};return <main className={`idea-page idea-${key}`}><header className="idea-header"><a href="./">← ak-2302</a><span>REACT EXPERIMENT</span></header><section className="idea-content"><p className="eyebrow">{meta[0]}</p><h1>{meta[1]}</h1><p>{meta[2]}</p>{key==='fuwafuwa'&&<><button className="idea-action" onClick={()=>setCount(c=>c+1)}>＋ 泡を出す</button><div className="bubble-field">{Array.from({length:count},(_,i)=><i key={i} style={{'--i':i}}/> )}</div><small>{count} 個の泡が漂っています</small></>}{key==='bottom_to_top'&&<div className="walk-trail"><button className="idea-action" onClick={()=>window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}>SCROLL UP ↑</button><p>下から上へ、足あとをたどって。</p></div>}{key==='neko'&&<nav className="paw-nav"><a href="#profile">01　プロフィール</a><a href="#tools">02　ツール</a><a href="#notes">03　ノート</a><a href="#links">04　リンク</a></nav>}{key==='terminal'&&<div className="terminal-box"><p>ak@studio:~$ {output||'_'}</p><form onSubmit={run}><input value={command} onChange={e=>setCommand(e.target.value)} placeholder="help" aria-label="コマンド入力"/><button>↵</button></form></div>}</section></main>}
-function CompressorPage(){useEffect(()=>{const script=document.createElement('script');script.src='/tool/video_compressor/script.js';script.defer=true;document.body.append(script);return()=>script.remove()},[]);return <main className="app"><header className="header"><h1>動画を10MB以下に圧縮する</h1><span>10MB以内</span></header><section className="workspace"><section className="preview panel"><input id="fileInput" type="file" accept="video/*" hidden/><div id="dropZone" className="dropzone" role="button" tabIndex="0" aria-label="動画ファイルを選択"><div className="playmark">▶</div><strong>動画をここにドロップ</strong><button id="chooseButton" className="primary" type="button">動画を選ぶ</button></div><video id="video" controls playsInline hidden/><div id="fileMeta" className="file_meta" hidden><span id="fileName"/><span id="fileDetails"/></div></section><aside className="controls panel"><input id="targetSize" type="hidden" value="10"/><select id="quality" hidden><option value="balanced">バランス</option></select><span id="bitrate" hidden/><span id="estimateNote" hidden/><button id="compressButton" hidden/><button id="clearButton" hidden/><div className="size_card"><span>元のサイズ</span><strong id="beforeSize">—</strong><em id="sizeState">動画未選択</em></div><div id="progressWrap" className="progress_wrap"><div className="progress_head"><span id="progressLabel">準備中…</span><b id="progressValue">0%</b></div><div className="progress"><i id="progressBar"/></div></div><p id="status" className="status" role="status" aria-live="polite"/></aside></section><section id="result" className="result panel" hidden><p id="resultSummary" className="summary"/><a id="download" className="primary download">動画を保存</a></section></main>}
-function MediaMakerPage(){useEffect(()=>{const script=document.createElement('script');script.src='/tool/image_audio_to_video/script.js';script.defer=true;document.body.append(script);return()=>script.remove()},[]);return <main className="app_shell"><header className="topbar"><a className="brand" href="./">◒　画像と音声から動画をつくる</a><div className="privacy_note">● ブラウザ内で処理</div></header><section className="workspace"><div className="asset_column"><div className="section_heading"><span>01</span><h2>素材を追加</h2></div><label className="drop_zone" id="image_drop_zone" htmlFor="image_input"><input id="image_input" type="file" accept="image/*"/><span className="upload_icon">＋</span><strong>背景画像</strong><small id="image_name">JPG / PNG / WEBP</small></label><label className="drop_zone" id="audio_drop_zone" htmlFor="audio_input"><input id="audio_input" type="file" accept="audio/*"/><span className="upload_icon audio_icon">∿</span><strong>音声ファイル</strong><small id="audio_name">MP3 / WAV / M4A</small></label><p className="helper">⌁ ファイルは端末の外へ送信されません</p></div><div className="preview_column"><div className="section_heading"><span>PREVIEW</span><h2>プレビュー</h2></div><div className="preview_frame" id="preview_frame"><canvas id="preview_canvas" width="1280" height="720"/><div className="empty_preview" id="empty_preview"><span className="preview_glyph">◫</span><p>画像を追加すると<br/>ここにプレビューが表示されます</p></div><button className="play_button" id="play_button" type="button" aria-label="プレビューを再生">▶</button></div><div className="timeline"><span id="current_time">00:00</span><div className="timeline_track"><span id="timeline_progress"/></div><span id="total_time">00:00</span></div></div></section><section className="export_row"><div className="format_group"><div className="section_heading"><span>02</span><h2>書き出し設定</h2></div><div className="format_options"><label><input type="radio" name="format" value="mp4" defaultChecked/><span>MP4</span><small>互換性優先</small></label></div></div><div className="export_action"><button id="export_button" type="button" disabled><span id="export_label">動画を書き出す</span><span className="arrow">→</span></button><p id="export_status">画像と音声を追加してください</p></div></section><footer><span>画像と音声から動画をつくる</span><span>処理はすべてこのブラウザで完結します</span></footer></main>}
-function ImageConverterPage(){useEffect(()=>{const external=document.createElement('script');external.src='https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js';external.onload=()=>{const script=document.createElement('script');script.src='/tool/image_converter/script.js';script.defer=true;document.body.append(script)};document.head.append(external);return()=>{external.remove()}},[]);return <main className="app_shell"><input id="file_input" type="file" accept="image/*" hidden/><section className="canvas_panel panel"><div className="canvas_heading"><p className="section_label">CANVAS</p><button id="clear_button" className="text_button" type="button">画像を削除</button></div><div id="canvas_stage" className="canvas_stage" role="button" tabIndex="0" aria-label="画像を選択"><div id="empty_state" className="empty_state"><strong>ここに画像が表示されます</strong><span>画像を1枚選択してください。</span></div><img id="canvas_image" alt="編集対象の画像" hidden/></div><div className="canvas_meta"><span id="canvas_file_name">未選択</span><span id="canvas_dimensions">—</span><span id="canvas_size">—</span></div></section><aside id="settings_panel" className="settings_panel panel"><div className="tool_menu" role="toolbar" aria-label="画像編集メニュー"><button className="tool_menu_button" data-tool="size">サイズ</button><button className="tool_menu_button" data-tool="transform">変形</button><button className="tool_menu_button" data-tool="adjust">補正</button><button className="tool_menu_button" data-tool="crop">切抜き</button><button id="convert_button" className="tool_save_button" type="button" disabled>保存</button></div><div id="tool_popover" className="tool_popover" hidden><section className="tool_panel" data-panel="size"><h2>サイズ</h2><label className="field">幅<input id="width_input" type="number" min="1"/></label><label className="field">高さ<input id="height_input" type="number" min="1"/></label><label className="check_row"><input id="aspect_lock" type="checkbox" defaultChecked/>縦横比を維持</label></section><section className="tool_panel" data-panel="transform"><h2>回転・反転</h2><button data-action="rotate_left" type="button">↶ 左回転</button><button data-action="rotate_right" type="button">↷ 右回転</button><button data-action="flip_h" type="button">↔ 水平反転</button><button data-action="flip_v" type="button">↕ 垂直反転</button></section><section className="tool_panel" data-panel="adjust"><h2>色調補正</h2>{['brightness','contrast','saturation'].map(x=><label className="slider_row" key={x}>{x}<output id={`${x}_value`}>0</output><input id={`${x}_input`} type="range" min="-100" max="100" defaultValue="0"/></label>)}</section><section className="tool_panel" data-panel="crop"><h2>トリミング</h2><select id="crop_ratio"><option value="none">トリミングしない</option><option value="1:1">1:1</option><option value="16:9">16:9</option></select></section></div><span id="status_message" className="status_message" role="status" aria-live="polite"/></aside><section id="result_panel" className="panel result_panel" hidden><div className="panel_heading"><div><p className="section_label">RESULT</p><h2>変換結果</h2><p id="result_summary"/></div><button id="download_all_button" type="button">ZIPで保存</button></div><div id="result_list"/></section></main>}
-const widgets=[['01','時計・カレンダー','時刻、日付、曜日を表示します。','info','./widgets/clock/'],['02','カウンター','キー操作で数字を増減します。','control','./widgets/counter/'],['03','タイマー','配信用カウントダウンです。','control','./widgets/timer/'],['04','メモ','自由なテキストを表示します。','info','./widgets/memo/'],['05','スケジュール','進行予定を縦に並べます。','info','./widgets/schedule/'],['06','コメント表示','配信コメントを表示します。','info','./widgets/comment/']];
-const widgetDetails={clock:['時計・カレンダー','時刻、日付、曜日を表示するウィジェットです。',[['Digital Clock','./desigh_1/'],['Date Card','./desigh_2/'],['Week Line','./desigh_3/']]],counter:['カウンター','配信中の数字をキーボードやボタンで増減できます。',[['Score Counter','./desigh_1/'],['Inline Counter','./desigh_2/']]],timer:['タイマー','指定時間から0までカウントダウンします。',[['Countdown','./desigh_1/'],['Minimal Timer','./desigh_2/']]],memo:['メモ','お知らせや配信タイトルなどの短い文章を表示します。',[['Simple Memo','./desigh_1/'],['Label Note','./desigh_2/']]],schedule:['スケジュール','配信の進行予定を表示します。',[['Flow Schedule','./desigh_1/'],['Timeline','./desigh_2/']]],comment:['コメント表示','配信コメントをカードや吹き出しで表示します。',[['Comment designs','./']]]};
-function WidgetDetailPage(){const key=Object.keys(widgetDetails).find(x=>location.pathname.includes(`/widgets/${x}/`))||'clock';const [title,desc,list]=widgetDetails[key];return <main className="collection-page"><header className="collection-header"><a className="site-logo" href="./"><span className="site-logo__mark"/>ak-2302</a><span>OBS / {key.toUpperCase()}</span></header><section className="collection-intro"><p className="eyebrow">OBS Widgets</p><h1>{title}</h1><p>{desc}</p></section><section className="collection-list">{list.map(([name,href],i)=><a href={href} key={href}><span>{String(i+1).padStart(2,'0')}</span><strong>{name}</strong><b>↗</b></a>)}</section><footer className="collection-footer"><a href="../../">← ウィジェット一覧</a><span>REACT × VITE</span></footer></main>}
-function CounterConfigPage(){const [value,setValue]=useState(0);return <main className="counter-config"><header className="collection-header"><a className="site-logo" href="../../../"><span className="site-logo__mark"/>ak-2302</a><span>COUNTER / DESIGN 01</span></header><section><p className="eyebrow">OBS Widget / Design 01</p><h1>Score Counter</h1><p>配信中の数字をボタンやキーボードで増減できます。</p><div className="counter-preview"><small>COUNT</small><strong>{value}</strong><div><button onClick={()=>setValue(v=>v-1)}>DOWN</button><button onClick={()=>setValue(0)}>RESET</button><button onClick={()=>setValue(v=>v+1)}>UP</button></div></div><a className="back-link" href="../">← カウンターデザイン一覧</a></section></main>}
-function TimerConfigPage(){const [initial,setInitial]=useState(300);const [left,setLeft]=useState(300);const [running,setRunning]=useState(false);useEffect(()=>{if(!running)return;const id=setInterval(()=>setLeft(v=>{if(v<=1){setRunning(false);return 0}return v-1}),1000);return()=>clearInterval(id)},[running]);const format=v=>`${String(Math.floor(v/60)).padStart(2,'0')}:${String(v%60).padStart(2,'0')}`;return <main className="counter-config timer-config"><header className="collection-header"><a className="site-logo" href="../../../"><span className="site-logo__mark"/>ak-2302</a><span>TIMER / DESIGN 01</span></header><section><p className="eyebrow">OBS Widget / Design 01</p><h1>Countdown</h1><p>指定時間から0までカウントダウンします。</p><div className="counter-preview"><small>TIME REMAINING</small><strong>{format(left)}</strong><div><button onClick={()=>setRunning(true)} disabled={running||left===0}>START</button><button onClick={()=>setRunning(false)}>PAUSE</button><button onClick={()=>{setRunning(false);setLeft(initial)}}>RESET</button></div></div><label className="timer-setting">分<input type="number" min="0" value={Math.floor(initial/60)} onChange={e=>{const v=Math.max(0,Number(e.target.value)||0)*60;setInitial(v);setLeft(v)}}/></label><a className="back-link" href="../">← タイマーデザイン一覧</a></section></main>}
-function MemoConfigPage(){const [text,setText]=useState('ON AIR');const [label,setLabel]=useState('NOTICE');return <main className="counter-config memo-config"><header className="collection-header"><a className="site-logo" href="../../../"><span className="site-logo__mark"/>ak-2302</a><span>MEMO / DESIGN 01</span></header><section><p className="eyebrow">OBS Widget / Design 01</p><h1>Simple Memo</h1><p>文章を入力すると、配信画面用のメモとしてプレビューできます。</p><div className="memo-preview"><small>{label}</small><strong>{text||' '}</strong></div><label className="timer-setting">ラベル<input value={label} onChange={e=>setLabel(e.target.value)} maxLength="30"/></label><label className="timer-setting">本文<textarea value={text} onChange={e=>setText(e.target.value)} maxLength="120" rows="3"/></label><a className="back-link" href="../">← メモデザイン一覧</a></section></main>}
-function ClockConfigPage(){const [now,setNow]=useState(new Date());const [seconds,setSeconds]=useState(false);useEffect(()=>{const id=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(id)},[]);const value=new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit',second:seconds?'2-digit':undefined,hour12:false}).format(now).replace(/:/g,' : ');return <main className="counter-config clock-config"><header className="collection-header"><a className="site-logo" href="../../../"><span className="site-logo__mark"/>ak-2302</a><span>CLOCK / DESIGN 01</span></header><section><p className="eyebrow">OBS Widget / Design 01</p><h1>Digital Clock</h1><p>現在時刻をブラウザ上で表示します。</p><div className="clock-preview"><small>JST</small><strong>{value}</strong></div><label className="timer-setting"><input type="checkbox" checked={seconds} onChange={e=>setSeconds(e.target.checked)}/> 秒を表示</label><a className="back-link" href="../">← 時計デザイン一覧</a></section></main>}
-function ScheduleConfigPage(){const [items,setItems]=useState(['21:00 START','21:10 TALK','22:00 END']);const [draft,setDraft]=useState('');return <main className="counter-config schedule-config"><header className="collection-header"><a className="site-logo" href="../../../"><span className="site-logo__mark"/>ak-2302</a><span>SCHEDULE / DESIGN 01</span></header><section><p className="eyebrow">OBS Widget / Design 01</p><h1>Flow Schedule</h1><p>予定を1行ずつ入力して、配信画面用のスケジュールを作成します。</p><div className="schedule-preview"><small>SCHEDULE</small><ol>{items.map((item,i)=><li key={`${item}-${i}`}>{item}<button onClick={()=>setItems(xs=>xs.filter((_,j)=>j!==i))} aria-label={`${item}を削除`}>×</button></li>)}</ol></div><form onSubmit={e=>{e.preventDefault();if(draft.trim()){setItems(xs=>[...xs,draft.trim()]);setDraft('')}}}><input value={draft} onChange={e=>setDraft(e.target.value)} placeholder="22:30 END" aria-label="予定を追加"/><button type="submit">追加</button></form><a className="back-link" href="../">← スケジュールデザイン一覧</a></section></main>}
-function CommentConfigPage(){const [user,setUser]=useState('viewer_01');const [message,setMessage]=useState('こんばんは！');return <main className="counter-config comment-config"><header className="collection-header"><a className="site-logo" href="../../../"><span className="site-logo__mark"/>ak-2302</a><span>COMMENT / DESIGN 01</span></header><section><p className="eyebrow">OBS Widget / Design 01</p><h1>Comment Stack</h1><p>名前と本文を入力して、配信コメントの見た目を確認できます。</p><div className="comment-preview"><strong>{user||' '}</strong><p>{message||' '}</p></div><label className="timer-setting">名前<input value={user} onChange={e=>setUser(e.target.value)} maxLength="40"/></label><label className="timer-setting">コメント<textarea value={message} onChange={e=>setMessage(e.target.value)} maxLength="180" rows="3"/></label><a className="back-link" href="../">← コメントデザイン一覧</a></section></main>}
-function ObsPage(){const [query,setQuery]=useState('');const [filter,setFilter]=useState('all');const list=widgets.filter(([,name,desc,cat])=>(filter==='all'||cat===filter)&&`${name}${desc}`.includes(query));return <main className="collection-page"><header className="collection-header"><a className="site-logo" href="./"><span className="site-logo__mark"/>ak-2302</a><span>OBS WIDGETS</span></header><section className="collection-intro"><p className="eyebrow">Widgets</p><h1>ウィジェット一覧</h1><p>すべて無料・ブラウザ完結。配信画面に使える道具を集めています。</p></section><div className="widget-controls"><input type="search" placeholder="ウィジェットを検索" value={query} onChange={e=>setQuery(e.target.value)}/>{[['all','すべて'],['info','情報表示'],['control','操作系']].map(([v,l])=><button key={v} className={filter===v?'is-active':''} onClick={()=>setFilter(v)}>{l}</button>)}</div><section className="collection-list">{list.map(([num,name,desc,,href])=><a href={href} key={href}><span>{num}</span><div><strong>{name}</strong><small>{desc}</small></div><b>↗</b></a>)}</section>{!list.length&&<p>条件に一致するウィジェットがありません。</p>}<footer className="collection-footer"><a href="./">← ak-2302</a><span>REACT × VITE</span></footer></main>}
-function App(){if(location.pathname.startsWith('/tool/video_compressor/'))return <CompressorPage/>;if(location.pathname.startsWith('/tool/image_audio_to_video/'))return <MediaMakerPage/>;if(location.pathname.startsWith('/tool/image_converter/'))return <ImageConverterPage/>;if(location.pathname.includes('/widgets/counter/desigh_1/')||location.pathname.includes('/widgets/counter/desigh_2/'))return <CounterConfigPage/>;if(location.pathname.includes('/widgets/timer/desigh_1/')||location.pathname.includes('/widgets/timer/desigh_2/'))return <TimerConfigPage/>;if(location.pathname.includes('/widgets/memo/desigh_1/')||location.pathname.includes('/widgets/memo/desigh_2/'))return <MemoConfigPage/>;if(location.pathname.includes('/widgets/clock/desigh_1/')||location.pathname.includes('/widgets/clock/desigh_2/')||location.pathname.includes('/widgets/clock/desigh_3/'))return <ClockConfigPage/>;if(location.pathname.includes('/widgets/schedule/desigh_1/')||location.pathname.includes('/widgets/schedule/desigh_2/'))return <ScheduleConfigPage/>;if(location.pathname.includes('/widgets/comment/design_'))return <CommentConfigPage/>;if(location.pathname.match(/\/tool\/obs\/widgets\/(clock|counter|timer|memo|schedule|comment)\//))return <WidgetDetailPage/>;if(location.pathname.startsWith('/tool/obs/'))return <ObsPage/>;if(location.pathname.startsWith('/tool/')||location.pathname.startsWith('/note/'))return <CollectionPage/>;if(location.pathname.startsWith('/idea/'))return <IdeaPage/>;return <Home/>}
-function VideoTransPage(){useEffect(()=>{window.FFmpeg=FFmpeg;window.JSZip=JSZip;const script=document.createElement('script');script.src='./index.js';script.defer=true;document.body.append(script);return()=>{script.remove();delete window.FFmpeg;delete window.JSZip}},[]);const body=videoTransHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1]?.replace(/<script[\s\S]*?<\/script>/gi,'')||'';return <div dangerouslySetInnerHTML={{__html:body}}/>}
-function LegacyReactPage({html,script,type='text/javascript'}){useEffect(()=>{const el=document.createElement('script');el.src=script;el.type=type;el.defer=true;document.body.append(el);return()=>el.remove()},[script,type]);const body=html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1]?.replace(/<script[\s\S]*?<\/script>/gi,'')||'';return <div dangerouslySetInnerHTML={{__html:body}}/>}
-function FidelityHome(){const [open,setOpen]=useState(null);const clock=useClock();useEffect(()=>{const urls=['/ref/script/vendor/three.min.js','/ref/script/vendor/physi.js','/ref/script/3d.js'];let cancelled=false;const load=src=>new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=reject;document.body.append(s)});(async()=>{for(const url of urls){if(!cancelled)await load(url)}})();const onSelect=e=>setOpen(e.detail.label);window.addEventListener('sphere-select',onSelect);return()=>{cancelled=true;window.removeEventListener('sphere-select',onSelect)}},[]);return <main className="site-shell"><header className="site-header"><a className="site-logo" href="./" aria-label="ak-2302 ホーム"><span className="site-logo__mark"/>ak-2302</a><p className="site-header__status"><span/> Interactive portfolio</p></header><section className="hero" aria-label="ak-2302 ポートフォリオ"><div className="hero__copy"><p className="eyebrow">Personal website / 2026</p><p className="hero__description">6つの球が、それぞれの入り口です。<br/>触れて、転がして、選んでください。</p></div><div className="stage-wrap"><div id="physicsStage" className="physics-stage" aria-label="物理演算で動くメニュー"><div className="stage-loader" id="stageLoader"><span/><p>INITIALIZING PHYSICS</p></div></div><div className="stage-hint"><p>Drag the box</p><p>Pinch to zoom</p></div></div><p className="hero__index">01 — 06</p><p className="hero__scroll">SELECT A SPHERE <span>↗</span></p></section><footer className="site-footer"><p>© {new Date().getFullYear()} ak-2302</p><p>THREE.JS × PHYSIJS</p><time>JST {clock}</time></footer>{open&&<Modal name={open} onClose={()=>setOpen(null)}/>}</main>}
-function ReactRouter(){if(location.pathname.startsWith('/tool/video_trans/'))return <VideoTransPage/>;if(location.pathname.startsWith('/idea/design_specimen/'))return <LegacyReactPage html={specimenHtml} script="./script.js"/>;if(location.pathname.startsWith('/tool/github_pages_commits/'))return <LegacyReactPage html={githubPagesHtml} script="./app.js" type="module"/>;if(location.pathname==='/'||location.pathname==='')return <FidelityHome/>;return <App/>}
-createRoot(document.getElementById('root')).render(<ReactRouter/>);
+const endpoint = "https://contact-worker.meiteya.workers.dev";
+const items = [
+  ["PROFILE", "About"],
+  ["TOOL", "Works"],
+  ["NOTE", "Writing"],
+  ["IDEA", "Experiment"],
+  ["LINK", "Social"],
+  ["CONTACT", "Message"],
+];
+const ideas = [
+  ["Bottom to Top", "./idea/design_bottom_to_top/"],
+  ["Fuwafuwa", "./idea/design_fuwafuwa/"],
+  ["Neko", "./idea/design_neko/"],
+  ["Terminal", "./idea/design_terminal/"],
+  ["Specimen", "./idea/design_specimen/"],
+];
+function useClock() {
+  const [v, setV] = useState("--:--");
+  useEffect(() => {
+    const f = () =>
+      setV(
+        new Intl.DateTimeFormat("ja-JP", {
+          timeZone: "Asia/Tokyo",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }).format(new Date()),
+      );
+    f();
+    const i = setInterval(f, 30000);
+    return () => clearInterval(i);
+  }, []);
+  return v;
+}
+function Links({ links }) {
+  const entries = links[0]?.[0] === "Web tools" ? tools : links;
+  return (
+    <div className="feature-list">
+      {entries.map(([label, href]) => (
+        <ActionLink href={href} key={href}>
+          {label}
+        </ActionLink>
+      ))}
+    </div>
+  );
+}
+function Modal({ name, onClose }) {
+  const [status, setStatus] = useState("");
+  const [notes, setNotes] = useState([]);
+  const [closing, setClosing] = useState(false);
+  const number = items.findIndex((x) => x[0] === name) + 1;
+  const requestClose = () => {
+    if (!closing) setClosing(true);
+  };
+  useEffect(() => {
+    if (name === "NOTE")
+      fetch("./note/index.json", { cache: "no-store" })
+        .then((r) => r.json())
+        .then(setNotes)
+        .catch(() => setStatus("ノート一覧を読み込めませんでした。"));
+  }, [name]);
+  useEffect(() => {
+    const f = (e) => e.key === "Escape" && requestClose();
+    document.addEventListener("keydown", f);
+    return () => document.removeEventListener("keydown", f);
+  }, [closing]);
+  const submit = async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.currentTarget));
+    if (!data.name || !data.email || !data.message)
+      return setStatus("すべての項目を入力してください。");
+    setStatus("送信中...");
+    try {
+      const r = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!r.ok) throw Error();
+      e.currentTarget.reset();
+      setStatus("送信しました。");
+    } catch {
+      setStatus("送信できませんでした。時間をおいて再度お試しください。");
+    }
+  };
+  return (
+    <div
+      className={`modal is-open${closing ? " is-closing" : ""}`}
+      onAnimationEnd={(e) => {
+        if (closing && e.target === e.currentTarget) onClose();
+      }}
+    >
+      <button
+        className="modal__backdrop"
+        onClick={requestClose}
+        aria-label="閉じる"
+      />
+      <section
+        className="modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
+        <div className="modal__header">
+          <p>{String(number).padStart(2, "0")} / 06</p>
+          <button
+            className="modal__close"
+            onClick={requestClose}
+            aria-label="閉じる"
+          >
+            ×
+          </button>
+        </div>
+        <div className="modal__body">
+          <p className="modal__label">{items[number - 1][1]}</p>
+          <h2 id="modal-title">{name}</h2>
+          {name === "PROFILE" && (
+            <>
+              <p className="modal__lead">
+                Webの技術を使って、日常で役立つものや面白い体験をつくっています。
+              </p>
+              <div className="profile-grid">
+                <dl>
+                  <dt>Name</dt>
+                  <dd>ak-2302</dd>
+                </dl>
+                <dl>
+                  <dt>Location</dt>
+                  <dd>Japan</dd>
+                </dl>
+                <dl>
+                  <dt>Focus</dt>
+                  <dd>Web Development</dd>
+                </dl>
+              </div>
+            </>
+          )}
+          {name === "TOOL" && (
+            <>
+              <p className="modal__lead">手軽に使える道具をつくっています。</p>
+              <Links links={[["Web tools", "./tool/"]]} />
+            </>
+          )}
+          {name === "NOTE" && (
+            <Links links={notes.map((n) => [n.title, n.url])} />
+          )}{" "}
+          {name === "IDEA" && (
+            <>
+              <p className="modal__lead">
+                まだ形になっていない、ユニークなアイデアを集める場所です。
+              </p>
+              <Links links={ideas} />
+            </>
+          )}
+          {name === "LINK" && (
+            <nav className="social-links">
+              {[
+                ["GitHub", "https://github.com/ak-2302"],
+                ["Qiita", "https://qiita.com/ak-2302"],
+                ["Zenn", "https://zenn.dev/ak2302"],
+                ["X", "https://x.com/ak_2302x"],
+              ].map(([x, h]) => (
+                <a href={h} target="_blank" rel="noreferrer" key={h}>
+                  <span>{x}</span>
+                  <b>↗</b>
+                </a>
+              ))}
+            </nav>
+          )}
+          {name === "CONTACT" && (
+            <form className="contact-form" onSubmit={submit}>
+              <label>
+                Name
+                <input name="name" required maxLength="80" />
+              </label>
+              <label>
+                Email
+                <input name="email" type="email" required maxLength="254" />
+              </label>
+              <label>
+                Message
+                <textarea name="message" rows="4" required maxLength="1800" />
+              </label>
+              <div className="contact-form__footer">
+                <p aria-live="polite">{status}</p>
+                <button type="submit">
+                  SEND MESSAGE <span>↗</span>
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}
+function Home() {
+  const [open, setOpen] = useState(null);
+  const clock = useClock();
+  return (
+    <main className="site-shell">
+      <header className="site-header">
+        <a className="site-logo" href="./">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <p className="site-header__status">
+          <span /> Interactive portfolio
+        </p>
+      </header>
+      <section className="hero">
+        <div className="hero__copy">
+          <p className="eyebrow">Personal website / 2026</p>
+          <p className="hero__description">
+            6つの入り口を、触れて選んでください。
+          </p>
+        </div>
+        <div className="stage-wrap">
+          <div className="sphere-stage" aria-label="コンテンツメニュー">
+            {items.map(([label, type], i) => (
+              <button
+                className={`sphere sphere--${i + 1}`}
+                key={label}
+                onClick={() => setOpen(label)}
+              >
+                <strong>{label}</strong>
+                <small>AK / 2302</small>
+                <em>{type}</em>
+              </button>
+            ))}
+          </div>
+          <div className="stage-hint">CLICK A SPHERE</div>
+        </div>
+        <p className="hero__index">01 — 06</p>
+      </section>
+      <footer className="site-footer">
+        <p>© {new Date().getFullYear()} ak-2302</p>
+        <p>REACT × VITE</p>
+        <time>{clock}</time>
+      </footer>
+      {open && <Modal name={open} onClose={() => setOpen(null)} />}
+    </main>
+  );
+}
+const tools = [
+  ["動画をまとめて変換する", "/tool/video_trans/"],
+  ["画像を変換・補正する", "/tool/image_converter/"],
+  ["動画を10MB以下に圧縮する", "/tool/video_compressor/"],
+  ["過去のGitHub Pagesの履歴を見る", "/tool/github_pages_commits/"],
+  ["配信画面に使えるウィジェット", "/tool/obs/"],
+  ["画像と音声から動画をつくる", "/tool/image_audio_to_video/"],
+];
+function CollectionPage() {
+  const [notes, setNotes] = useState([]);
+  const isNote = location.pathname.startsWith("/note");
+  useEffect(() => {
+    if (isNote)
+      fetch("./index.json")
+        .then((r) => r.json())
+        .then(setNotes)
+        .catch(() => setNotes([]));
+  }, [isNote]);
+  const list = isNote
+    ? notes.map((n) => [n.title, n.url.replace("./note/", "./")])
+    : tools;
+  return (
+    <main className="collection-page">
+      <header className="collection-header">
+        <a className="site-logo" href="./">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <span>{isNote ? "NOTE" : "TOOLS"}</span>
+      </header>
+      <section className="collection-intro">
+        <p className="eyebrow">{isNote ? "Writing" : "Web tools"}</p>
+        <h1>{isNote ? "Notes" : "Tools"}</h1>
+        <p>
+          {isNote
+            ? "思考のメモや、制作の記録を綴っています。"
+            : "日常で役立つ、手軽なWebツールをまとめています。"}
+        </p>
+      </section>
+      <section className="collection-list">
+        {list.map(([label, href], i) => (
+          <a href={href} key={href}>
+            <span>{String(i + 1).padStart(2, "0")}</span>
+            <strong>{label}</strong>
+            <b>↗</b>
+          </a>
+        ))}
+      </section>
+      <footer className="collection-footer">
+        <a href="./">← ak-2302</a>
+        <span>REACT × VITE</span>
+      </footer>
+    </main>
+  );
+}
+const ideaMeta = {
+  bottom_to_top: [
+    "a little walk",
+    "足あとをたどって。",
+    "scroll up to explore",
+  ],
+  fuwafuwa: ["ふわふわ", "泡のあつまる場所", "泡を出す"],
+  neko: [
+    "ねこのあとを追って",
+    "好奇心のままに、気になる場所へ。",
+    "プロフィールや制作物を置いています。",
+  ],
+  terminal: [
+    "terminal://ak-2302",
+    "welcome to my corner of the internet",
+    "help",
+  ],
+};
+function IdeaPage() {
+  const key = location.pathname.includes("fuwafuwa")
+    ? "fuwafuwa"
+    : location.pathname.includes("neko")
+      ? "neko"
+      : location.pathname.includes("terminal")
+        ? "terminal"
+        : "bottom_to_top";
+  const meta = ideaMeta[key];
+  const [count, setCount] = useState(18);
+  const [command, setCommand] = useState("");
+  const [output, setOutput] = useState("");
+  const run = (e) => {
+    e.preventDefault();
+    setOutput(
+      command === "help"
+        ? "about  works  contact  clear"
+        : command === "clear"
+          ? ""
+          : "command not found",
+    );
+    setCommand("");
+  };
+  return (
+    <main className={`idea-page idea-${key}`}>
+      <header className="idea-header">
+        <a href="./">← ak-2302</a>
+        <span>REACT EXPERIMENT</span>
+      </header>
+      <section className="idea-content">
+        <p className="eyebrow">{meta[0]}</p>
+        <h1>{meta[1]}</h1>
+        <p>{meta[2]}</p>
+        {key === "fuwafuwa" && (
+          <>
+            <button
+              className="idea-action"
+              onClick={() => setCount((c) => c + 1)}
+            >
+              ＋ 泡を出す
+            </button>
+            <div className="bubble-field">
+              {Array.from({ length: count }, (_, i) => (
+                <i key={i} style={{ "--i": i }} />
+              ))}
+            </div>
+            <small>{count} 個の泡が漂っています</small>
+          </>
+        )}
+        {key === "bottom_to_top" && (
+          <div className="walk-trail">
+            <button
+              className="idea-action"
+              onClick={() =>
+                window.scrollTo({
+                  top: document.body.scrollHeight,
+                  behavior: "smooth",
+                })
+              }
+            >
+              SCROLL UP ↑
+            </button>
+            <p>下から上へ、足あとをたどって。</p>
+          </div>
+        )}
+        {key === "neko" && (
+          <nav className="paw-nav">
+            <a href="#profile">01　プロフィール</a>
+            <a href="#tools">02　ツール</a>
+            <a href="#notes">03　ノート</a>
+            <a href="#links">04　リンク</a>
+          </nav>
+        )}
+        {key === "terminal" && (
+          <div className="terminal-box">
+            <p>ak@studio:~$ {output || "_"}</p>
+            <form onSubmit={run}>
+              <input
+                value={command}
+                onChange={(e) => setCommand(e.target.value)}
+                placeholder="help"
+                aria-label="コマンド入力"
+              />
+              <button>↵</button>
+            </form>
+          </div>
+        )}
+      </section>
+    </main>
+  );
+}
+function CompressorPage() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "/tool/video_compressor/script.js";
+    script.defer = true;
+    document.body.append(script);
+    return () => script.remove();
+  }, []);
+  return (
+    <main className="app">
+      <header className="header">
+        <h1>動画を10MB以下に圧縮する</h1>
+        <span>10MB以内</span>
+      </header>
+      <section className="workspace">
+        <section className="preview panel">
+          <input id="fileInput" type="file" accept="video/*" hidden />
+          <div
+            id="dropZone"
+            className="dropzone"
+            role="button"
+            tabIndex="0"
+            aria-label="動画ファイルを選択"
+          >
+            <div className="playmark">▶</div>
+            <strong>動画をここにドロップ</strong>
+            <button id="chooseButton" className="primary" type="button">
+              動画を選ぶ
+            </button>
+          </div>
+          <video id="video" controls playsInline hidden />
+          <div id="fileMeta" className="file_meta" hidden>
+            <span id="fileName" />
+            <span id="fileDetails" />
+          </div>
+        </section>
+        <aside className="controls panel">
+          <input id="targetSize" type="hidden" value="10" />
+          <select id="quality" hidden>
+            <option value="balanced">バランス</option>
+          </select>
+          <span id="bitrate" hidden />
+          <span id="estimateNote" hidden />
+          <button id="compressButton" hidden />
+          <button id="clearButton" hidden />
+          <div className="size_card">
+            <span>元のサイズ</span>
+            <strong id="beforeSize">—</strong>
+            <em id="sizeState">動画未選択</em>
+          </div>
+          <div id="progressWrap" className="progress_wrap">
+            <div className="progress_head">
+              <span id="progressLabel">準備中…</span>
+              <b id="progressValue">0%</b>
+            </div>
+            <div className="progress">
+              <i id="progressBar" />
+            </div>
+          </div>
+          <p id="status" className="status" role="status" aria-live="polite" />
+        </aside>
+      </section>
+      <section id="result" className="result panel" hidden>
+        <p id="resultSummary" className="summary" />
+        <a id="download" className="primary download">
+          動画を保存
+        </a>
+      </section>
+    </main>
+  );
+}
+function MediaMakerPage() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "/tool/image_audio_to_video/script.js";
+    script.defer = true;
+    document.body.append(script);
+    return () => script.remove();
+  }, []);
+  return (
+    <main className="app_shell">
+      <header className="topbar">
+        <a className="brand" href="./">
+          ◒　画像と音声から動画をつくる
+        </a>
+        <div className="privacy_note">● ブラウザ内で処理</div>
+      </header>
+      <section className="workspace">
+        <div className="asset_column">
+          <div className="section_heading">
+            <span>01</span>
+            <h2>素材を追加</h2>
+          </div>
+          <label
+            className="drop_zone"
+            id="image_drop_zone"
+            htmlFor="image_input"
+          >
+            <input id="image_input" type="file" accept="image/*" />
+            <span className="upload_icon">＋</span>
+            <strong>背景画像</strong>
+            <small id="image_name">JPG / PNG / WEBP</small>
+          </label>
+          <label
+            className="drop_zone"
+            id="audio_drop_zone"
+            htmlFor="audio_input"
+          >
+            <input id="audio_input" type="file" accept="audio/*" />
+            <span className="upload_icon audio_icon">∿</span>
+            <strong>音声ファイル</strong>
+            <small id="audio_name">MP3 / WAV / M4A</small>
+          </label>
+          <p className="helper">⌁ ファイルは端末の外へ送信されません</p>
+        </div>
+        <div className="preview_column">
+          <div className="section_heading">
+            <span>PREVIEW</span>
+            <h2>プレビュー</h2>
+          </div>
+          <div className="preview_frame" id="preview_frame">
+            <canvas id="preview_canvas" width="1280" height="720" />
+            <div className="empty_preview" id="empty_preview">
+              <span className="preview_glyph">◫</span>
+              <p>
+                画像を追加すると
+                <br />
+                ここにプレビューが表示されます
+              </p>
+            </div>
+            <button
+              className="play_button"
+              id="play_button"
+              type="button"
+              aria-label="プレビューを再生"
+            >
+              ▶
+            </button>
+          </div>
+          <div className="timeline">
+            <span id="current_time">00:00</span>
+            <div className="timeline_track">
+              <span id="timeline_progress" />
+            </div>
+            <span id="total_time">00:00</span>
+          </div>
+        </div>
+      </section>
+      <section className="export_row">
+        <div className="format_group">
+          <div className="section_heading">
+            <span>02</span>
+            <h2>書き出し設定</h2>
+          </div>
+          <div className="format_options">
+            <label>
+              <input type="radio" name="format" value="mp4" defaultChecked />
+              <span>MP4</span>
+              <small>互換性優先</small>
+            </label>
+          </div>
+        </div>
+        <div className="export_action">
+          <button id="export_button" type="button" disabled>
+            <span id="export_label">動画を書き出す</span>
+            <span className="arrow">→</span>
+          </button>
+          <p id="export_status">画像と音声を追加してください</p>
+        </div>
+      </section>
+      <footer>
+        <span>画像と音声から動画をつくる</span>
+        <span>処理はすべてこのブラウザで完結します</span>
+      </footer>
+    </main>
+  );
+}
+function ImageConverterPage() {
+  useEffect(() => {
+    const external = document.createElement("script");
+    external.src =
+      "https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js";
+    external.onload = () => {
+      const script = document.createElement("script");
+      script.src = "/tool/image_converter/script.js";
+      script.defer = true;
+      document.body.append(script);
+    };
+    document.head.append(external);
+    return () => {
+      external.remove();
+    };
+  }, []);
+  return (
+    <main className="app_shell">
+      <input id="file_input" type="file" accept="image/*" hidden />
+      <section className="canvas_panel panel">
+        <div className="canvas_heading">
+          <p className="section_label">CANVAS</p>
+          <button id="clear_button" className="text_button" type="button">
+            画像を削除
+          </button>
+        </div>
+        <div
+          id="canvas_stage"
+          className="canvas_stage"
+          role="button"
+          tabIndex="0"
+          aria-label="画像を選択"
+        >
+          <div id="empty_state" className="empty_state">
+            <strong>ここに画像が表示されます</strong>
+            <span>画像を1枚選択してください。</span>
+          </div>
+          <img id="canvas_image" alt="編集対象の画像" hidden />
+        </div>
+        <div className="canvas_meta">
+          <span id="canvas_file_name">未選択</span>
+          <span id="canvas_dimensions">—</span>
+          <span id="canvas_size">—</span>
+        </div>
+      </section>
+      <aside id="settings_panel" className="settings_panel panel">
+        <div className="tool_menu" role="toolbar" aria-label="画像編集メニュー">
+          <button className="tool_menu_button" data-tool="size">
+            サイズ
+          </button>
+          <button className="tool_menu_button" data-tool="transform">
+            変形
+          </button>
+          <button className="tool_menu_button" data-tool="adjust">
+            補正
+          </button>
+          <button className="tool_menu_button" data-tool="crop">
+            切抜き
+          </button>
+          <button
+            id="convert_button"
+            className="tool_save_button"
+            type="button"
+            disabled
+          >
+            保存
+          </button>
+        </div>
+        <div id="tool_popover" className="tool_popover" hidden>
+          <section className="tool_panel" data-panel="size">
+            <h2>サイズ</h2>
+            <label className="field">
+              幅<input id="width_input" type="number" min="1" />
+            </label>
+            <label className="field">
+              高さ
+              <input id="height_input" type="number" min="1" />
+            </label>
+            <label className="check_row">
+              <input id="aspect_lock" type="checkbox" defaultChecked />
+              縦横比を維持
+            </label>
+          </section>
+          <section className="tool_panel" data-panel="transform">
+            <h2>回転・反転</h2>
+            <button data-action="rotate_left" type="button">
+              ↶ 左回転
+            </button>
+            <button data-action="rotate_right" type="button">
+              ↷ 右回転
+            </button>
+            <button data-action="flip_h" type="button">
+              ↔ 水平反転
+            </button>
+            <button data-action="flip_v" type="button">
+              ↕ 垂直反転
+            </button>
+          </section>
+          <section className="tool_panel" data-panel="adjust">
+            <h2>色調補正</h2>
+            {["brightness", "contrast", "saturation"].map((x) => (
+              <label className="slider_row" key={x}>
+                {x}
+                <output id={`${x}_value`}>0</output>
+                <input
+                  id={`${x}_input`}
+                  type="range"
+                  min="-100"
+                  max="100"
+                  defaultValue="0"
+                />
+              </label>
+            ))}
+          </section>
+          <section className="tool_panel" data-panel="crop">
+            <h2>トリミング</h2>
+            <select id="crop_ratio">
+              <option value="none">トリミングしない</option>
+              <option value="1:1">1:1</option>
+              <option value="16:9">16:9</option>
+            </select>
+          </section>
+        </div>
+        <span
+          id="status_message"
+          className="status_message"
+          role="status"
+          aria-live="polite"
+        />
+      </aside>
+      <section id="result_panel" className="panel result_panel" hidden>
+        <div className="panel_heading">
+          <div>
+            <p className="section_label">RESULT</p>
+            <h2>変換結果</h2>
+            <p id="result_summary" />
+          </div>
+          <button id="download_all_button" type="button">
+            ZIPで保存
+          </button>
+        </div>
+        <div id="result_list" />
+      </section>
+    </main>
+  );
+}
+const widgets = [
+  [
+    "01",
+    "時計・カレンダー",
+    "時刻、日付、曜日を表示します。",
+    "info",
+    "./widgets/clock/",
+  ],
+  [
+    "02",
+    "カウンター",
+    "キー操作で数字を増減します。",
+    "control",
+    "./widgets/counter/",
+  ],
+  [
+    "03",
+    "タイマー",
+    "配信用カウントダウンです。",
+    "control",
+    "./widgets/timer/",
+  ],
+  ["04", "メモ", "自由なテキストを表示します。", "info", "./widgets/memo/"],
+  [
+    "05",
+    "スケジュール",
+    "進行予定を縦に並べます。",
+    "info",
+    "./widgets/schedule/",
+  ],
+  [
+    "06",
+    "コメント表示",
+    "配信コメントを表示します。",
+    "info",
+    "./widgets/comment/",
+  ],
+];
+const widgetDetails = {
+  clock: [
+    "時計・カレンダー",
+    "時刻、日付、曜日を表示するウィジェットです。",
+    [
+      ["Digital Clock", "./desigh_1/"],
+      ["Date Card", "./desigh_2/"],
+      ["Week Line", "./desigh_3/"],
+    ],
+  ],
+  counter: [
+    "カウンター",
+    "配信中の数字をキーボードやボタンで増減できます。",
+    [
+      ["Score Counter", "./desigh_1/"],
+      ["Inline Counter", "./desigh_2/"],
+    ],
+  ],
+  timer: [
+    "タイマー",
+    "指定時間から0までカウントダウンします。",
+    [
+      ["Countdown", "./desigh_1/"],
+      ["Minimal Timer", "./desigh_2/"],
+    ],
+  ],
+  memo: [
+    "メモ",
+    "お知らせや配信タイトルなどの短い文章を表示します。",
+    [
+      ["Simple Memo", "./desigh_1/"],
+      ["Label Note", "./desigh_2/"],
+    ],
+  ],
+  schedule: [
+    "スケジュール",
+    "配信の進行予定を表示します。",
+    [
+      ["Flow Schedule", "./desigh_1/"],
+      ["Timeline", "./desigh_2/"],
+    ],
+  ],
+  comment: [
+    "コメント表示",
+    "配信コメントをカードや吹き出しで表示します。",
+    [["Comment designs", "./"]],
+  ],
+};
+function WidgetDetailPage() {
+  const key =
+    Object.keys(widgetDetails).find((x) =>
+      location.pathname.includes(`/widgets/${x}/`),
+    ) || "clock";
+  const [title, desc, list] = widgetDetails[key];
+  return (
+    <main className="collection-page">
+      <header className="collection-header">
+        <a className="site-logo" href="./">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <span>OBS / {key.toUpperCase()}</span>
+      </header>
+      <section className="collection-intro">
+        <p className="eyebrow">OBS Widgets</p>
+        <h1>{title}</h1>
+        <p>{desc}</p>
+      </section>
+      <section className="collection-list">
+        {list.map(([name, href], i) => (
+          <a href={href} key={href}>
+            <span>{String(i + 1).padStart(2, "0")}</span>
+            <strong>{name}</strong>
+            <b>↗</b>
+          </a>
+        ))}
+      </section>
+      <footer className="collection-footer">
+        <a href="../../">← ウィジェット一覧</a>
+        <span>REACT × VITE</span>
+      </footer>
+    </main>
+  );
+}
+function CounterConfigPage() {
+  const [value, setValue] = useState(0);
+  return (
+    <main className="counter-config">
+      <header className="collection-header">
+        <a className="site-logo" href="../../../">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <span>COUNTER / DESIGN 01</span>
+      </header>
+      <section>
+        <p className="eyebrow">OBS Widget / Design 01</p>
+        <h1>Score Counter</h1>
+        <p>配信中の数字をボタンやキーボードで増減できます。</p>
+        <div className="counter-preview">
+          <small>COUNT</small>
+          <strong>{value}</strong>
+          <div>
+            <button onClick={() => setValue((v) => v - 1)}>DOWN</button>
+            <button onClick={() => setValue(0)}>RESET</button>
+            <button onClick={() => setValue((v) => v + 1)}>UP</button>
+          </div>
+        </div>
+        <a className="back-link" href="../">
+          ← カウンターデザイン一覧
+        </a>
+      </section>
+    </main>
+  );
+}
+function TimerConfigPage() {
+  const [initial, setInitial] = useState(300);
+  const [left, setLeft] = useState(300);
+  const [running, setRunning] = useState(false);
+  useEffect(() => {
+    if (!running) return;
+    const id = setInterval(
+      () =>
+        setLeft((v) => {
+          if (v <= 1) {
+            setRunning(false);
+            return 0;
+          }
+          return v - 1;
+        }),
+      1000,
+    );
+    return () => clearInterval(id);
+  }, [running]);
+  const format = (v) =>
+    `${String(Math.floor(v / 60)).padStart(2, "0")}:${String(v % 60).padStart(2, "0")}`;
+  return (
+    <main className="counter-config timer-config">
+      <header className="collection-header">
+        <a className="site-logo" href="../../../">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <span>TIMER / DESIGN 01</span>
+      </header>
+      <section>
+        <p className="eyebrow">OBS Widget / Design 01</p>
+        <h1>Countdown</h1>
+        <p>指定時間から0までカウントダウンします。</p>
+        <div className="counter-preview">
+          <small>TIME REMAINING</small>
+          <strong>{format(left)}</strong>
+          <div>
+            <button
+              onClick={() => setRunning(true)}
+              disabled={running || left === 0}
+            >
+              START
+            </button>
+            <button onClick={() => setRunning(false)}>PAUSE</button>
+            <button
+              onClick={() => {
+                setRunning(false);
+                setLeft(initial);
+              }}
+            >
+              RESET
+            </button>
+          </div>
+        </div>
+        <label className="timer-setting">
+          分
+          <input
+            type="number"
+            min="0"
+            value={Math.floor(initial / 60)}
+            onChange={(e) => {
+              const v = Math.max(0, Number(e.target.value) || 0) * 60;
+              setInitial(v);
+              setLeft(v);
+            }}
+          />
+        </label>
+        <a className="back-link" href="../">
+          ← タイマーデザイン一覧
+        </a>
+      </section>
+    </main>
+  );
+}
+function MemoConfigPage() {
+  const [text, setText] = useState("ON AIR");
+  const [label, setLabel] = useState("NOTICE");
+  return (
+    <main className="counter-config memo-config">
+      <header className="collection-header">
+        <a className="site-logo" href="../../../">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <span>MEMO / DESIGN 01</span>
+      </header>
+      <section>
+        <p className="eyebrow">OBS Widget / Design 01</p>
+        <h1>Simple Memo</h1>
+        <p>文章を入力すると、配信画面用のメモとしてプレビューできます。</p>
+        <div className="memo-preview">
+          <small>{label}</small>
+          <strong>{text || " "}</strong>
+        </div>
+        <label className="timer-setting">
+          ラベル
+          <input
+            value={label}
+            onChange={(e) => setLabel(e.target.value)}
+            maxLength="30"
+          />
+        </label>
+        <label className="timer-setting">
+          本文
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            maxLength="120"
+            rows="3"
+          />
+        </label>
+        <a className="back-link" href="../">
+          ← メモデザイン一覧
+        </a>
+      </section>
+    </main>
+  );
+}
+function ClockConfigPage() {
+  const [now, setNow] = useState(new Date());
+  const [seconds, setSeconds] = useState(false);
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const value = new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: seconds ? "2-digit" : undefined,
+    hour12: false,
+  })
+    .format(now)
+    .replace(/:/g, " : ");
+  return (
+    <main className="counter-config clock-config">
+      <header className="collection-header">
+        <a className="site-logo" href="../../../">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <span>CLOCK / DESIGN 01</span>
+      </header>
+      <section>
+        <p className="eyebrow">OBS Widget / Design 01</p>
+        <h1>Digital Clock</h1>
+        <p>現在時刻をブラウザ上で表示します。</p>
+        <div className="clock-preview">
+          <small>JST</small>
+          <strong>{value}</strong>
+        </div>
+        <label className="timer-setting">
+          <input
+            type="checkbox"
+            checked={seconds}
+            onChange={(e) => setSeconds(e.target.checked)}
+          />{" "}
+          秒を表示
+        </label>
+        <a className="back-link" href="../">
+          ← 時計デザイン一覧
+        </a>
+      </section>
+    </main>
+  );
+}
+function ScheduleConfigPage() {
+  const [items, setItems] = useState([
+    "21:00 START",
+    "21:10 TALK",
+    "22:00 END",
+  ]);
+  const [draft, setDraft] = useState("");
+  return (
+    <main className="counter-config schedule-config">
+      <header className="collection-header">
+        <a className="site-logo" href="../../../">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <span>SCHEDULE / DESIGN 01</span>
+      </header>
+      <section>
+        <p className="eyebrow">OBS Widget / Design 01</p>
+        <h1>Flow Schedule</h1>
+        <p>予定を1行ずつ入力して、配信画面用のスケジュールを作成します。</p>
+        <div className="schedule-preview">
+          <small>SCHEDULE</small>
+          <ol>
+            {items.map((item, i) => (
+              <li key={`${item}-${i}`}>
+                {item}
+                <button
+                  onClick={() => setItems((xs) => xs.filter((_, j) => j !== i))}
+                  aria-label={`${item}を削除`}
+                >
+                  ×
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (draft.trim()) {
+              setItems((xs) => [...xs, draft.trim()]);
+              setDraft("");
+            }
+          }}
+        >
+          <input
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            placeholder="22:30 END"
+            aria-label="予定を追加"
+          />
+          <button type="submit">追加</button>
+        </form>
+        <a className="back-link" href="../">
+          ← スケジュールデザイン一覧
+        </a>
+      </section>
+    </main>
+  );
+}
+function CommentConfigPage() {
+  const [user, setUser] = useState("viewer_01");
+  const [message, setMessage] = useState("こんばんは！");
+  return (
+    <main className="counter-config comment-config">
+      <header className="collection-header">
+        <a className="site-logo" href="../../../">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <span>COMMENT / DESIGN 01</span>
+      </header>
+      <section>
+        <p className="eyebrow">OBS Widget / Design 01</p>
+        <h1>Comment Stack</h1>
+        <p>名前と本文を入力して、配信コメントの見た目を確認できます。</p>
+        <div className="comment-preview">
+          <strong>{user || " "}</strong>
+          <p>{message || " "}</p>
+        </div>
+        <label className="timer-setting">
+          名前
+          <input
+            value={user}
+            onChange={(e) => setUser(e.target.value)}
+            maxLength="40"
+          />
+        </label>
+        <label className="timer-setting">
+          コメント
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            maxLength="180"
+            rows="3"
+          />
+        </label>
+        <a className="back-link" href="../">
+          ← コメントデザイン一覧
+        </a>
+      </section>
+    </main>
+  );
+}
+function ObsPage() {
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState("all");
+  const list = widgets.filter(
+    ([, name, desc, cat]) =>
+      (filter === "all" || cat === filter) && `${name}${desc}`.includes(query),
+  );
+  return (
+    <main className="collection-page">
+      <header className="collection-header">
+        <a className="site-logo" href="./">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <span>OBS WIDGETS</span>
+      </header>
+      <section className="collection-intro">
+        <p className="eyebrow">Widgets</p>
+        <h1>ウィジェット一覧</h1>
+        <p>すべて無料・ブラウザ完結。配信画面に使える道具を集めています。</p>
+      </section>
+      <div className="widget-controls">
+        <input
+          type="search"
+          placeholder="ウィジェットを検索"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        {[
+          ["all", "すべて"],
+          ["info", "情報表示"],
+          ["control", "操作系"],
+        ].map(([v, l]) => (
+          <button
+            key={v}
+            className={filter === v ? "is-active" : ""}
+            onClick={() => setFilter(v)}
+          >
+            {l}
+          </button>
+        ))}
+      </div>
+      <section className="collection-list">
+        {list.map(([num, name, desc, , href]) => (
+          <a href={href} key={href}>
+            <span>{num}</span>
+            <div>
+              <strong>{name}</strong>
+              <small>{desc}</small>
+            </div>
+            <b>↗</b>
+          </a>
+        ))}
+      </section>
+      {!list.length && <p>条件に一致するウィジェットがありません。</p>}
+      <footer className="collection-footer">
+        <a href="./">← ak-2302</a>
+        <span>REACT × VITE</span>
+      </footer>
+    </main>
+  );
+}
+function App() {
+  if (location.pathname.startsWith("/tool/video_compressor/"))
+    return <CompressorPage />;
+  if (location.pathname.startsWith("/tool/image_audio_to_video/"))
+    return <MediaMakerPage />;
+  if (location.pathname.startsWith("/tool/image_converter/"))
+    return <ImageConverterPage />;
+  if (
+    location.pathname.includes("/widgets/counter/desigh_1/") ||
+    location.pathname.includes("/widgets/counter/desigh_2/")
+  )
+    return <CounterConfigPage />;
+  if (
+    location.pathname.includes("/widgets/timer/desigh_1/") ||
+    location.pathname.includes("/widgets/timer/desigh_2/")
+  )
+    return <TimerConfigPage />;
+  if (
+    location.pathname.includes("/widgets/memo/desigh_1/") ||
+    location.pathname.includes("/widgets/memo/desigh_2/")
+  )
+    return <MemoConfigPage />;
+  if (
+    location.pathname.includes("/widgets/clock/desigh_1/") ||
+    location.pathname.includes("/widgets/clock/desigh_2/") ||
+    location.pathname.includes("/widgets/clock/desigh_3/")
+  )
+    return <ClockConfigPage />;
+  if (
+    location.pathname.includes("/widgets/schedule/desigh_1/") ||
+    location.pathname.includes("/widgets/schedule/desigh_2/")
+  )
+    return <ScheduleConfigPage />;
+  if (location.pathname.includes("/widgets/comment/design_"))
+    return <CommentConfigPage />;
+  if (
+    location.pathname.match(
+      /\/tool\/obs\/widgets\/(clock|counter|timer|memo|schedule|comment)\//,
+    )
+  )
+    return <WidgetDetailPage />;
+  if (location.pathname.startsWith("/tool/obs/")) return <ObsPage />;
+  if (
+    location.pathname.startsWith("/tool/") ||
+    location.pathname.startsWith("/note/")
+  )
+    return <CollectionPage />;
+  if (location.pathname.startsWith("/idea/")) return <IdeaPage />;
+  return <Home />;
+}
+function VideoTransPage() {
+  useEffect(() => {
+    window.FFmpeg = FFmpeg;
+    window.JSZip = JSZip;
+    const script = document.createElement("script");
+    script.src = "./index.js";
+    script.defer = true;
+    document.body.append(script);
+    return () => {
+      script.remove();
+      delete window.FFmpeg;
+      delete window.JSZip;
+    };
+  }, []);
+  const body =
+    videoTransHtml
+      .match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1]
+      ?.replace(/<script[\s\S]*?<\/script>/gi, "") || "";
+  return <div dangerouslySetInnerHTML={{ __html: body }} />;
+}
+function LegacyReactPage({ html, script, type = "text/javascript" }) {
+  useEffect(() => {
+    const el = document.createElement("script");
+    el.src = script;
+    el.type = type;
+    el.defer = true;
+    document.body.append(el);
+    return () => el.remove();
+  }, [script, type]);
+  const body =
+    html
+      .match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1]
+      ?.replace(/<script[\s\S]*?<\/script>/gi, "") || "";
+  return <div dangerouslySetInnerHTML={{ __html: body }} />;
+}
+function FidelityHome() {
+  const [open, setOpen] = useState(null);
+  const clock = useClock();
+  useEffect(() => {
+    const urls = [
+      "/ref/script/vendor/three.min.js",
+      "/ref/script/vendor/physi.js",
+      "/ref/script/3d.js",
+    ];
+    let cancelled = false;
+    const load = (src) =>
+      new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = src;
+        s.onload = resolve;
+        s.onerror = reject;
+        document.body.append(s);
+      });
+    (async () => {
+      for (const url of urls) {
+        if (!cancelled) await load(url);
+      }
+    })();
+    const onSelect = (e) => setOpen(e.detail.label);
+    window.addEventListener("sphere-select", onSelect);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("sphere-select", onSelect);
+    };
+  }, []);
+  return (
+    <main className="site-shell">
+      <header className="site-header">
+        <a className="site-logo" href="./" aria-label="ak-2302 ホーム">
+          <span className="site-logo__mark" />
+          ak-2302
+        </a>
+        <p className="site-header__status">
+          <span /> Interactive portfolio
+        </p>
+      </header>
+      <section className="hero" aria-label="ak-2302 ポートフォリオ">
+        <div className="hero__copy">
+          <p className="eyebrow">Personal website / 2026</p>
+          <p className="hero__description">
+            6つの球が、それぞれの入り口です。
+            <br />
+            触れて、転がして、選んでください。
+          </p>
+        </div>
+        <div className="stage-wrap">
+          <div
+            id="physicsStage"
+            className="physics-stage"
+            aria-label="物理演算で動くメニュー"
+          >
+            <div className="stage-loader" id="stageLoader">
+              <span />
+              <p>INITIALIZING PHYSICS</p>
+            </div>
+          </div>
+          <div className="stage-hint">
+            <p>Drag the box</p>
+            <p>Pinch to zoom</p>
+          </div>
+        </div>
+        <p className="hero__index">01 — 06</p>
+        <p className="hero__scroll">
+          SELECT A SPHERE <span>↗</span>
+        </p>
+      </section>
+      <footer className="site-footer">
+        <p>© {new Date().getFullYear()} ak-2302</p>
+        <p>THREE.JS × PHYSIJS</p>
+        <time>JST {clock}</time>
+      </footer>
+      {open && <Modal name={open} onClose={() => setOpen(null)} />}
+    </main>
+  );
+}
+function ReactRouter() {
+  if (location.pathname.startsWith("/tool/video_trans/"))
+    return <VideoTransPage />;
+  if (location.pathname.startsWith("/idea/design_specimen/"))
+    return <LegacyReactPage html={specimenHtml} script="./script.js" />;
+  if (location.pathname.startsWith("/tool/github_pages_commits/"))
+    return (
+      <LegacyReactPage html={githubPagesHtml} script="./app.js" type="module" />
+    );
+  if (location.pathname === "/" || location.pathname === "")
+    return <FidelityHome />;
+  return <App />;
+}
+createRoot(document.getElementById("root")).render(<ReactRouter />);

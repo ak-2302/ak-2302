@@ -10,7 +10,9 @@
   --blue: #5667ff;
   --danger: #c94343;
   --shadow: 0 24px 70px rgba(35, 35, 28, 0.1);
-  font-family: Inter, "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  font-family:
+    Inter, "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic",
+    sans-serif;
   color: var(--ink);
   background: var(--paper);
   font-synthesis: none;
@@ -29,7 +31,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 84% 12%, rgba(231, 255, 85, 0.17), transparent 24rem),
+    radial-gradient(
+      circle at 84% 12%,
+      rgba(231, 255, 85, 0.17),
+      transparent 24rem
+    ),
     var(--paper);
 }
 
@@ -312,7 +318,10 @@ svg {
   outline: none;
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 12px;
-  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
 }
 
 .input-wrap input::placeholder {
@@ -447,7 +456,10 @@ svg {
   cursor: pointer;
   font-size: 13px;
   font-weight: 760;
-  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background 120ms ease;
 }
 
 .primary-button svg {
@@ -645,7 +657,7 @@ svg {
 .history-card-back {
   top: 0;
   left: 13px;
-  background: #ededE7;
+  background: #edede7;
   transform: rotate(-9deg);
 }
 
@@ -694,7 +706,9 @@ svg {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .error-icon {

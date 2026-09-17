@@ -128,17 +128,24 @@ async function fetchCommitHistory(repository, signal) {
       },
       cache: "no-store",
       signal,
-    }
+    },
   );
 
   if (response.status === 404) {
     throw new Error("対応する公開リポジトリが見つかりませんでした。");
   }
-  if (response.status === 403 && response.headers.get("x-ratelimit-remaining") === "0") {
-    throw new Error("GitHub APIの利用上限に達しました。しばらくしてから再取得してください。");
+  if (
+    response.status === 403 &&
+    response.headers.get("x-ratelimit-remaining") === "0"
+  ) {
+    throw new Error(
+      "GitHub APIの利用上限に達しました。しばらくしてから再取得してください。",
+    );
   }
   if (!response.ok) {
-    throw new Error(`コミット履歴を取得できませんでした（HTTP ${response.status}）。`);
+    throw new Error(
+      `コミット履歴を取得できませんでした（HTTP ${response.status}）。`,
+    );
   }
 
   const commits = await response.json();
@@ -185,7 +192,7 @@ async function loadCommitHistory({ notifyOnError = false } = {}) {
         .split(/\r?\n/, 1)[0]
         .trim();
       const date = formatCommitDate(
-        item.commit?.author?.date || item.commit?.committer?.date
+        item.commit?.author?.date || item.commit?.committer?.date,
       );
       const option = document.createElement("option");
       option.value = sha;
@@ -213,10 +220,13 @@ async function loadCommitHistory({ notifyOnError = false } = {}) {
 }
 
 function rewriteStyleUrls(value, assetRoot) {
-  return value.replace(/url\(\s*(['"]?)([^'")]+)\1\s*\)/gi, (match, quote, url) => {
-    if (!shouldRewriteUrl(url)) return match;
-    return `url("${rewriteAssetUrl(url, assetRoot)}")`;
-  });
+  return value.replace(
+    /url\(\s*(['"]?)([^'")]+)\1\s*\)/gi,
+    (match, quote, url) => {
+      if (!shouldRewriteUrl(url)) return match;
+      return `url("${rewriteAssetUrl(url, assetRoot)}")`;
+    },
+  );
 }
 
 function createHistoricalDocument(html, assetRoot, allowScripts) {
@@ -275,7 +285,7 @@ function createHistoricalDocument(html, assetRoot, allowScripts) {
     if (!currentValue || !shouldRewriteUrl(currentValue)) return;
     element.setAttribute(
       "href",
-      rewriteAssetUrl(currentValue, assetRoot, { directoryIndex: true })
+      rewriteAssetUrl(currentValue, assetRoot, { directoryIndex: true }),
     );
     element.setAttribute("target", "_blank");
     element.setAttribute("rel", "noopener noreferrer");
@@ -310,15 +320,19 @@ function createHistoricalDocument(html, assetRoot, allowScripts) {
     }
   });
 
-  documentNode.querySelectorAll('meta[http-equiv="refresh" i]').forEach((element) => {
-    element.remove();
-  });
+  documentNode
+    .querySelectorAll('meta[http-equiv="refresh" i]')
+    .forEach((element) => {
+      element.remove();
+    });
   documentNode.querySelectorAll("form").forEach((element) => {
     element.setAttribute("action", "");
   });
 
   if (!allowScripts) {
-    documentNode.querySelectorAll("script").forEach((element) => element.remove());
+    documentNode
+      .querySelectorAll("script")
+      .forEach((element) => element.remove());
   }
 
   return {
@@ -336,10 +350,14 @@ async function fetchHistoricalPage(sourceUrl, signal) {
   });
 
   if (response.status === 404) {
-    throw new Error("指定したコミットに index.html が見つかりません。URLとSHAを確認してください。");
+    throw new Error(
+      "指定したコミットに index.html が見つかりません。URLとSHAを確認してください。",
+    );
   }
   if (!response.ok) {
-    throw new Error(`GitHubからファイルを取得できませんでした（HTTP ${response.status}）。`);
+    throw new Error(
+      `GitHubからファイルを取得できませんでした（HTTP ${response.status}）。`,
+    );
   }
 
   const html = await response.text();
@@ -385,7 +403,7 @@ async function loadPreview() {
       "sandbox",
       allowScripts
         ? "allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
-        : ""
+        : "",
     );
     previewFrame.src = repository.pagesUrl;
 
@@ -429,20 +447,24 @@ async function loadPreview() {
     const html = await fetchHistoricalPage(urls.html, request.signal);
 
     setLoadingStep(2);
-    const transformed = createHistoricalDocument(html, urls.assetRoot, allowScripts);
+    const transformed = createHistoricalDocument(
+      html,
+      urls.assetRoot,
+      allowScripts,
+    );
 
     setLoadingStep(3);
     previewFrame.setAttribute(
       "sandbox",
-      allowScripts
-        ? "allow-scripts allow-modals allow-popups"
-        : ""
+      allowScripts ? "allow-scripts allow-modals allow-popups" : "",
     );
     previewFrame.removeAttribute("src");
     previewFrame.srcdoc = transformed.html;
     setPreviewUrl(
-      URL.createObjectURL(new Blob([transformed.html], { type: "text/html;charset=utf-8" })),
-      true
+      URL.createObjectURL(
+        new Blob([transformed.html], { type: "text/html;charset=utf-8" }),
+      ),
+      true,
     );
 
     repoValue.textContent = `${repository.owner}/${repository.repo}`;

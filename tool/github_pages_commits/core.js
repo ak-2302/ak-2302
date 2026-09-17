@@ -68,10 +68,10 @@ export function shouldRewriteUrl(value) {
   const trimmed = value.trim();
   return Boolean(
     trimmed &&
-    !trimmed.startsWith("#") &&
-    !trimmed.startsWith("//") &&
-    !NON_NETWORK_SCHEMES.test(trimmed) &&
-    !/^[a-z][a-z\d+.-]*:/i.test(trimmed)
+      !trimmed.startsWith("#") &&
+      !trimmed.startsWith("//") &&
+      !NON_NETWORK_SCHEMES.test(trimmed) &&
+      !/^[a-z][a-z\d+.-]*:/i.test(trimmed),
   );
 }
 

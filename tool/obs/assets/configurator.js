@@ -60,7 +60,10 @@ async function downloadWidget() {
       "new URLSearchParams(window.__WIDGET_QUERY__ || location.search)",
     );
     const bundled = html
-      .replace(/<link rel="stylesheet" href="\.\/style\.css"\s*\/?>/, `<style>${css}</style>`)
+      .replace(
+        /<link rel="stylesheet" href="\.\/style\.css"\s*\/?>/,
+        `<style>${css}</style>`,
+      )
       .replace(
         /<script src="\.\/script\.js"><\/script>/,
         `<script>window.__WIDGET_QUERY__=${JSON.stringify(new URL(widgetUrl).search)};${embeddedScript.replaceAll("</script>", "<\\/script>")}<\/script>`,

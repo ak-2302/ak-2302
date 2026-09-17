@@ -25,8 +25,10 @@ function filterWidgets() {
   let visibleCount = 0;
 
   widgetCards.forEach((card) => {
-    const matchesFilter = activeFilter === "all" || card.dataset.category === activeFilter;
-    const matchesSearch = !query || card.dataset.search.toLowerCase().includes(query);
+    const matchesFilter =
+      activeFilter === "all" || card.dataset.category === activeFilter;
+    const matchesSearch =
+      !query || card.dataset.search.toLowerCase().includes(query);
     const isVisible = matchesFilter && matchesSearch;
     card.hidden = !isVisible;
     if (isVisible) visibleCount += 1;

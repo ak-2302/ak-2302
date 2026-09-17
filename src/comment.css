@@ -1,1 +1,33 @@
-.comment-preview{background:#151918;border:1px solid #303735;margin:55px 0 30px;max-width:680px;padding:24px 28px}.comment-preview strong{color:#b8f525;font:12px var(--mono)}.comment-preview p{font-size:22px;margin:12px 0 0}.comment-config label{color:#89928e;display:block;font:11px var(--mono);margin:16px 0;max-width:680px}.comment-config input,.comment-config textarea{background:#101211;border:1px solid #303735;color:#f6f7f1;display:block;font:15px var(--sans);margin-top:8px;padding:12px;width:100%}
+.comment-preview {
+  background: #151918;
+  border: 1px solid #303735;
+  margin: 55px 0 30px;
+  max-width: 680px;
+  padding: 24px 28px;
+}
+.comment-preview strong {
+  color: #b8f525;
+  font: 12px var(--mono);
+}
+.comment-preview p {
+  font-size: 22px;
+  margin: 12px 0 0;
+}
+.comment-config label {
+  color: #89928e;
+  display: block;
+  font: 11px var(--mono);
+  margin: 16px 0;
+  max-width: 680px;
+}
+.comment-config input,
+.comment-config textarea {
+  background: #101211;
+  border: 1px solid #303735;
+  color: #f6f7f1;
+  display: block;
+  font: 15px var(--sans);
+  margin-top: 8px;
+  padding: 12px;
+  width: 100%;
+}

@@ -83,22 +83,19 @@ https://raw.githubusercontent.com/{owner}/{repo}/{sha}/index.html
 例
 
 ```html
-<link href="style.css">
+<link href="style.css" />
 ```
 
 ↓
 
 ```html
-<link href="https://raw.githubusercontent.com/{owner}/{repo}/{sha}/style.css">
+<link href="https://raw.githubusercontent.com/{owner}/{repo}/{sha}/style.css" />
 ```
 
 同様に
 
 ```html
-src=
-href=
-fetch()
-import()
+src= href= fetch() import()
 ```
 
 なども変換。
@@ -110,15 +107,15 @@ import()
 方法A
 
 ```html
-<iframe srcdoc="...">
+<iframe srcdoc="..."></iframe>
 ```
 
 方法B
 
 ```javascript
-document.open()
-document.write(html)
-document.close()
+document.open();
+document.write(html);
+document.close();
 ```
 
 iframe推奨。
