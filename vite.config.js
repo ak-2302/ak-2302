@@ -1,9 +1,15 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'node:path';
+import { cpSync } from 'node:fs';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), {
+    name: 'copy-static-assets',
+    writeBundle(options) {
+      cpSync(resolve('ref'), resolve(options.dir || 'dist', 'ref'), { recursive: true });
+    },
+  }],
   base: './',
   build: {
     rollupOptions: {
