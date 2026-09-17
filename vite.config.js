@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'node:path';
+import { relative, resolve, sep } from 'node:path';
+import { globSync } from 'node:fs';
 import { cpSync } from 'node:fs';
 
 export default defineConfig({
@@ -15,54 +16,14 @@ export default defineConfig({
   base: './',
   build: {
     rollupOptions: {
-      input: {
-        home: resolve('index.html'),
-        notes: resolve('note/index.html'),
-        bottomToTop: resolve('idea/design_bottom_to_top/index.html'),
-        fuwafuwa: resolve('idea/design_fuwafuwa/index.html'),
-        neko: resolve('idea/design_neko/index.html'),
-        terminal: resolve('idea/design_terminal/index.html'),
-        specimen: resolve('idea/design_specimen/index.html'),
-        githubPages: resolve('tool/github_pages_commits/index.html'),
-        videoTrans: resolve('tool/video_trans/index.html'),
-        videoCompressor: resolve('tool/video_compressor/index.html'),
-        imageAudioToVideo: resolve('tool/image_audio_to_video/index.html'),
-        imageConverter: resolve('tool/image_converter/index.html'),
-        obs: resolve('tool/obs/index.html'),
-        obsClock: resolve('tool/obs/widgets/clock/index.html'),
-        obsCounter: resolve('tool/obs/widgets/counter/index.html'),
-        obsTimer: resolve('tool/obs/widgets/timer/index.html'),
-        obsMemo: resolve('tool/obs/widgets/memo/index.html'),
-        obsSchedule: resolve('tool/obs/widgets/schedule/index.html'),
-        obsComment: resolve('tool/obs/widgets/comment/index.html'),
-        obsCounterConfig: resolve('tool/obs/widgets/counter/desigh_1/index.html'),
-        obsTimerConfig: resolve('tool/obs/widgets/timer/desigh_1/index.html'),
-        obsCounterConfig2: resolve('tool/obs/widgets/counter/desigh_2/index.html'),
-        obsTimerConfig2: resolve('tool/obs/widgets/timer/desigh_2/index.html'),
-        obsMemoConfig: resolve('tool/obs/widgets/memo/desigh_1/index.html'),
-        obsMemoConfig2: resolve('tool/obs/widgets/memo/desigh_2/index.html'),
-        obsClockConfig: resolve('tool/obs/widgets/clock/desigh_1/index.html'),
-        obsClockConfig2: resolve('tool/obs/widgets/clock/desigh_2/index.html'),
-        obsClockConfig3: resolve('tool/obs/widgets/clock/desigh_3/index.html'),
-        obsScheduleConfig: resolve('tool/obs/widgets/schedule/desigh_1/index.html'),
-        obsScheduleConfig2: resolve('tool/obs/widgets/schedule/desigh_2/index.html'),
-        obsCommentConfig: resolve('tool/obs/widgets/comment/design_1/index.html'),
-        obsCommentConfig2: resolve('tool/obs/widgets/comment/design_2/index.html'),
-        obsCommentConfig3: resolve('tool/obs/widgets/comment/design_3/index.html'),
-        obsCommentConfig4: resolve('tool/obs/widgets/comment/design_4/index.html'),
-        obsCommentConfig5: resolve('tool/obs/widgets/comment/design_5/index.html'),
-        obsCommentConfig6: resolve('tool/obs/widgets/comment/design_6/index.html'),
-        obsCommentConfig7: resolve('tool/obs/widgets/comment/design_7/index.html'),
-        obsCommentConfig8: resolve('tool/obs/widgets/comment/design_8/index.html'),
-        obsCommentConfig9: resolve('tool/obs/widgets/comment/design_9/index.html'),
-        obsCommentConfig10: resolve('tool/obs/widgets/comment/design_10/index.html'),
-        obsCommentConfig11: resolve('tool/obs/widgets/comment/design_11/index.html'),
-        obsCommentConfig12: resolve('tool/obs/widgets/comment/design_12/index.html'),
-        obsCommentConfig13: resolve('tool/obs/widgets/comment/design_13/index.html'),
-        obsCommentConfig14: resolve('tool/obs/widgets/comment/design_14/index.html'),
-        obsCommentConfig15: resolve('tool/obs/widgets/comment/design_15/index.html'),
-        obsCommentConfig16: resolve('tool/obs/widgets/comment/design_16/index.html'),
-      },
+      input: Object.fromEntries(
+        globSync('**/index.html')
+          .filter((file) => !file.startsWith('node_modules/') && !file.startsWith('dist/') && !file.includes('/node_modules/') && !file.includes('/dist/'))
+          .map((file) => [
+          relative('.', file).replaceAll(sep, '/').replace(/\.html$/, '').replaceAll('/', '_'),
+          resolve(file),
+          ]),
+      ),
     },
   },
 });
