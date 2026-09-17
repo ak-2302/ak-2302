@@ -34,6 +34,8 @@ export default defineConfig({
         obsClockConfig: resolve('tool/obs/widgets/clock/desigh_1/index.html'),
         obsClockConfig2: resolve('tool/obs/widgets/clock/desigh_2/index.html'),
         obsClockConfig3: resolve('tool/obs/widgets/clock/desigh_3/index.html'),
+        obsScheduleConfig: resolve('tool/obs/widgets/schedule/desigh_1/index.html'),
+        obsScheduleConfig2: resolve('tool/obs/widgets/schedule/desigh_2/index.html'),
       },
     },
   },
