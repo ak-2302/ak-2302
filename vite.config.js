@@ -11,6 +11,8 @@ export default defineConfig({
       cpSync(resolve('ref'), resolve(options.dir || 'dist', 'ref'), { recursive: true });
       cpSync(resolve('tool/video_trans/index.css'), resolve(options.dir || 'dist', 'tool/video_trans/index.css'));
       cpSync(resolve('tool/video_trans/index.js'), resolve(options.dir || 'dist', 'tool/video_trans/index.js'));
+      cpSync(resolve('tool/github_pages_commits/app.js'), resolve(options.dir || 'dist', 'tool/github_pages_commits/app.js'));
+      cpSync(resolve('tool/github_pages_commits/core.js'), resolve(options.dir || 'dist', 'tool/github_pages_commits/core.js'));
     },
   }],
   base: './',
