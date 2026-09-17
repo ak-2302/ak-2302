@@ -15,6 +15,7 @@ export default defineConfig({
         fuwafuwa: resolve('idea/design_fuwafuwa/index.html'),
         neko: resolve('idea/design_neko/index.html'),
         terminal: resolve('idea/design_terminal/index.html'),
+        videoCompressor: resolve('tool/video_compressor/index.html'),
       },
     },
   },
