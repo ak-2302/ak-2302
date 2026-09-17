@@ -15,7 +15,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         home: resolve('index.html'),
-        tools: resolve('tool/index.html'),
         notes: resolve('note/index.html'),
         bottomToTop: resolve('idea/design_bottom_to_top/index.html'),
         fuwafuwa: resolve('idea/design_fuwafuwa/index.html'),
