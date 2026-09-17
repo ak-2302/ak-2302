@@ -218,6 +218,28 @@ button:disabled,
     inset 0 0 35px rgba(255, 255, 255, 0.025) !important;
 }
 
+.app_shell .workspace,
+.app .workspace {
+  background: transparent !important;
+  color: var(--tool-text) !important;
+}
+
+.app_shell .brand,
+.app .brand,
+.app_shell .section_heading h2,
+.app .section_heading h2,
+.app_shell .format_options span,
+.app .format_options span {
+  color: #f7f7f4 !important;
+}
+
+.app_shell .privacy_note,
+.app .privacy_note,
+.app_shell .format_options small,
+.app .format_options small {
+  color: #b5b5af !important;
+}
+
 .app_shell input:focus,
 .app_shell textarea:focus,
 .app_shell select:focus,
