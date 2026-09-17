@@ -25,6 +25,7 @@ export default defineConfig({
         obsMemo: resolve('tool/obs/widgets/memo/index.html'),
         obsSchedule: resolve('tool/obs/widgets/schedule/index.html'),
         obsComment: resolve('tool/obs/widgets/comment/index.html'),
+        obsCounterConfig: resolve('tool/obs/widgets/counter/desigh_1/index.html'),
       },
     },
   },
