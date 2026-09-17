@@ -38,7 +38,7 @@
 html { background: var(--tool-bg); }
 body {
   color: var(--tool-text);
-  background: radial-gradient(circle at 84% 12%, rgba(231, 255, 85, .17), transparent 24rem), var(--tool-bg);
+  background: var(--tool-bg);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -125,7 +125,7 @@ input, select, textarea {
 
 /* [AI] The image editor keeps the same paper/ink palette inside its canvas and dock. */
 body:has(.canvas_panel) {
-  background: radial-gradient(circle at 84% 12%, rgba(231, 255, 85, .17), transparent 24rem), var(--tool-bg);
+  background: var(--tool-bg);
 }
 body:has(.canvas_panel) .canvas_panel {
   background: var(--tool-surface);
