@@ -11,7 +11,9 @@
     "test:worker": "npm --prefix contact-worker test -- --run"
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.9.8",
     "glob": "^11.0.0",
+    "jszip": "^3.10.2",
     "marked": "^16.0.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
