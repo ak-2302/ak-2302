@@ -29,6 +29,8 @@ export default defineConfig({
         obsTimerConfig: resolve('tool/obs/widgets/timer/desigh_1/index.html'),
         obsCounterConfig2: resolve('tool/obs/widgets/counter/desigh_2/index.html'),
         obsTimerConfig2: resolve('tool/obs/widgets/timer/desigh_2/index.html'),
+        obsMemoConfig: resolve('tool/obs/widgets/memo/desigh_1/index.html'),
+        obsMemoConfig2: resolve('tool/obs/widgets/memo/desigh_2/index.html'),
       },
     },
   },
