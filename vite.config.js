@@ -8,6 +8,8 @@ export default defineConfig({
     name: 'copy-static-assets',
     writeBundle(options) {
       cpSync(resolve('ref'), resolve(options.dir || 'dist', 'ref'), { recursive: true });
+      cpSync(resolve('tool/video_trans/index.css'), resolve(options.dir || 'dist', 'tool/video_trans/index.css'));
+      cpSync(resolve('tool/video_trans/index.js'), resolve(options.dir || 'dist', 'tool/video_trans/index.js'));
     },
   }],
   base: './',
@@ -22,6 +24,7 @@ export default defineConfig({
         terminal: resolve('idea/design_terminal/index.html'),
         specimen: resolve('idea/design_specimen/index.html'),
         githubPages: resolve('tool/github_pages_commits/index.html'),
+        videoTrans: resolve('tool/video_trans/index.html'),
         videoCompressor: resolve('tool/video_compressor/index.html'),
         imageAudioToVideo: resolve('tool/image_audio_to_video/index.html'),
         imageConverter: resolve('tool/image_converter/index.html'),
