@@ -10,8 +10,6 @@ import "./schedule.css";
 import "./comment.css";
 import "./solid-background.css";
 import "../tool/image_audio_to_video/style.css";
-import "../tool/image_converter/style.css";
-import "../tool/video_compressor/style.css";
 import "../tool/video_trans/index.css";
 import "../idea/design_specimen/style.css";
 import "../tool/github_pages_commits/styles.css";

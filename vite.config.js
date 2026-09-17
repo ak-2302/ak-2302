@@ -42,7 +42,10 @@ export default defineConfig({
               !file.startsWith("node_modules/") &&
               !file.startsWith("dist/") &&
               !file.includes("/node_modules/") &&
-              !file.includes("/dist/"),
+              !file.includes("/dist/") &&
+              !file.startsWith("tool/image_converter/") &&
+              !file.startsWith("tool/video_compressor/") &&
+              !file.startsWith("tool/obs/"),
           )
           .map((file) => [
             relative(".", file)

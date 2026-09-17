@@ -1,14 +1,9 @@
-import {
-  CompressorPage,
-  ImageConverterPage,
-  MediaMakerPage,
-} from "./pages/ToolPages.jsx";
+import { MediaMakerPage } from "./pages/ToolPages.jsx";
 import {
   ClockConfigPage,
   CommentConfigPage,
   CounterConfigPage,
   MemoConfigPage,
-  ObsPage,
   ScheduleConfigPage,
   TimerConfigPage,
   WidgetDetailPage,
@@ -20,12 +15,8 @@ import specimenHtml from "../idea/design_specimen/index.html?raw";
 import githubPagesHtml from "../tool/github_pages_commits/index.html?raw";
 
 function App() {
-  if (location.pathname.startsWith("/tool/video_compressor/"))
-    return <CompressorPage />;
   if (location.pathname.startsWith("/tool/image_audio_to_video/"))
     return <MediaMakerPage />;
-  if (location.pathname.startsWith("/tool/image_converter/"))
-    return <ImageConverterPage />;
   if (
     location.pathname.includes("/widgets/counter/desigh_1/") ||
     location.pathname.includes("/widgets/counter/desigh_2/")
@@ -60,7 +51,6 @@ function App() {
     )
   )
     return <WidgetDetailPage />;
-  if (location.pathname.startsWith("/tool/obs/")) return <ObsPage />;
   if (
     location.pathname.startsWith("/tool/") ||
     location.pathname.startsWith("/note/")
