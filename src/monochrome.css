@@ -170,6 +170,47 @@ button:disabled,
   background: linear-gradient(135deg, #f1cbd5, #e7b8c5) !important;
 }
 
+.app_shell .upload-card,
+.app .upload-card,
+.app_shell .size_card,
+.app .size_card,
+.app_shell .tool_popover,
+.app .tool_popover,
+.app_shell .tool_panel,
+.app .tool_panel,
+.app_shell .result,
+.app .result {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, .045)) !important;
+  border: 1px solid rgba(255, 255, 255, .3) !important;
+  border-radius: 22px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -1px 0 rgba(0, 0, 0, .2), 0 20px 55px rgba(0, 0, 0, .2) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  backdrop-filter: blur(22px) saturate(125%);
+}
+
+.app_shell .dropzone,
+.app .dropzone,
+.app_shell .drop_zone,
+.app .drop_zone {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .025)) !important;
+  border-color: rgba(255, 255, 255, .38) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), inset 0 0 35px rgba(255, 255, 255, .025) !important;
+}
+
+.app_shell input:focus,
+.app_shell textarea:focus,
+.app_shell select:focus,
+.app input:focus,
+.app textarea:focus,
+.app select:focus,
+.app-shell input:focus,
+.app-shell textarea:focus,
+.app-shell select:focus {
+  outline: 2px solid rgba(231, 184, 197, .65);
+  outline-offset: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 0 0 5px rgba(231, 184, 197, .08) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; }
 }
