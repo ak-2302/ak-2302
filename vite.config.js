@@ -16,6 +16,7 @@ export default defineConfig({
         neko: resolve('idea/design_neko/index.html'),
         terminal: resolve('idea/design_terminal/index.html'),
         videoCompressor: resolve('tool/video_compressor/index.html'),
+        imageAudioToVideo: resolve('tool/image_audio_to_video/index.html'),
       },
     },
   },
