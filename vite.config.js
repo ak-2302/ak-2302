@@ -15,6 +15,8 @@ export default defineConfig({
         fuwafuwa: resolve('idea/design_fuwafuwa/index.html'),
         neko: resolve('idea/design_neko/index.html'),
         terminal: resolve('idea/design_terminal/index.html'),
+        specimen: resolve('idea/design_specimen/index.html'),
+        githubPages: resolve('tool/github_pages_commits/index.html'),
         videoCompressor: resolve('tool/video_compressor/index.html'),
         imageAudioToVideo: resolve('tool/image_audio_to_video/index.html'),
         imageConverter: resolve('tool/image_converter/index.html'),
