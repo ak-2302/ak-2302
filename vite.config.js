@@ -36,6 +36,7 @@ export default defineConfig({
         obsClockConfig3: resolve('tool/obs/widgets/clock/desigh_3/index.html'),
         obsScheduleConfig: resolve('tool/obs/widgets/schedule/desigh_1/index.html'),
         obsScheduleConfig2: resolve('tool/obs/widgets/schedule/desigh_2/index.html'),
+        obsCommentConfig: resolve('tool/obs/widgets/comment/design_1/index.html'),
       },
     },
   },
