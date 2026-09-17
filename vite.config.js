@@ -26,6 +26,7 @@ export default defineConfig({
         obsSchedule: resolve('tool/obs/widgets/schedule/index.html'),
         obsComment: resolve('tool/obs/widgets/comment/index.html'),
         obsCounterConfig: resolve('tool/obs/widgets/counter/desigh_1/index.html'),
+        obsTimerConfig: resolve('tool/obs/widgets/timer/desigh_1/index.html'),
       },
     },
   },
