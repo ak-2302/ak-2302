@@ -22,6 +22,7 @@ import githubPagesHtml from '../tool/github_pages_commits/index.html?raw';
 import '../idea/design_specimen/style.css';
 import '../tool/github_pages_commits/styles.css';
 import '../ref/style/3d.css';
+import './monochrome.css';
 import { ActionLink, BackLink, SectionHeading, TextButton } from './components/ui.jsx';
 
 const endpoint = 'https://contact-worker.meiteya.workers.dev';

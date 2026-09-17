@@ -1,0 +1,85 @@
+:root {
+  --black: #0a0a0a;
+  --white: #f7f7f4;
+  --gray: #a6a6a1;
+  --line: rgba(247, 247, 244, .24);
+  --accent: #e7b8c5;
+  --tool-bg: #0a0a0a;
+  --tool-surface: #141414;
+  --tool-surface-raised: #1d1d1d;
+  --tool-text: #f7f7f4;
+  --tool-muted: #b5b5af;
+  --tool-line: #4b4b4b;
+  --tool-accent: #e7b8c5;
+  --tool-accent-strong: #f1cbd5;
+}
+
+html,
+body,
+#root,
+.site-shell,
+.collection-page,
+.idea-page,
+.counter-config,
+.app_shell,
+.app-shell,
+.page-shell,
+.museum_shell {
+  background-color: #0a0a0a !important;
+  background-image: none !important;
+  color: #f7f7f4;
+}
+
+body::before,
+body::after,
+.hero::before,
+.tool-page::before {
+  display: none !important;
+}
+
+input,
+textarea,
+select {
+  background-color: #f7f7f4 !important;
+  border-color: #777 !important;
+  color: #0a0a0a !important;
+}
+
+button,
+.button,
+.primary,
+.button-accent,
+.tool_save_button {
+  border-color: #e7b8c5;
+}
+
+button:not(:disabled):hover,
+.button:hover,
+.primary:hover,
+.button-accent:hover,
+.tool_save_button:hover:not(:disabled) {
+  background-color: #e7b8c5 !important;
+  color: #0a0a0a !important;
+}
+
+button:disabled,
+.button:disabled {
+  border-color: #555;
+  color: #999 !important;
+}
+
+.modal__panel {
+  background-color: #f7f7f4 !important;
+  color: #0a0a0a !important;
+}
+
+.modal__panel input,
+.modal__panel textarea,
+.modal__panel select {
+  background-color: transparent !important;
+  color: #0a0a0a !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; }
+}
