@@ -1034,3 +1034,44 @@ footer span {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* [AI] Reactの共通レイアウトが持つ固定ビューポート設定を、この縦長ツールでは解除する。 */
+html:has(.github-pages-tool),
+body:has(.github-pages-tool),
+#root:has(.github-pages-tool) {
+  height: auto !important;
+  min-height: 100%;
+  overflow: visible !important;
+}
+
+.github-pages-tool {
+  min-height: 100svh;
+  overflow: visible;
+}
+
+.github-pages-tool .page-shell {
+  overflow: visible;
+}
+
+.github-pages-tool .workspace {
+  min-height: 0;
+}
+
+.github-pages-tool button {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.github-pages-tool .text-button,
+.github-pages-tool .refresh-button {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.github-pages-tool .primary-button {
+  min-height: 54px;
+  height: auto;
+  padding: 14px 18px;
+}
