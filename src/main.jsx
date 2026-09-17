@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import * as FFmpeg from "@ffmpeg/ffmpeg";
-import JSZip from "jszip";
 import "./styles.css";
 import "./collection.css";
 import "./idea.css";
@@ -16,7 +14,6 @@ import "../tool/image_audio_to_video/style.css";
 import "../tool/image_converter/style.css";
 import "../tool/video_compressor/style.css";
 import "../tool/video_trans/index.css";
-import videoTransHtml from "../tool/video_trans/index.html?raw";
 import specimenHtml from "../idea/design_specimen/index.html?raw";
 import githubPagesHtml from "../tool/github_pages_commits/index.html?raw";
 import "../idea/design_specimen/style.css";
@@ -36,6 +33,7 @@ import {
   tools,
 } from "./data/site.js";
 import { useClock } from "./hooks/useClock.js";
+import { LegacyReactPage, VideoTransPage } from "./pages/LegacyPages.jsx";
 function Links({ links }) {
   const entries = links[0]?.[0] === "Web tools" ? tools : links;
   return (
@@ -1260,41 +1258,6 @@ function App() {
     return <CollectionPage />;
   if (location.pathname.startsWith("/idea/")) return <IdeaPage />;
   return <Home />;
-}
-function VideoTransPage() {
-  useEffect(() => {
-    window.FFmpeg = FFmpeg;
-    window.JSZip = JSZip;
-    const script = document.createElement("script");
-    script.src = "./index.js";
-    script.defer = true;
-    document.body.append(script);
-    return () => {
-      script.remove();
-      delete window.FFmpeg;
-      delete window.JSZip;
-    };
-  }, []);
-  const body =
-    videoTransHtml
-      .match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1]
-      ?.replace(/<script[\s\S]*?<\/script>/gi, "") || "";
-  return <div dangerouslySetInnerHTML={{ __html: body }} />;
-}
-function LegacyReactPage({ html, script, type = "text/javascript" }) {
-  useEffect(() => {
-    const el = document.createElement("script");
-    el.src = script;
-    el.type = type;
-    el.defer = true;
-    document.body.append(el);
-    return () => el.remove();
-  }, [script, type]);
-  const body =
-    html
-      .match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1]
-      ?.replace(/<script[\s\S]*?<\/script>/gi, "") || "";
-  return <div dangerouslySetInnerHTML={{ __html: body }} />;
 }
 function FidelityHome() {
   const [open, setOpen] = useState(null);
