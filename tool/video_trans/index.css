@@ -637,3 +637,261 @@ select {
     font-size: 1.25rem;
   }
 }
+
+/* [AI] 共通の共存CSSよりこのページのテーマを優先し、文字と面のコントラストを保証する。 */
+.app-shell,
+.app-shell .panel,
+.app-shell .upload-card,
+.app-shell .stats,
+.app-shell .conversion-panel,
+.app-shell h1,
+.app-shell h2,
+.app-shell strong,
+.app-shell td,
+.app-shell label {
+  color: #f7f7f4 !important;
+}
+
+.app-shell .panel,
+.app-shell .upload-card,
+.app-shell .stats,
+.app-shell .conversion-panel {
+  background: #141414 !important;
+  border-color: #414141 !important;
+  box-shadow: none !important;
+}
+
+.app-shell input,
+.app-shell select,
+.app-shell .suffix-input {
+  color: #f7f7f4 !important;
+  background: #1d1d1d !important;
+  border-color: #414141 !important;
+}
+
+.app-shell .button-primary,
+.app-shell .button-accent {
+  color: #0a0a0a !important;
+  background: #e7b8c5 !important;
+  border-color: #e7b8c5 !important;
+}
+
+.app-shell .button-secondary {
+  color: #f7f7f4 !important;
+  background: #1d1d1d !important;
+  border-color: #414141 !important;
+}
+
+/* [AI] React版の共通テーマに合わせた動画変換ワークベンチ。 */
+html:has(.app-shell),
+body:has(.app-shell) {
+  min-height: 100%;
+  background: #0a0a0a !important;
+  color: #f7f7f4;
+  overflow-x: hidden;
+  overflow-y: auto !important;
+}
+
+.app-shell {
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface-2: #1d1d1d;
+  --line: #414141;
+  --text: #f7f7f4;
+  --muted: #b5b5af;
+  --green: #e7b8c5;
+  --green-strong: #f1cbd5;
+  width: min(1180px, calc(100% - 32px));
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: clamp(30px, 6vw, 72px) 0 72px;
+}
+
+.hero {
+  align-items: flex-end;
+  margin-bottom: 38px;
+}
+
+.eyebrow,
+.section-label {
+  color: var(--green);
+  font-family: "Space Mono", "SFMono-Regular", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+}
+
+.hero h1 {
+  max-width: 760px;
+  color: var(--text);
+  font-size: clamp(2.5rem, 7vw, 5.8rem);
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.privacy-note {
+  padding-bottom: 0.4rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.privacy-dot {
+  background: var(--green);
+  box-shadow: 0 0 12px rgba(231, 184, 197, 0.55);
+}
+
+.upload-card,
+.panel,
+.stats {
+  border-color: var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.upload-card {
+  min-height: 156px;
+  padding: 28px;
+  border-style: solid;
+}
+
+.upload-card.is-dragging {
+  border-color: var(--green);
+  background: rgba(231, 184, 197, 0.08);
+}
+
+.upload-icon {
+  border-color: var(--line);
+  color: var(--green);
+}
+
+.upload-card p,
+.conversion-copy p:last-child,
+.empty-state,
+.privacy-note,
+.stats span,
+.stats small,
+.radio-row small,
+.switch-row small {
+  color: var(--muted);
+}
+
+.button,
+.button-primary,
+.button-secondary,
+.button-accent {
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.button-primary,
+.button-accent {
+  color: #0a0a0a;
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.button-secondary {
+  color: var(--text);
+  background: var(--surface-2);
+  border-color: var(--line);
+}
+
+.button-primary:hover:not(:disabled),
+.button-accent:hover:not(:disabled) {
+  background: var(--green-strong);
+}
+
+.stats article {
+  border-color: var(--line);
+}
+
+.panel-heading h2,
+.upload-card h2,
+.conversion-panel h2 {
+  color: var(--text);
+  letter-spacing: -0.03em;
+}
+
+.text-button {
+  white-space: nowrap;
+}
+
+.table-wrap,
+select,
+.suffix-input {
+  border-color: var(--line);
+  background: var(--surface-2);
+}
+
+th {
+  background: #101010;
+}
+
+.status-badge,
+.result-item button {
+  color: var(--green);
+}
+
+.switch-row i {
+  background: #3e3e3e;
+}
+
+.switch-row input:checked + i {
+  background: var(--green);
+}
+
+.radio-row input {
+  accent-color: var(--green);
+}
+
+.progress-track {
+  background: #333333;
+}
+
+#progress-bar {
+  background: var(--green);
+}
+
+.toast {
+  border-color: var(--line);
+  background: var(--surface-2);
+}
+
+@media (max-width: 560px) {
+  .app-shell {
+    width: min(100% - 24px, 1180px);
+    padding-top: 28px;
+  }
+
+  .hero {
+    gap: 18px;
+    margin-bottom: 26px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 12vw, 4.2rem);
+  }
+
+  .privacy-note {
+    font-size: 0.7rem;
+  }
+
+  .upload-card {
+    gap: 14px;
+  }
+
+  .upload-card h2 {
+    font-size: 1.1rem;
+  }
+
+  .button {
+    min-height: 46px;
+    padding-inline: 14px;
+    white-space: normal;
+  }
+
+  .conversion-panel .button {
+    width: 100%;
+  }
+}
