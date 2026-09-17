@@ -17,6 +17,7 @@ export default defineConfig({
         terminal: resolve('idea/design_terminal/index.html'),
         videoCompressor: resolve('tool/video_compressor/index.html'),
         imageAudioToVideo: resolve('tool/image_audio_to_video/index.html'),
+        imageConverter: resolve('tool/image_converter/index.html'),
       },
     },
   },
