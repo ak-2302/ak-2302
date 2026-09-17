@@ -168,7 +168,7 @@ export function MediaMakerPage() {
 
   const ready = Boolean(image && audio && duration);
   return (
-    <main className="app_shell">
+    <main className="app_shell media_maker">
       <header className="topbar">
         <a className="brand" href="./">
           ◒　画像と音声から動画をつくる
