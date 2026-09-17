@@ -18,6 +18,7 @@ export default defineConfig({
         videoCompressor: resolve('tool/video_compressor/index.html'),
         imageAudioToVideo: resolve('tool/image_audio_to_video/index.html'),
         imageConverter: resolve('tool/image_converter/index.html'),
+        obs: resolve('tool/obs/index.html'),
       },
     },
   },
