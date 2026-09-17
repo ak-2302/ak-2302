@@ -11,6 +11,7 @@ import './memo.css';
 import './clock.css';
 import './schedule.css';
 import './comment.css';
+import './solid-background.css';
 import '../tool/image_audio_to_video/style.css';
 import '../tool/image_converter/style.css';
 import '../tool/video_compressor/style.css';

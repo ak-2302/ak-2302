@@ -23,6 +23,7 @@
 html { background: #f4f1e9; }
 body { color: #242522; background: #f4f1e9; }
 body::before { display: none; }
+.page-shell, body { background-image: none !important; }
 .site-header { border: 0; border-bottom: 1px solid #c9c4b8; border-radius: 0; background: #f4f1e9; box-shadow: none; }
 .brand { color: #242522; }
 .brand::before { background: #a85f3d; box-shadow: none; }
@@ -528,3 +529,6 @@ h1 span, .eyebrow, .card-index { color: #a85f3d; background: none; }
 .search-box input, .filter-button { background: #f4f1e9; border-color: #c9c4b8; color: #242522; border-radius: 4px; }
 .filter-button.is-active { background: #a85f3d; border-color: #a85f3d; color: #fffaf2; }
 footer { color: #77766d; border-color: #c9c4b8; }
+/* ページ背景を単色に統一 */
+html, body, .page-shell { background-image: none !important; }
+body::before, body::after { display: none !important; }
