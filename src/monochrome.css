@@ -22,6 +22,7 @@ body,
 .idea-page,
 .counter-config,
 .app_shell,
+.app,
 .app-shell,
 .page-shell,
 .museum_shell {
@@ -78,6 +79,95 @@ button:disabled,
 .modal__panel select {
   background-color: transparent !important;
   color: #0a0a0a !important;
+}
+
+/* Liquid UI: tool surfaces share one translucent, monochrome material. */
+.app_shell,
+.app-shell,
+.tool-page,
+.page-shell,
+.collection-page {
+  --liquid-surface: rgba(255, 255, 255, .075);
+  --liquid-surface-strong: rgba(255, 255, 255, .12);
+  --liquid-border: rgba(255, 255, 255, .28);
+}
+
+.app_shell .panel,
+.app .panel,
+.app-shell .panel,
+.tool-page .panel,
+.page-shell .panel,
+.collection-page .panel,
+.app_shell .card,
+.app .card,
+.app-shell .card,
+.tool-page .card,
+.page-shell .card,
+.collection-page .card,
+.app_shell .drop_zone,
+.app .drop_zone,
+.app-shell .drop_zone,
+.tool-page .drop_zone,
+.page-shell .drop_zone {
+  background: linear-gradient(145deg, var(--liquid-surface-strong), var(--liquid-surface)) !important;
+  border: 1px solid var(--liquid-border) !important;
+  border-radius: 24px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), 0 18px 50px rgba(0, 0, 0, .18) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+  backdrop-filter: blur(18px) saturate(115%);
+}
+
+.app_shell input,
+.app input,
+.app_shell textarea,
+.app textarea,
+.app_shell select,
+.app select,
+.app-shell input,
+.app-shell textarea,
+.app-shell select,
+.tool-page input,
+.tool-page textarea,
+.tool-page select,
+.page-shell input,
+.page-shell textarea,
+.page-shell select,
+.collection-page input,
+.collection-page textarea,
+.collection-page select {
+  border: 1px solid rgba(255, 255, 255, .25) !important;
+  border-radius: 14px !important;
+  background: rgba(0, 0, 0, .28) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+}
+
+.app_shell button,
+.app button,
+.app-shell button,
+.tool-page button,
+.page-shell button,
+.collection-page button,
+.app_shell .button,
+.app .button,
+.app-shell .button,
+.tool-page .button,
+.page-shell .button,
+.collection-page .button {
+  border-radius: 999px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 8px 22px rgba(0, 0, 0, .16) !important;
+}
+
+.app_shell .button_primary,
+.app .button_primary,
+.app_shell .button_accent,
+.app .button_accent,
+.app-shell .button_primary,
+.app-shell .button_accent,
+.tool-page .button_primary,
+.tool-page .button_accent,
+.page-shell .button_primary,
+.page-shell .button_accent {
+  background: linear-gradient(135deg, #f1cbd5, #e7b8c5) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
