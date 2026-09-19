@@ -12,7 +12,7 @@
 - 3D表現：React Three Fiber + Three.js + drei
 - スタイリング：CSS Modulesまたは通常のCSS + CSS変数
 - コンテンツ管理：TypeScriptのデータファイル。将来的にMDXへ拡張可能
-- デプロイ：GitHub Pages
+- デプロイ：Cloudflare Pages（Git連携）
 - テスト：Vitest、React Testing Library、Playwright
 - 品質確認：デスクトップ／モバイルのブラウザ確認、`prefers-reduced-motion`、キーボード操作
 
@@ -20,7 +20,7 @@
 
 ### React + Vite
 
-既存リポジトリがReact + Vite構成で、GitHub Pages向けの静的サイトとして運用されているため、最も移行リスクが低い。
+既存リポジトリがReact + Vite構成で、Cloudflare Pages向けの静的サイトとして運用されているため、最も移行リスクが低い。
 
 個人サイトではSSRやAPIルートよりも、高いモーション自由度、静的ホスティングとの相性、AIが生成・修正しやすい単純な構成、ビルドとデバッグの速さ、既存資産との互換性を優先する。
 
@@ -107,7 +107,7 @@ Lenisなどのスムーススクロールライブラリは初期構成には入
 - 既存の削除状態を復元したり、ユーザー変更を上書きしたりしない
 - `main.jsx`中心の既存構成をTypeScriptへ段階的に移行
 - Reactコンポーネント、データ、モーション処理を分離
-- 既存のGitHub Pages運用を維持
+- 既存のCloudflare Pages運用を維持
 - TypeScript型検査、Lint、ビルド、Vitestを実行
 - Playwrightで初回表示、セクション移動、作品操作、モバイル表示、キーボード操作、reduced motion、WebGL無効時のフォールバック、コンソールエラーを確認
 - デスクトップとモバイルのスクリーンショットで、AI定型のカード構成・過剰な発光・意味のない常時ループがないか自己批評する
@@ -122,7 +122,7 @@ Lenisなどのスムーススクロールライブラリは初期構成には入
 
 ## 前提
 
-- 既存の独自ドメインとGitHub Pages運用を維持する
+- 既存の独自ドメインとCloudflare Pages運用を維持する
 - サイトは個人プロフィール、作品、実験、連絡先を主な内容とする
 - 3Dは補助的に使用し、サイト全体を3D空間にはしない
 - 初期リリースでは外部CMSやログイン機能を導入しない

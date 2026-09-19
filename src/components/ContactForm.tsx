@@ -2,7 +2,7 @@ import { FormEvent, useState } from 'react'
 
 type FormState = 'idle' | 'error' | 'submitting' | 'success' | 'failure'
 
-const workerUrl = import.meta.env.VITE_CONTACT_WORKER_URL as string | undefined
+const workerUrl = (import.meta.env.VITE_CONTACT_WORKER_URL as string | undefined) ?? 'https://contact-worker.meiteya.workers.dev'
 
 export default function ContactForm() {
   const [state, setState] = useState<FormState>('idle')

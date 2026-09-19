@@ -54,7 +54,7 @@
 1. 制作者の個性と活動内容を短時間で理解できるようにする。
 2. 作品の背景・技術・成果物へ迷わず到達できるようにする。
 3. 画面操作やスクロールそのものにも発見を用意し、再訪したくなる体験を作る。
-4. 静的サイトとして高速に配信し、GitHub Pagesで継続的に公開できるようにする。
+4. 静的サイトとして高速に配信し、Cloudflare Pagesで継続的に公開できるようにする。
 
 ### 成功条件
 
@@ -88,7 +88,7 @@
 - React Three Fiberによる限定的な3D表現
 - TypeScriptデータファイルによるプロフィール・作品管理
 - Cloudflare Workerへの問い合わせ送信
-- GitHub Pagesへのデプロイ
+- Cloudflare Pagesへのデプロイ
 
 ### 対象外
 
@@ -339,7 +339,7 @@ GSAP、`@gsap/react`、ScrollTriggerを使用する。
 - スタイリング：CSS Modulesまたは通常のCSS + CSS変数
 - コンテンツ：TypeScriptデータファイル
 - テスト：Vitest、React Testing Library、Playwright
-- デプロイ：GitHub Pages
+- デプロイ：Cloudflare Pages（Git連携）
 - 問い合わせAPI：既存Cloudflare Worker
 
 推奨ディレクトリ構成は以下とする。
@@ -396,8 +396,8 @@ src/
 - 正規URLを設定する。
 - `robots.txt`と必要に応じたサイトマップを用意する。
 - 外部リンク先の用途と公開範囲を確認する。
-- GitHub Pagesと既存独自ドメインを維持する。
-- 静的ビルド成果物をGitHub Pagesへ配信できることを確認する。
+- Cloudflare Pagesと既存独自ドメインを維持する。
+- 静的ビルド成果物をCloudflare Pagesへ配信できることを確認する。
 
 ## 14. 非機能要件
 
@@ -484,7 +484,7 @@ Playwrightで以下を確認する。
 - Playwrightで主要導線に失敗がない。
 - デスクトップとモバイルのスクリーンショットで視覚崩れがない。
 - 作品以外の意味のない装飾アニメーションが残っていない。
-- GitHub Pagesへデプロイ可能である。
+- Cloudflare Pagesへデプロイ可能である。
 
 ## 17. 未確定事項と仮定
 
@@ -494,7 +494,7 @@ Playwrightで以下を確認する。
 - プロフィール・作品情報はコード内データで管理する。
 - 問い合わせフォームは既存Cloudflare Workerを利用する。
 - 初期版ではCMS、ログイン、会員機能、決済、リアルタイム通信を実装しない。
-- 既存のGitHub Pagesと独自ドメインを維持する。
+- 既存のCloudflare Pagesと独自ドメインを維持する。
 - 3Dは補助的に使用し、サイト全体を3D空間にはしない。
 
 ### 実装開始前に確定する情報
@@ -507,4 +507,3 @@ Playwrightで以下を確認する。
 - OGP画像
 - 使用するフォントとライセンス
 - 問い合わせ内容の通知先と保存方針
-
