@@ -51,6 +51,8 @@ h1 em, h2 em { font-style: normal; color: var(--coral); }
 .observation-readout { position: absolute; right: 15%; bottom: 17%; display: flex; gap: 8px; align-items: center; }
 .observation-readout strong { color: var(--green); font-weight: 500; }
 .signal-mark { position: absolute; inset: 34%; animation: breathe 4s ease-in-out infinite; }
+.orbit-canvas { position: absolute !important; inset: 22%; width: 56% !important; height: 56% !important; pointer-events: auto; opacity: .65; }
+.orbit-canvas-fallback { width: 100%; height: 100%; border: 1px solid var(--coral); border-radius: 50%; opacity: .5; }
 .signal-ring { position: absolute; inset: 0; border: 1px solid var(--ink); border-radius: 50%; }
 .signal-ring-two { inset: 18%; border-color: var(--coral); }
 .signal-core { position: absolute; inset: 39%; background: var(--coral); border-radius: 50%; }

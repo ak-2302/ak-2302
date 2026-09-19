@@ -1,9 +1,12 @@
+import { lazy, Suspense } from 'react'
 import SiteHeader from '../components/SiteHeader'
 import SignalMark from '../components/SignalMark'
 import WorkCard from '../components/WorkCard'
 import ContactForm from '../components/ContactForm'
 import { profile } from '../data/profile'
 import { works } from '../data/works'
+
+const OrbitScene = lazy(() => import('../components/OrbitScene'))
 
 export default function HomePage() {
   return (
@@ -22,6 +25,7 @@ export default function HomePage() {
         <div className="hero-observation js-intro" aria-hidden="true">
           <div className="observation-caption"><span>FIELD NOTE</span><span>23° 41′</span></div>
           <SignalMark />
+          <Suspense fallback={null}><OrbitScene /></Suspense>
           <div className="observation-readout"><span>signal</span><strong>good</strong></div>
           <span className="observation-line observation-line-a" />
           <span className="observation-line observation-line-b" />
