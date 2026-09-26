@@ -16,7 +16,6 @@ export type Work = {
 export type Profile = {
   name: string
   role: string
-  shortBio: string
   bio: string
   note: string
   links: Array<{ label: string; href: string }>
