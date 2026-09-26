@@ -1,0 +1,59 @@
+import { useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
+import HomePage from '../pages/HomePage'
+import WorkPage from '../pages/WorkPage'
+import NotFoundPage from '../pages/NotFoundPage'
+import ProfilePage from '../pages/ProfilePage'
+import ContactPage from '../pages/ContactPage'
+import VideoTranscoderPage from '../pages/tools/VideoTranscoderPage'
+import GitHubPagesHistoryPage from '../pages/tools/GitHubPagesHistoryPage'
+import ImageAudioVideoPage from '../pages/tools/ImageAudioVideoPage'
+
+gsap.registerPlugin(ScrollTrigger, useGSAP)
+
+function MotionShell({ children }: { children: ReactNode }) {
+  const shell = useRef<HTMLDivElement>(null)
+  const location = useLocation()
+
+  useGSAP(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!reduced) {
+      gsap.utils.toArray<HTMLElement>('.js-reveal').forEach((element) => {
+        gsap.fromTo(element, { autoAlpha: 0, y: 32 }, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: element, start: 'top 84%', once: true },
+        })
+      })
+    }
+  }, { scope: shell, dependencies: [location.pathname], revertOnUpdate: true })
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }, [location.pathname])
+
+  return <div ref={shell}>{children}</div>
+}
+
+export default function App() {
+  return (
+    <MotionShell>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/works/:slug" element={<WorkPage />} />
+        <Route path="/tools/video-trans" element={<VideoTranscoderPage />} />
+        <Route path="/tools/github-pages-history" element={<GitHubPagesHistoryPage />} />
+        <Route path="/tools/image-audio-video" element={<ImageAudioVideoPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </MotionShell>
+  )
+}
