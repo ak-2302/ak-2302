@@ -60,11 +60,12 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-orbit-menu { position: absolute; top: 38px; left: max(28px, calc(50% - 610px)); width: 250px; height: 250px; }
 .home-orbit-wheel { position: absolute; inset: 0; transform-origin: center; }
 .home-orbit-wheel::before { content: ''; position: absolute; inset: 44px; border: 1px solid var(--line); border-radius: 50%; }
-.home-orbit-wheel .home-orb { top: auto; left: auto; z-index: 1; width: 76px; height: 76px; border: 0; cursor: pointer; transform: rotate(var(--orbit-angle)) translateY(-82px); transition: box-shadow .3s ease, filter .3s ease; }
+.home-orbit-wheel .home-orb { top: auto; left: auto; z-index: 1; width: 76px; height: 76px; border: 0; cursor: pointer; overflow: visible; transform: rotate(var(--orbit-angle)) translateY(-82px); transition: box-shadow .3s ease, filter .3s ease; }
 .home-orbit-wheel .home-orb:nth-child(1) { position: absolute; top: 87px; left: 87px; }
 .home-orbit-wheel .home-orb:nth-child(2) { position: absolute; top: 87px; left: 87px; }
 .home-orbit-wheel .home-orb:nth-child(3) { position: absolute; top: 87px; left: 87px; }
 .home-orbit-wheel .home-orb.is-active { box-shadow: 0 0 0 7px rgba(28, 30, 27, .12); }
+.home-orb-label { position: absolute; top: 88px; left: 50%; width: max-content; color: var(--ink); font: .62rem 'DM Mono', monospace; letter-spacing: .04em; white-space: nowrap; transform: translateX(-50%) rotate(var(--label-angle)); }
 .home-orbit-hint { position: absolute; left: 0; bottom: -28px; color: var(--muted); font: .62rem 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
 .home-menu-tabs { position: absolute; left: max(28px, calc(50% - 610px)); bottom: 42px; display: flex; flex-direction: column; gap: 8px; }
 .home-menu-tabs button { border: 0; padding: 2px 0; background: transparent; color: var(--muted); cursor: pointer; font: .65rem 'DM Mono', monospace; letter-spacing: .06em; text-align: left; transition: color .25s ease, transform .25s var(--ease); }

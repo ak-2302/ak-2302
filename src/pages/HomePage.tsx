@@ -47,8 +47,10 @@ function InteractiveHome() {
               aria-label={`${item.label}を表示`}
               aria-pressed={activeIndex === index}
               onClick={() => selectMenu(index)}
-              style={{ '--orbit-angle': `${index * 120}deg` } as CSSProperties}
-            />
+              style={{ '--orbit-angle': `${index * 120}deg`, '--label-angle': `${index * -120}deg` } as CSSProperties}
+            >
+              <span className="home-orb-label">{item.label}</span>
+            </button>
           ))}
         </div>
         <span className="home-orbit-hint">select / rotate</span>
