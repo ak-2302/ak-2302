@@ -57,7 +57,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-orb-blue { top: 168px; left: calc(50% - 384px); background: var(--blue); }
 .home-orb-coral { top: -135px; left: calc(50% - 350px); background: var(--coral); }
 .home-orb-yellow { top: 338px; left: calc(50% - 634px); width: 80px; height: 80px; background: var(--yellow); }
-.home-orbit-menu { position: absolute; top: 250px; left: max(28px, calc(50% - 610px)); width: 250px; height: 250px; }
+.home-orbit-menu { position: absolute; top: 38px; left: max(28px, calc(50% - 610px)); width: 250px; height: 250px; }
 .home-orbit-wheel { position: absolute; inset: 0; transform-origin: center; }
 .home-orbit-wheel::before { content: ''; position: absolute; inset: 44px; border: 1px solid var(--line); border-radius: 50%; }
 .home-orbit-wheel .home-orb { top: auto; left: auto; z-index: 1; width: 76px; height: 76px; border: 0; cursor: pointer; transform: rotate(var(--orbit-angle)) translateY(-82px); transition: box-shadow .3s ease, filter .3s ease; }
@@ -207,7 +207,7 @@ h1 em, h2 em { font-style: normal; color: var(--coral); }
   .home-canvas { min-height: calc(100vh - 72px); }
   .home-content-heading { top: 150px; width: calc(100% - 40px); }
   .home-content-placeholder { top: 300px; width: calc(100% - 40px); height: min(380px, 48vw); }
-  .home-orbit-menu { top: 250px; left: 24px; transform: scale(.72); transform-origin: top left; }
+  .home-orbit-menu { top: 28px; left: 24px; transform: scale(.72); transform-origin: top left; }
   .home-menu-tabs { left: 24px; bottom: 30px; }
   .hero { min-height: auto; grid-template-columns: 1fr; padding: 60px 0 100px; gap: 60px; }
   .hero-observation { width: min(75vw, 360px); justify-self: center; }
@@ -235,7 +235,7 @@ h1 em, h2 em { font-style: normal; color: var(--coral); }
   .home-content-heading h1, .home-content-placeholder p { font-size: 2rem; }
   .home-content-heading { top: 150px; }
   .home-content-placeholder { top: 280px; height: 260px; }
-  .home-orbit-menu { top: 224px; left: 12px; transform: scale(.56); }
+  .home-orbit-menu { top: 18px; left: 12px; transform: scale(.56); }
   .hero h1, .work-detail-header h1, .not-found h1 { font-size: 3.25rem; }
   .hero-actions { align-items: flex-start; flex-direction: column; gap: 18px; }
   .work-card-copy { grid-template-columns: 1fr; }
