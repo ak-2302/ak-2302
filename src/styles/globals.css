@@ -100,8 +100,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-orb-content { position: absolute; inset: 0; transform: rotate(calc(var(--label-angle) - var(--wheel-angle))); }
 .home-orb-disc { display: flex; align-items: center; justify-content: center; width: 92px; height: 92px; border-radius: 50%; transition: box-shadow .3s ease; }
 .home-orbit-wheel .home-orb.is-active .home-orb-disc { box-shadow: 0 0 0 7px rgba(28, 30, 27, .12); }
-.home-orb-label { width: max-content; color: var(--ink); font: .62rem 'DM Mono', monospace; letter-spacing: .04em; line-height: 1; white-space: nowrap; }
-.home-orb-ink .home-orb-label { color: var(--paper); }
+.home-orb-label { width: max-content; color: var(--ink); font: 500 .68rem 'DM Mono', monospace; letter-spacing: .02em; line-height: 1; white-space: nowrap; text-shadow: 0 1px 1px rgba(245, 240, 232, .18); }
+.home-orb-green .home-orb-label, .home-orb-ink .home-orb-label { color: var(--paper); text-shadow: 0 1px 1px rgba(28, 30, 27, .2); }
 .home-orbit-hint { position: absolute; left: 0; bottom: -32px; color: var(--muted); font: .62rem 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
 .home-menu-tabs { position: absolute; left: max(28px, calc(50% - 610px)); bottom: 42px; display: none; flex-direction: column; gap: 8px; }
 .home-menu-tabs button { border: 0; padding: 2px 0; background: transparent; color: var(--muted); cursor: pointer; font: .65rem 'DM Mono', monospace; letter-spacing: .06em; text-align: left; transition: color .25s ease, transform .25s var(--ease); }
