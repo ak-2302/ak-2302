@@ -64,7 +64,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-orbit-wheel .home-orb:nth-child(1) { position: absolute; top: 87px; left: 87px; }
 .home-orbit-wheel .home-orb:nth-child(2) { position: absolute; top: 87px; left: 87px; }
 .home-orbit-wheel .home-orb:nth-child(3) { position: absolute; top: 87px; left: 87px; }
-.home-orbit-wheel .home-orb.is-active { box-shadow: 0 0 0 7px rgba(28, 30, 27, .12); filter: saturate(1.2); }
+.home-orbit-wheel .home-orb.is-active { box-shadow: 0 0 0 7px rgba(28, 30, 27, .12); }
 .home-orbit-hint { position: absolute; left: 0; bottom: -28px; color: var(--muted); font: .62rem 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
 .home-menu-tabs { position: absolute; left: max(28px, calc(50% - 610px)); bottom: 42px; display: flex; flex-direction: column; gap: 8px; }
 .home-menu-tabs button { border: 0; padding: 2px 0; background: transparent; color: var(--muted); cursor: pointer; font: .65rem 'DM Mono', monospace; letter-spacing: .06em; text-align: left; transition: color .25s ease, transform .25s var(--ease); }
