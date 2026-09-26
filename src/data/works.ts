@@ -9,7 +9,6 @@ export const works: Work[] = [
     year: '2024',
     technologies: ['React', 'Web Audio', 'FFmpeg'],
     thumbnail: '01',
-    demoUrl: '#contact',
     sourceUrl: 'https://github.com/ak-2302',
     featured: true,
     accent: 'coral',

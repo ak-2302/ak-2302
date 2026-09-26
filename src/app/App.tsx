@@ -7,6 +7,8 @@ import { useGSAP } from '@gsap/react'
 import HomePage from '../pages/HomePage'
 import WorkPage from '../pages/WorkPage'
 import NotFoundPage from '../pages/NotFoundPage'
+import ProfilePage from '../pages/ProfilePage'
+import ContactPage from '../pages/ContactPage'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -43,6 +45,8 @@ export default function App() {
     <MotionShell>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/works/:slug" element={<WorkPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

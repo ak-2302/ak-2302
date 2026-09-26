@@ -9,9 +9,9 @@ export default function SiteHeader() {
         <span>{profile.name}</span>
       </Link>
       <nav aria-label="メインナビゲーション">
-        <a href="/#works">作品</a>
-        <a href="/#profile">プロフィール</a>
-        <a className="nav-contact" href="/#contact">話す <span aria-hidden="true">↗</span></a>
+        <Link to="/#works">作品</Link>
+        <Link to="/profile">プロフィール</Link>
+        <Link className="nav-contact" to="/contact">話す <span aria-hidden="true">↗</span></Link>
       </nav>
     </header>
   )
