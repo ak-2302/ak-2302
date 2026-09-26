@@ -23,12 +23,16 @@ export default function HomePage() {
 
 function InteractiveHome() {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [displayedIndex, setDisplayedIndex] = useState(0)
   const canvasRef = useRef<HTMLElement>(null)
   const orbitRef = useRef<HTMLDivElement>(null)
+  const headingRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const rotationRef = useRef(0)
+  const transitionRef = useRef<ReturnType<typeof gsap.timeline> | null>(null)
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
   const activeItem = menuItems[activeIndex]
+  const displayedItem = menuItems[displayedIndex]
 
   useGSAP(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -45,14 +49,40 @@ function InteractiveHome() {
       ease: 'power3.inOut',
       overwrite: 'auto',
     })
-    gsap.fromTo(contentRef.current, { autoAlpha: 0, y: prefersReducedMotion ? 0 : 10 }, {
+  }, { scope: canvasRef, dependencies: [activeIndex] })
+
+  useGSAP(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const targets = [headingRef.current, contentRef.current]
+
+    transitionRef.current?.kill()
+
+    if (activeIndex !== displayedIndex) {
+      transitionRef.current = gsap.timeline({
+        onComplete: () => setDisplayedIndex(activeIndex),
+      }).to(targets, {
+        autoAlpha: 0,
+        y: prefersReducedMotion ? 0 : -10,
+        duration: prefersReducedMotion ? 0 : 0.22,
+        stagger: 0.035,
+        ease: 'power2.in',
+        overwrite: 'auto',
+      })
+      return
+    }
+
+    transitionRef.current = gsap.timeline().fromTo(targets, {
+      autoAlpha: 0,
+      y: prefersReducedMotion ? 0 : 12,
+    }, {
       autoAlpha: 1,
       y: 0,
-      duration: prefersReducedMotion ? 0 : 0.34,
-      ease: 'power2.out',
+      duration: prefersReducedMotion ? 0 : 0.42,
+      stagger: 0.055,
+      ease: 'power3.out',
       overwrite: 'auto',
     })
-  }, { scope: canvasRef, dependencies: [activeIndex] })
+  }, { scope: canvasRef, dependencies: [activeIndex, displayedIndex] })
 
   const selectMenu = (index: number) => setActiveIndex(index)
 
@@ -85,12 +115,12 @@ function InteractiveHome() {
         </div>
         <span className="home-orbit-hint">select / rotate</span>
       </div>
-      <div className="home-content-heading">
-        <h1>{activeItem.label} / {activeItem.english}</h1>
+      <div ref={headingRef} className="home-content-heading">
+        <h1>{displayedItem.label} / {displayedItem.english}</h1>
         <span className="home-heading-line" aria-hidden="true" />
       </div>
       <div ref={contentRef} className="home-content-placeholder" aria-live="polite">
-        <p>{activeItem.copy}</p>
+        <p>{displayedItem.copy}</p>
       </div>
       <div className="home-menu-tabs" role="tablist" aria-label="メインメニュー">
         {menuItems.map((item, index) => (
