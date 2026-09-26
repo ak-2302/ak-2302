@@ -3,7 +3,6 @@ import HomeHeading from '../components/home/HomeHeading'
 import HomeMenuTabs from '../components/home/HomeMenuTabs'
 import HomePanel from '../components/home/HomePanel'
 import OrbitMenu from '../components/home/OrbitMenu'
-import SiteHeader from '../components/SiteHeader'
 import { menuItems } from '../data/home'
 import { useHomeAnimations } from '../hooks/useHomeAnimations'
 
@@ -31,7 +30,6 @@ export default function HomePage() {
 
   return (
     <main>
-      <SiteHeader />
       <section ref={canvasRef} className="home-canvas" aria-label={activeItem.label}>
         <OrbitMenu activeIndex={activeIndex} orbitRef={orbitRef} onSelect={setActiveIndex} />
         <HomeHeading item={displayedItem} index={displayedIndex} headingRef={headingRef} />

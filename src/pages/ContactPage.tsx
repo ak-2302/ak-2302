@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom'
-import SiteHeader from '../components/SiteHeader'
 import ContactForm from '../components/ContactForm'
 
 export default function ContactPage() {
   return (
     <main>
-      <SiteHeader />
       <article className="simple-page page-section">
         <div className="page-topline"><span>CONTACT</span><span>ak-2302</span></div>
         <header className="simple-page-header">

@@ -26,11 +26,7 @@ button, input, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 3px solid var(--coral); outline-offset: 5px; }
 
-.site-header { display: flex; justify-content: space-between; align-items: center; width: min(calc(100% - 64px), var(--max)); margin: 0 auto; padding: 28px 0; position: relative; z-index: 20; }
-.brand-mark { display: inline-flex; gap: 10px; align-items: center; font-family: 'DM Mono', monospace; font-size: .82rem; letter-spacing: .04em; }
-.brand-dot, .live-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 4px rgba(239, 115, 88, .15); }
-
-.home-canvas { position: relative; min-height: calc(100vh - 90px); overflow: hidden; }
+.home-canvas { position: relative; min-height: 100vh; overflow: hidden; }
 .home-content-heading { --section-color: var(--blue); position: absolute; top: 58px; left: calc(50% + 220px); z-index: 1; width: min(738px, calc(100% - 96px)); transform: translateX(-50%); }
 .home-heading-coral { --section-color: var(--coral); }
 .home-heading-green { --section-color: var(--green); }
@@ -253,9 +249,8 @@ h1 em, h2 em { font-style: normal; color: var(--coral); }
 @keyframes breathe { 0%, 100% { transform: scale(.94) rotate(0); } 50% { transform: scale(1.06) rotate(7deg); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
 @media (max-width: 800px) {
-  .site-header, .page-section, .work-detail, .site-footer { width: min(calc(100% - 40px), var(--max)); }
-  .site-header { padding-top: 20px; }
-  .home-canvas { min-height: calc(100vh - 80px); }
+  .page-section, .work-detail, .site-footer { width: min(calc(100% - 40px), var(--max)); }
+  .home-canvas { min-height: 100vh; }
   .home-content-heading { top: 70px; left: 50%; width: calc(100% - 40px); }
   .home-content-placeholder { top: 200px; left: 50%; width: calc(100% - 40px); }
   .home-orbit-menu { position: fixed; z-index: 4; top: auto; right: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); left: 50%; transform: translateX(-50%) scale(.72); transform-origin: bottom center; }

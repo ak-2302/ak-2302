@@ -21,8 +21,6 @@ function MotionShell({ children }: { children: ReactNode }) {
 
   useGSAP(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const intro = gsap.timeline({ defaults: { ease: 'power3.out' } })
-    intro.fromTo('.js-intro', { autoAlpha: 0, y: reduced ? 0 : 18 }, { autoAlpha: 1, y: 0, duration: reduced ? 0.2 : 0.7, stagger: reduced ? 0 : 0.06 })
     if (!reduced) {
       gsap.utils.toArray<HTMLElement>('.js-reveal').forEach((element) => {
         gsap.fromTo(element, { autoAlpha: 0, y: 32 }, {

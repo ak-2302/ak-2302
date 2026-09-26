@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom'
-import SiteHeader from '../components/SiteHeader'
 import { profile } from '../data/profile'
 
 export default function ProfilePage() {
   return (
     <main>
-      <SiteHeader />
       <article className="simple-page page-section">
         <div className="page-topline"><span>ABOUT</span><span>{profile.name}</span></div>
         <header className="simple-page-header">

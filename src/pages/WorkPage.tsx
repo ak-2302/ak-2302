@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom'
-import SiteHeader from '../components/SiteHeader'
 import { getWorkBySlug } from '../data/works'
 
 export default function WorkPage() {
@@ -10,7 +9,6 @@ export default function WorkPage() {
 
   return (
     <main>
-      <SiteHeader />
       <article className={`work-detail work-detail-${work.accent}`}>
         <div className="work-detail-topline"><Link className="quiet-link" to="/">← すべての作品</Link><span>{work.year}</span></div>
         <header className="work-detail-header"><p className="eyebrow">selected observation / {work.thumbnail}</p><h1>{work.title}</h1><p>{work.summary}</p></header>
@@ -22,5 +20,5 @@ export default function WorkPage() {
 }
 
 function NotFoundWork() {
-  return <main><SiteHeader /><section className="not-found page-section"><p className="eyebrow">404 / no signal</p><h1>その観測結果は<br /><em>見つかりません。</em></h1><Link className="button button-dark" to="/">ホームへ戻る ↗</Link></section></main>
+  return <main><section className="not-found page-section"><p className="eyebrow">404 / no signal</p><h1>その観測結果は<br /><em>見つかりません。</em></h1><Link className="button button-dark" to="/">ホームへ戻る ↗</Link></section></main>
 }
