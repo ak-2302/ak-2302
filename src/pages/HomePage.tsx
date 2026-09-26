@@ -11,6 +11,7 @@ const menuItems = [
   { id: 'profile', label: 'プロフィール', english: 'plofile', color: 'blue' },
   { id: 'link', label: 'リンク', english: 'link', color: 'coral' },
   { id: 'tool', label: 'ツール', english: 'tool', color: 'green' },
+  { id: 'server', label: 'サーバー', english: 'server', color: 'ink' },
   { id: 'contact', label: '連絡先', english: 'contact', color: 'yellow' },
 ] as const
 
@@ -100,6 +101,8 @@ function InteractiveHome() {
         '.home-profile-note',
         '.home-panel-links > a',
         '.home-tool-links > a',
+        '.home-server-grid > div',
+        '.home-server-link',
         '.home-panel-contact .contact-form > *',
       ].join(', ')))
       : []
@@ -234,6 +237,22 @@ function HomePanel({ item }: { item: (typeof menuItems)[number] }) {
             </a>
           ))}
         </div>
+      </div>
+    )
+  }
+
+  if (item.id === 'server') {
+    return (
+      <div className="home-panel home-panel-server">
+        <p className="home-panel-lead">公開と通信を支える場所。</p>
+        <dl className="home-profile-grid home-server-grid">
+          <div><dt>Hosting</dt><dd>GitHub Pages</dd></div>
+          <div><dt>Domain</dt><dd>にゃんこ.tech</dd></div>
+          <div><dt>Contact API</dt><dd>Cloudflare Worker</dd></div>
+        </dl>
+        <a className="home-server-link" href="https://github.com/ak-2302/ak-2302" target="_blank" rel="noreferrer">
+          <span>ソースコードを見る</span><span aria-hidden="true">↗</span>
+        </a>
       </div>
     )
   }
