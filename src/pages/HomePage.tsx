@@ -68,16 +68,18 @@ function InteractiveHome() {
     })
   }, { scope: canvasRef, dependencies: [activeIndex] })
 
-  useGSAP(() => {
+  useGSAP((_, contextSafe) => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const targets = [headingRef.current, contentRef.current]
+    const containers = [headingRef.current, contentRef.current]
 
     transitionRef.current?.kill()
 
     if (activeIndex !== displayedIndex) {
+      const updateDisplayedItem = () => setDisplayedIndex(activeIndex)
+
       transitionRef.current = gsap.timeline({
-        onComplete: () => setDisplayedIndex(activeIndex),
-      }).to(targets, {
+        onComplete: contextSafe ? contextSafe(updateDisplayedItem) : updateDisplayedItem,
+      }).to(containers, {
         autoAlpha: 0,
         y: prefersReducedMotion ? 0 : -10,
         duration: prefersReducedMotion ? 0 : 0.22,
@@ -88,14 +90,31 @@ function InteractiveHome() {
       return
     }
 
-    transitionRef.current = gsap.timeline().fromTo(targets, {
+    const headingTargets = headingRef.current
+      ? Array.from(headingRef.current.querySelectorAll<HTMLElement>('.home-heading-meta, h1, .home-heading-line'))
+      : []
+    const contentTargets = contentRef.current
+      ? Array.from(contentRef.current.querySelectorAll<HTMLElement>([
+        '.home-panel-lead',
+        '.home-profile-grid > div',
+        '.home-profile-note',
+        '.home-panel-links > a',
+        '.home-tool-links > a',
+        '.home-panel-contact .contact-form > *',
+      ].join(', ')))
+      : []
+    const revealTargets = [...headingTargets, ...contentTargets]
+
+    gsap.set(containers, { autoAlpha: 1, y: 0 })
+
+    transitionRef.current = gsap.timeline().fromTo(revealTargets, {
       autoAlpha: 0,
-      y: prefersReducedMotion ? 0 : 12,
+      y: prefersReducedMotion ? 0 : 16,
     }, {
       autoAlpha: 1,
       y: 0,
-      duration: prefersReducedMotion ? 0 : 0.42,
-      stagger: 0.055,
+      duration: prefersReducedMotion ? 0 : 0.44,
+      stagger: prefersReducedMotion ? 0 : 0.065,
       ease: 'power3.out',
       overwrite: 'auto',
     })
