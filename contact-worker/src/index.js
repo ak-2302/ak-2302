@@ -2,6 +2,7 @@ const ALLOWED_ORIGINS = new Set([
 	'https://xn--28j4bvdyc.tech',
 	'https://www.xn--28j4bvdyc.tech',
 	'https://ak-2302.github.io',
+	'https://renewal.ak-2302.pages.dev',
 ])
 
 const LIMITS = {

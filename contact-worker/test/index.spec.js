@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import worker from '../src/index.js'
 
 const origin = 'https://xn--28j4bvdyc.tech'
+const renewalOrigin = 'https://renewal.ak-2302.pages.dev'
 const webhookUrl = 'https://discord.com/api/webhooks/test'
 
 function postRequest(body, requestOrigin = origin) {
@@ -27,6 +28,12 @@ describe('contact worker', () => {
 		const response = await run(new Request('https://contact-worker.example.com', { method: 'OPTIONS', headers: { Origin: origin } }))
 		expect(response.status).toBe(204)
 		expect(response.headers.get('Access-Control-Allow-Origin')).toBe(origin)
+	})
+
+	it('allows the renewal Pages deployment', async () => {
+		const response = await run(new Request('https://contact-worker.example.com', { method: 'OPTIONS', headers: { Origin: renewalOrigin } }))
+		expect(response.status).toBe(204)
+		expect(response.headers.get('Access-Control-Allow-Origin')).toBe(renewalOrigin)
 	})
 
 	it('rejects unknown origins', async () => {
