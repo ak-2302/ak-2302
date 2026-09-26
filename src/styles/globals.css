@@ -240,7 +240,7 @@ h1 em, h2 em { font-style: normal; color: var(--coral); }
   .home-content-placeholder p { font-size: 1.85rem; line-height: 1.2; white-space: nowrap; }
   .home-content-heading { top: 46px; }
   .home-content-placeholder { top: 145px; height: 520px; place-items: end start; padding: 0 20px 102px; }
-  .home-orbit-menu { position: absolute; z-index: 4; top: 567px; right: auto; bottom: auto; left: 50%; transform: translateX(-50%) scale(.56); transform-origin: top center; }
+  .home-orbit-menu { position: fixed; z-index: 4; top: auto; right: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); left: 50%; transform: translateX(-50%) scale(.56); transform-origin: bottom center; }
   .home-menu-tabs { display: none; }
   .hero h1, .work-detail-header h1, .not-found h1 { font-size: 3.25rem; }
   .hero-actions { align-items: flex-start; flex-direction: column; gap: 18px; }
