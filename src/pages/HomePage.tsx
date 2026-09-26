@@ -132,8 +132,16 @@ function InteractiveHome() {
         </div>
         <span className="home-orbit-hint">select / rotate</span>
       </div>
-      <div ref={headingRef} className="home-content-heading">
-        <h1>{displayedItem.label} / {displayedItem.english}</h1>
+      <div ref={headingRef} className={`home-content-heading home-heading-${displayedItem.color}`}>
+        <p className="home-heading-meta">
+          <span>0{displayedIndex + 1}</span>
+          <span>selected section</span>
+        </p>
+        <h1>
+          <span>{displayedItem.label}</span>
+          <span className="home-heading-slash" aria-hidden="true">/</span>
+          <span className="home-heading-english" lang="en">{displayedItem.english}</span>
+        </h1>
         <span className="home-heading-line" aria-hidden="true" />
       </div>
       <div ref={contentRef} className="home-content-placeholder" aria-live="polite">
