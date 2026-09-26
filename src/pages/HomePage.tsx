@@ -7,10 +7,13 @@ import SiteHeader from '../components/SiteHeader'
 gsap.registerPlugin(useGSAP)
 
 const menuItems = [
-  { label: 'プロフィール', english: 'profile', color: 'blue', copy: 'プロフィールのこと。' },
-  { label: '作品', english: 'works', color: 'coral', copy: 'つくったもの。' },
+  { label: 'プロフィール', english: 'plofile', color: 'blue', copy: 'プロフィールのこと。' },
+  { label: 'リンク', english: 'link', color: 'coral', copy: 'つながっている場所。' },
+  { label: 'ツール', english: 'tool', color: 'green', copy: 'つくった道具。' },
   { label: '連絡先', english: 'contact', color: 'yellow', copy: '話しかける。' },
 ]
+
+const orbitStep = 360 / menuItems.length
 
 export default function HomePage() {
   return (
@@ -36,7 +39,7 @@ function InteractiveHome() {
 
   useGSAP(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const targetRotation = activeIndex * -120
+    const targetRotation = activeIndex * -orbitStep
     const currentRotation = rotationRef.current
     const shortestDelta = ((targetRotation - currentRotation + 540) % 360) - 180
     const nextRotation = currentRotation + shortestDelta
@@ -104,11 +107,11 @@ function InteractiveHome() {
               aria-label={`${item.label}を表示`}
               aria-pressed={activeIndex === index}
               onClick={() => selectMenu(index)}
-              style={{ '--orbit-angle': `${index * 120}deg`, '--label-angle': `${index * -120}deg` } as CSSProperties}
+              style={{ '--orbit-angle': `${index * orbitStep}deg`, '--label-angle': `${index * -orbitStep}deg` } as CSSProperties}
             >
               <span className="home-orb-content">
                 <span className={`home-orb-disc home-orb-${item.color}`} aria-hidden="true" />
-                <span className="home-orb-label">{item.label}</span>
+                <span className="home-orb-label">{item.english}</span>
               </span>
             </button>
           ))}

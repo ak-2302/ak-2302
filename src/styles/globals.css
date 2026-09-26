@@ -57,13 +57,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-orb-blue { background: var(--blue); }
 .home-orb-coral { background: var(--coral); }
 .home-orb-yellow { background: var(--yellow); }
+.home-orb-green { background: var(--green); }
 .home-orbit-menu { position: absolute; top: 235px; left: max(28px, calc(50% - 638px)); width: 250px; height: 250px; }
 .home-orbit-wheel { position: absolute; inset: 0; transform-origin: center; }
 .home-orbit-wheel::before { content: ''; position: absolute; inset: 44px; border: 1px solid var(--line); border-radius: 50%; }
-.home-orbit-wheel .home-orb { top: auto; left: auto; z-index: 1; width: 76px; height: 76px; padding: 0; border: 0; background: transparent; cursor: pointer; overflow: visible; transform: rotate(var(--orbit-angle)) translateY(-82px); }
-.home-orbit-wheel .home-orb:nth-child(1) { position: absolute; top: 87px; left: 87px; }
-.home-orbit-wheel .home-orb:nth-child(2) { position: absolute; top: 87px; left: 87px; }
-.home-orbit-wheel .home-orb:nth-child(3) { position: absolute; top: 87px; left: 87px; }
+.home-orbit-wheel .home-orb { position: absolute; top: 87px; left: 87px; z-index: 1; width: 76px; height: 76px; padding: 0; border: 0; background: transparent; cursor: pointer; overflow: visible; transform: rotate(var(--orbit-angle)) translateY(-82px); }
 .home-orb-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; gap: 9px; transform: rotate(calc(var(--label-angle) - var(--wheel-angle))); }
 .home-orb-disc { display: block; flex: 0 0 auto; width: 76px; height: 76px; border-radius: 50%; transition: box-shadow .3s ease; }
 .home-orbit-wheel .home-orb.is-active .home-orb-disc { box-shadow: 0 0 0 7px rgba(28, 30, 27, .12); }
