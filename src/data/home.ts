@@ -16,9 +16,9 @@ export const socialLinks = [
 ] as const
 
 export const toolLinks = [
-  ['動画をまとめて変換する', 'https://にゃんこ.tech/tool/video_trans/'],
-  ['過去のGitHub Pagesの履歴を見る', 'https://にゃんこ.tech/tool/github_pages_commits/'],
-  ['画像と音声から動画をつくる', 'https://にゃんこ.tech/tool/image_audio_to_video/'],
+  ['動画をまとめて変換する', '/tools/video-trans'],
+  ['過去のGitHub Pagesの履歴を見る', '/tools/github-pages-history'],
+  ['画像と音声から動画をつくる', '/tools/image-audio-video'],
 ] as const
 
 export const orbitStep = 360 / menuItems.length

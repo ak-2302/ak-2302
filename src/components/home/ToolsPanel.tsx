@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { toolLinks } from '../../data/home'
 
 export default function ToolsPanel() {
@@ -6,9 +7,9 @@ export default function ToolsPanel() {
       <p className="home-panel-lead">手軽に使える道具をつくっています。</p>
       <div className="home-tool-links">
         {toolLinks.map(([label, href], index) => (
-          <a href={href} target="_blank" rel="noreferrer" key={href}>
+          <Link to={href} key={href}>
             <span>0{index + 1}</span><strong>{label}</strong><span aria-hidden="true">↗</span>
-          </a>
+          </Link>
         ))}
       </div>
     </div>

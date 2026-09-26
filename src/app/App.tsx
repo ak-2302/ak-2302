@@ -9,6 +9,9 @@ import WorkPage from '../pages/WorkPage'
 import NotFoundPage from '../pages/NotFoundPage'
 import ProfilePage from '../pages/ProfilePage'
 import ContactPage from '../pages/ContactPage'
+import VideoTranscoderPage from '../pages/tools/VideoTranscoderPage'
+import GitHubPagesHistoryPage from '../pages/tools/GitHubPagesHistoryPage'
+import ImageAudioVideoPage from '../pages/tools/ImageAudioVideoPage'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -48,6 +51,9 @@ export default function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/works/:slug" element={<WorkPage />} />
+        <Route path="/tools/video-trans" element={<VideoTranscoderPage />} />
+        <Route path="/tools/github-pages-history" element={<GitHubPagesHistoryPage />} />
+        <Route path="/tools/image-audio-video" element={<ImageAudioVideoPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </MotionShell>
