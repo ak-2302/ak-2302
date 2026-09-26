@@ -28,8 +28,9 @@ export default function OrbitMenu({
             style={{ '--orbit-angle': `${index * orbitStep}deg`, '--label-angle': `${index * -orbitStep}deg` } as CSSProperties}
           >
             <span className="home-orb-content">
-              <span className={`home-orb-disc home-orb-${item.color}`} aria-hidden="true" />
-              <span className="home-orb-label">{item.english}</span>
+              <span className={`home-orb-disc home-orb-${item.color}`}>
+                <span className="home-orb-label">{item.english}</span>
+              </span>
             </span>
           </button>
         ))}
