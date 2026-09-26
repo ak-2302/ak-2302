@@ -29,26 +29,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .site-header { display: flex; justify-content: space-between; align-items: center; width: min(calc(100% - 64px), var(--max)); margin: 0 auto; padding: 28px 0; position: relative; z-index: 20; }
 .brand-mark { display: inline-flex; gap: 10px; align-items: center; font-family: 'DM Mono', monospace; font-size: .82rem; letter-spacing: .04em; }
 .brand-dot, .live-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 4px rgba(239, 115, 88, .15); }
-.drawer-toggle { display: inline-flex; align-items: center; gap: 12px; border: 1px solid var(--ink); background: transparent; color: var(--ink); border-radius: 999px; padding: 8px 12px 8px 14px; cursor: pointer; font: .67rem 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .07em; transition: background-color .25s ease, color .25s ease; }
-.drawer-toggle:hover, .drawer-toggle.is-open { background: var(--ink); color: var(--paper); }
-.drawer-toggle-icon { display: inline-flex; flex-direction: column; gap: 4px; width: 14px; }
-.drawer-toggle-icon i { display: block; width: 14px; height: 1px; background: currentColor; transition: transform .3s var(--ease); }
-.drawer-toggle.is-open .drawer-toggle-icon i:first-child { transform: translateY(2.5px) rotate(45deg); }
-.drawer-toggle.is-open .drawer-toggle-icon i:last-child { transform: translateY(-2.5px) rotate(-45deg); }
-.drawer-backdrop { position: fixed; z-index: 12; inset: 0; background: rgba(28, 30, 27, .22); opacity: 0; pointer-events: none; transition: opacity .4s ease; }
-.drawer-backdrop.is-visible { opacity: 1; pointer-events: auto; }
-.site-drawer { position: fixed; z-index: 15; top: 0; right: 0; bottom: 0; width: min(470px, 91vw); padding: 110px clamp(28px, 5vw, 62px) 38px; background: var(--ink); color: var(--paper); transform: translateX(102%); transition: transform .7s var(--ease); display: flex; flex-direction: column; box-shadow: -20px 0 60px rgba(28, 30, 27, .15); }
-.site-drawer.is-open { transform: translateX(0); }
-.drawer-heading { display: flex; justify-content: space-between; color: rgba(245, 240, 232, .54); font: .65rem 'DM Mono', monospace; letter-spacing: .08em; }
-.drawer-intro { margin: 72px 0 55px; font-size: clamp(2.4rem, 5vw, 4.5rem); line-height: .98; letter-spacing: -.07em; font-weight: 700; }
-.drawer-intro em { color: var(--coral); font-style: normal; }
-.drawer-links { display: flex; flex-direction: column; border-top: 1px solid rgba(245, 240, 232, .2); }
-.drawer-links a { display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; align-items: center; padding: 17px 0; border-bottom: 1px solid rgba(245, 240, 232, .2); color: var(--paper); font-size: .86rem; transition: color .25s ease, padding-left .35s var(--ease); }
-.drawer-links a:hover { color: var(--coral); padding-left: 9px; }
-.drawer-number { color: rgba(245, 240, 232, .4); font: .65rem 'DM Mono', monospace; }
-.drawer-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; color: rgba(245, 240, 232, .5); font: .65rem 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .08em; }
-.drawer-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 6px rgba(239, 115, 88, .15); animation: breathe 2.4s ease-in-out infinite; }
-.drawer-open { overflow: hidden; }
 
 .home-canvas { position: relative; min-height: calc(100vh - 90px); overflow: hidden; }
 .home-content-heading { --section-color: var(--blue); position: absolute; top: 58px; left: calc(50% + 220px); z-index: 1; width: min(738px, calc(100% - 96px)); transform: translateX(-50%); }
@@ -275,7 +255,6 @@ h1 em, h2 em { font-style: normal; color: var(--coral); }
 @media (max-width: 800px) {
   .site-header, .page-section, .work-detail, .site-footer { width: min(calc(100% - 40px), var(--max)); }
   .site-header { padding-top: 20px; }
-  .drawer-intro { margin-top: 58px; }
   .home-canvas { min-height: calc(100vh - 80px); }
   .home-content-heading { top: 70px; left: 50%; width: calc(100% - 40px); }
   .home-content-placeholder { top: 200px; left: 50%; width: calc(100% - 40px); }
