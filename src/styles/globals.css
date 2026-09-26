@@ -93,15 +93,15 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-orb-yellow { background: var(--yellow); }
 .home-orb-green { background: var(--green); }
 .home-orb-ink { background: var(--ink); }
-.home-orbit-menu { position: absolute; top: 235px; left: max(28px, calc(50% - 638px)); width: 250px; height: 250px; }
+.home-orbit-menu { position: absolute; top: 215px; left: max(28px, calc(50% - 663px)); width: 300px; height: 300px; }
 .home-orbit-wheel { position: absolute; inset: 0; transform-origin: center; }
-.home-orbit-wheel::before { content: ''; position: absolute; inset: 44px; border: 1px solid var(--line); border-radius: 50%; }
-.home-orbit-wheel .home-orb { position: absolute; top: 87px; left: 87px; z-index: 1; width: 76px; height: 76px; padding: 0; border: 0; background: transparent; cursor: pointer; overflow: visible; transform: rotate(var(--orbit-angle)) translateY(-82px); }
+.home-orbit-wheel::before { content: ''; position: absolute; inset: 52px; border: 1px solid var(--line); border-radius: 50%; }
+.home-orbit-wheel .home-orb { position: absolute; top: 104px; left: 104px; z-index: 1; width: 92px; height: 92px; padding: 0; border: 0; background: transparent; cursor: pointer; overflow: visible; transform: rotate(var(--orbit-angle)) translateY(-104px); }
 .home-orb-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; gap: 9px; transform: rotate(calc(var(--label-angle) - var(--wheel-angle))); }
-.home-orb-disc { display: block; flex: 0 0 auto; width: 76px; height: 76px; border-radius: 50%; transition: box-shadow .3s ease; }
+.home-orb-disc { display: block; flex: 0 0 auto; width: 92px; height: 92px; border-radius: 50%; transition: box-shadow .3s ease; }
 .home-orbit-wheel .home-orb.is-active .home-orb-disc { box-shadow: 0 0 0 7px rgba(28, 30, 27, .12); }
 .home-orb-label { width: max-content; color: var(--ink); font: .62rem 'DM Mono', monospace; letter-spacing: .04em; line-height: 1; white-space: nowrap; }
-.home-orbit-hint { position: absolute; left: 0; bottom: -28px; color: var(--muted); font: .62rem 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+.home-orbit-hint { position: absolute; left: 0; bottom: -32px; color: var(--muted); font: .62rem 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
 .home-menu-tabs { position: absolute; left: max(28px, calc(50% - 610px)); bottom: 42px; display: none; flex-direction: column; gap: 8px; }
 .home-menu-tabs button { border: 0; padding: 2px 0; background: transparent; color: var(--muted); cursor: pointer; font: .65rem 'DM Mono', monospace; letter-spacing: .06em; text-align: left; transition: color .25s ease, transform .25s var(--ease); }
 .home-menu-tabs button:hover, .home-menu-tabs button.is-active { color: var(--ink); transform: translateX(6px); }
