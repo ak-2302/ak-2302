@@ -1,4 +1,5 @@
 const ALLOWED_ORIGINS = new Set([
+	'https://xn--n8jl2g.xn--q9jyb4c',
 	'https://xn--28j4bvdyc.tech',
 	'https://www.xn--28j4bvdyc.tech',
 	'https://ak-2302.github.io',

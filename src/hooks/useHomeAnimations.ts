@@ -6,10 +6,7 @@ gsap.registerPlugin(useGSAP)
 
 const REVEAL_SELECTOR = [
   '.home-panel-lead',
-  '.home-profile-grid > div',
-  '.home-profile-note',
   '.home-panel-links > a',
-  '.home-tool-links > a',
   '.home-server-grid > div',
   '.home-server-link',
   '.home-panel-contact .contact-form > *',
@@ -85,11 +82,23 @@ export function useHomeAnimations({
     const contentTargets = contentRef.current
       ? Array.from(contentRef.current.querySelectorAll<HTMLElement>(REVEAL_SELECTOR))
       : []
+    const toolTargets = contentRef.current
+      ? Array.from(contentRef.current.querySelectorAll<HTMLElement>('.home-tool-links > .home-tool-card'))
+      : []
+    const profileTargets = contentRef.current
+      ? Array.from(contentRef.current.querySelectorAll<HTMLElement>([
+          '.home-profile-icon',
+          '.home-profile-identity',
+          '.home-profile-details > div',
+          '.home-panel-profile .profile-timeline > h2',
+          '.home-panel-profile .profile-timeline li',
+        ].join(', ')))
+      : []
     const revealTargets = [...headingTargets, ...contentTargets]
 
     gsap.set(containers, { autoAlpha: 1, y: 0 })
 
-    transitionRef.current = gsap.timeline().fromTo(revealTargets, {
+    const timeline = gsap.timeline().fromTo(revealTargets, {
       autoAlpha: 0,
       y: prefersReducedMotion ? 0 : 16,
     }, {
@@ -100,5 +109,37 @@ export function useHomeAnimations({
       ease: 'power3.out',
       overwrite: 'auto',
     })
+
+    if (toolTargets.length > 0) {
+      timeline.fromTo(toolTargets, {
+        autoAlpha: 0,
+        x: prefersReducedMotion ? 0 : 28,
+      }, {
+        autoAlpha: 1,
+        x: 0,
+        duration: prefersReducedMotion ? 0 : 0.42,
+        stagger: prefersReducedMotion ? 0 : 0.09,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      }, prefersReducedMotion ? '<' : '-=0.2')
+    }
+
+    if (profileTargets.length > 0) {
+      timeline.fromTo(profileTargets, {
+        autoAlpha: 0,
+        y: prefersReducedMotion ? 0 : 18,
+        scale: prefersReducedMotion ? 1 : 0.98,
+      }, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: prefersReducedMotion ? 0 : 0.4,
+        stagger: prefersReducedMotion ? 0 : 0.055,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      }, prefersReducedMotion ? '<' : '-=0.2')
+    }
+
+    transitionRef.current = timeline
   }, { scope: canvasRef, dependencies: [activeIndex, displayedIndex] })
 }

@@ -16,6 +16,15 @@ export type Work = {
 export type Profile = {
   name: string
   role: string
+  message: string
+  birthDate: string
+  bloodType: string
+  hobbies: string
+  interests: string
+  favorites: string
+  qualifications: string[]
+  domains: string[]
+  career: Record<string, string>
   bio: string
   note: string
   links: Array<{ label: string; href: string }>

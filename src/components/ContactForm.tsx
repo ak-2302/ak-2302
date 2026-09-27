@@ -15,11 +15,10 @@ export default function ContactForm() {
     const name = String(data.get('name') ?? '').trim()
     const email = String(data.get('email') ?? '').trim()
     const body = String(data.get('message') ?? '').trim()
-    const consent = data.get('consent') === 'on'
 
-    if (!name || !email || !body || !consent || !/^\S+@\S+\.\S+$/.test(email)) {
+    if (!name || !email || !body || !/^\S+@\S+\.\S+$/.test(email)) {
       setState('error')
-      setMessage('名前、メールアドレス、メッセージ、同意確認を入力してください。')
+      setMessage('名前、メールアドレス、メッセージを入力してください。')
       return
     }
 
@@ -34,7 +33,7 @@ export default function ContactForm() {
       const response = await fetch(workerUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message: body, consent }),
+        body: JSON.stringify({ name, email, message: body, consent: true }),
       })
       if (!response.ok) throw new Error('request failed')
       form.reset()
@@ -59,10 +58,6 @@ export default function ContactForm() {
       <label>
         <span>メッセージ</span>
         <textarea name="message" rows={4} placeholder="相談したいこと、つくりたいものなど" />
-      </label>
-      <label className="consent-label">
-        <input name="consent" type="checkbox" />
-        <span>連絡のために入力情報を利用することに同意します。</span>
       </label>
       <button className="button button-dark" type="submit" disabled={state === 'submitting'}>
         {state === 'submitting' ? '送信中…' : 'メッセージを送る'} <span aria-hidden="true">↗</span>

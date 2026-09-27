@@ -32,9 +32,11 @@ export default function HomePage() {
     <main>
       <section ref={canvasRef} className="home-canvas" aria-label={activeItem.label}>
         <OrbitMenu activeIndex={activeIndex} orbitRef={orbitRef} onSelect={setActiveIndex} />
-        <HomeHeading item={displayedItem} index={displayedIndex} headingRef={headingRef} />
-        <div ref={contentRef} className="home-content-placeholder" aria-live="polite">
-          <HomePanel item={displayedItem} />
+        <div className="home-content-area">
+          <HomeHeading item={displayedItem} index={displayedIndex} headingRef={headingRef} />
+          <div ref={contentRef} className="home-content-placeholder" aria-live="polite">
+            <HomePanel item={displayedItem} />
+          </div>
         </div>
         <HomeMenuTabs
           items={menuItems}
