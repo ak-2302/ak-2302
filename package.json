@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "serve:production": "node scripts/static-server.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "test:worker": "npm test --prefix contact-worker",
