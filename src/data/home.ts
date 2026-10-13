@@ -1,6 +1,7 @@
 export const menuItems = [
   { id: 'profile', label: 'プロフィール', english: 'profile', color: 'blue' },
   { id: 'link', label: 'リンク', english: 'link', color: 'coral' },
+  { id: 'tool', label: 'ツール', english: 'tool', color: 'green' },
   { id: 'server', label: 'サーバー', english: 'server', color: 'ink' },
   { id: 'contact', label: '連絡先', english: 'contact', color: 'yellow' },
 ] as const
