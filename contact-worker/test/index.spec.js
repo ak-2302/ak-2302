@@ -60,6 +60,21 @@ describe('contact worker', () => {
 		expect(response.status).toBe(200)
 		expect(await response.json()).toEqual({ ok: true })
 		expect(fetchMock).toHaveBeenCalledOnce()
+
+		const [, requestInit] = fetchMock.mock.calls[0]
+		const webhookPayload = JSON.parse(requestInit.body)
+		expect(webhookPayload).toEqual({
+			username: 'Website Contact',
+			allowed_mentions: { parse: [] },
+			embeds: [{
+				author: { name: 'Test User' },
+				description: 'Hello from the site',
+				color: 0xef7358,
+				fields: [{ name: 'メールアドレス', value: 'test@example.com' }],
+				timestamp: expect.any(String),
+			}],
+		})
+		expect(Number.isNaN(Date.parse(webhookPayload.embeds[0].timestamp))).toBe(false)
 	})
 
 	it('returns a delivery error when the webhook fails', async () => {

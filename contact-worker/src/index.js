@@ -91,10 +91,10 @@ export default {
 					username: 'Website Contact',
 					allowed_mentions: { parse: [] },
 					embeds: [{
-						title: 'New contact message',
+						author: { name },
 						description: message,
 						color: 0xef7358,
-						fields: [{ name: 'Name', value: name }, { name: 'Email', value: email }],
+						fields: [{ name: 'メールアドレス', value: email }],
 						timestamp: new Date().toISOString(),
 					}],
 				}),

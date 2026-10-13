@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/meiteya
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://xn--n8jl2g.xn--q9jyb4c
+  * I am meiteya (https://keybase.io/meiteya) on keybase.
+  * I have a public key ASAHzGDaLk8hz3dPIRNezNTGrwRPOoPZCYnJnJ5pk4P9fAo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "012007cc60da2e4f21cf774f21135eccd4c6af044f3a83d90989c99c9e699383fd7c0a",
+      "host": "keybase.io",
+      "kid": "012007cc60da2e4f21cf774f21135eccd4c6af044f3a83d90989c99c9e699383fd7c0a",
+      "uid": "171348ec12d28877aed8695a46b88919",
+      "username": "meiteya"
+    },
+    "merkle_root": {
+      "ctime": 1790750620,
+      "hash": "3ba1ce77838a5fca3efd6bc31d96c0e8a8807dd4e801b28ad9750155b1d4e61feff903aeb89acbb2d677e15be791b578407da5a200afdb8b1205508201149b9b",
+      "hash_meta": "05fe81e97724a3291e9079aa5af2216196c46b934ce8fbf43344f6ca25ffa7e5",
+      "seqno": 27797985
+    },
+    "service": {
+      "entropy": "41d13RutQh7ayijwUuWd69Wx",
+      "hostname": "xn--n8jl2g.xn--q9jyb4c",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "6.6.3"
+  },
+  "ctime": 1790750719,
+  "expire_in": 504576000,
+  "prev": "5e81c5f6bbbd0919b5d6e8acbfc66818de2c646de22d7e270d394c686b8b9ea2",
+  "seqno": 5,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgB8xg2i5PIc93TyETXszUxq8ETzqD2QmJyZyeaZOD/XwKp3BheWxvYWTESpcCBcQgXoHF9ru9CRm11uisv8ZoGN4sZG3iLX4nDTlMaGuLnqLEIH/P6kvfXRbh+pWp4JTMKG0DYEcBGDnwSZvJNZ50fOOLAgHCo3NpZ8RA0H15iMsbBoFFrtZXNYJ0BkRs4eFhcg+ywqbifb6YZUdCHeWTj8lBFLv/oBab2E6RgiD4oenD2O4YQKotKL8FAahzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIO8pNV+hAygnxatZFUXZPvlg38vOPtY3yJtgpFQdd3iSo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/meiteya
+
+==================================================================
