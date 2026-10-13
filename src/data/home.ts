@@ -1,7 +1,6 @@
 export const menuItems = [
   { id: 'profile', label: 'プロフィール', english: 'profile', color: 'blue' },
   { id: 'link', label: 'リンク', english: 'link', color: 'coral' },
-  { id: 'tool', label: 'ツール', english: 'tool', color: 'green' },
   { id: 'server', label: 'サーバー', english: 'server', color: 'ink' },
   { id: 'contact', label: '連絡先', english: 'contact', color: 'yellow' },
 ] as const
@@ -18,23 +17,5 @@ export const socialLinks = [
 ] as const
 
 export type SocialLink = (typeof socialLinks)[number]
-
-export const toolLinks = [
-  {
-    title: '動画をまとめて変換する',
-    description: '複数の動画をブラウザ内でWebM形式に変換します。',
-    href: '/tools/video-trans',
-  },
-  {
-    title: '過去のGitHub Pagesの履歴を見る',
-    description: '公開リポジトリのコミット履歴から、更新の流れを確認します。',
-    href: '/tools/github-pages-history',
-  },
-  {
-    title: '画像と音声から動画をつくる',
-    description: '画像と音声を組み合わせ、ブラウザだけで動画を作成します。',
-    href: '/tools/image-audio-video',
-  },
-] as const
 
 export const orbitStep = 360 / menuItems.length

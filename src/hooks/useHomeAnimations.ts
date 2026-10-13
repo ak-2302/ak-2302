@@ -82,9 +82,6 @@ export function useHomeAnimations({
     const contentTargets = contentRef.current
       ? Array.from(contentRef.current.querySelectorAll<HTMLElement>(REVEAL_SELECTOR))
       : []
-    const toolTargets = contentRef.current
-      ? Array.from(contentRef.current.querySelectorAll<HTMLElement>('.home-tool-links > .home-tool-card'))
-      : []
     const profileTargets = contentRef.current
       ? Array.from(contentRef.current.querySelectorAll<HTMLElement>([
           '.home-profile-icon',
@@ -109,20 +106,6 @@ export function useHomeAnimations({
       ease: 'power3.out',
       overwrite: 'auto',
     })
-
-    if (toolTargets.length > 0) {
-      timeline.fromTo(toolTargets, {
-        autoAlpha: 0,
-        x: prefersReducedMotion ? 0 : 28,
-      }, {
-        autoAlpha: 1,
-        x: 0,
-        duration: prefersReducedMotion ? 0 : 0.42,
-        stagger: prefersReducedMotion ? 0 : 0.09,
-        ease: 'power3.out',
-        overwrite: 'auto',
-      }, prefersReducedMotion ? '<' : '-=0.2')
-    }
 
     if (profileTargets.length > 0) {
       timeline.fromTo(profileTargets, {

@@ -13,7 +13,7 @@ function findHtmlFiles(directory = ".") {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     const file = resolve(directory, entry.name);
     const relativeFile = relative(".", file).replaceAll(sep, "/");
-    if (entry.name === "node_modules" || entry.name === "dist" || relativeFile.startsWith("tool/image_converter/") || relativeFile.startsWith("tool/video_compressor/") || relativeFile.startsWith("tool/obs/")) continue;
+    if (entry.name === "node_modules" || entry.name === "dist") continue;
     if (entry.isDirectory()) files.push(...findHtmlFiles(file));
     else if (entry.isFile() && entry.name === "index.html") files.push(relativeFile);
   }
@@ -39,22 +39,6 @@ export default defineConfig({
         copyIfExists(resolve("ref"), resolve(options.dir || "dist", "ref"), {
           recursive: true,
         });
-        copyIfExists(
-          resolve("tool/video_trans/index.css"),
-          resolve(options.dir || "dist", "tool/video_trans/index.css"),
-        );
-        copyIfExists(
-          resolve("tool/video_trans/index.js"),
-          resolve(options.dir || "dist", "tool/video_trans/index.js"),
-        );
-        copyIfExists(
-          resolve("tool/github_pages_commits/app.js"),
-          resolve(options.dir || "dist", "tool/github_pages_commits/app.js"),
-        );
-        copyIfExists(
-          resolve("tool/github_pages_commits/core.js"),
-          resolve(options.dir || "dist", "tool/github_pages_commits/core.js"),
-        );
       },
     },
   ],
