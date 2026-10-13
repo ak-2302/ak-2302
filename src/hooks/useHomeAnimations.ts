@@ -7,6 +7,7 @@ gsap.registerPlugin(useGSAP)
 const REVEAL_SELECTOR = [
   '.home-panel-lead',
   '.home-panel-links > a',
+  '.home-works-list > a',
   '.home-server-grid > div',
   '.home-server-link',
   '.home-panel-contact .contact-form > *',

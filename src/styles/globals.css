@@ -79,6 +79,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-service-keybase { color: #4c8eff; }
 .home-panel-links a:first-child { border-top: 1px solid rgba(0, 0, 0, .25); }
 .home-panel-links a:hover { padding-left: 10px; color: #7e3b2e; }
+.home-works-list { display: flex; flex-direction: column; border-top: 1px solid rgba(0, 0, 0, .25); }
+.home-works-list a { display: grid; grid-template-columns: minmax(74px, .38fr) minmax(0, 1fr) auto; gap: 14px; align-items: center; border-bottom: 1px solid rgba(0, 0, 0, .25); padding: 18px 2px; color: var(--ink); transition: padding-left .3s var(--ease), color .2s ease; }
+.home-works-list a:hover { padding-left: 10px; color: #7e3b2e; }
+.home-works-meta { color: var(--muted); font: .62rem var(--font-mono); }
+.home-works-copy { display: grid; gap: 4px; min-width: 0; }
+.home-works-copy strong { overflow-wrap: anywhere; font-size: 1rem; font-weight: 500; line-height: 1.4; }
+.home-works-copy span { color: var(--muted); font-family: var(--font-japanese); font-size: .7rem; line-height: 1.6; }
 .external-link-curtain { position: fixed; z-index: 9999; inset: 0; pointer-events: auto; }
 .external-link-curtain-rows { position: absolute; inset: 0; display: grid; grid-template-rows: repeat(6, minmax(0, 1fr)); }
 .external-link-curtain-row { display: block; width: 100%; height: calc(100% + 1px); transform: scaleX(0); transform-origin: left center; will-change: transform; }
@@ -328,6 +335,10 @@ h1 em, h2 em { font-style: normal; color: var(--coral); }
   .home-server-metrics-grid { gap: 14px 16px; }
   .home-profile-note { margin-top: 18px; font-size: .75rem; }
   .home-panel-links a { padding: 11px 2px; font-size: 1.15rem; }
+  .home-works-list a { grid-template-columns: 1fr auto; gap: 8px 12px; padding: 13px 2px; }
+  .home-works-meta { grid-column: 1 / -1; }
+  .home-works-copy strong { font-size: .9rem; }
+  .home-works-copy span { font-size: .65rem; }
   .home-panel-contact .contact-form { grid-template-columns: 1fr; gap: 16px; }
   .home-panel-contact .contact-form label:nth-of-type(3), .home-panel-contact .contact-form .button, .home-panel-contact .form-message { grid-column: 1; }
   .home-panel-contact .form-message { margin-top: -4px; }
